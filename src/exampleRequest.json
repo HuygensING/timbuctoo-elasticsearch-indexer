@@ -1,0 +1,4 @@
+{
+	"dataSetUri": "http://example.org/dataset", 
+	"dataEndPoint": "http://localhost:8080/v5/DUMMY/clusius/graphql"
+}
