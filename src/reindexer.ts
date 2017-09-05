@@ -1,27 +1,22 @@
 import fetch from "node-fetch";
+import * as searchConfig from "../searchConfigExample.json";
 
 export class Reindexer {
-  public async fetchData(request: Request) : Promise<string> {
-    console.log("request: ", request.dataEndPoint);
+  public async fetchData(request: Request): Promise<string> {
+    console.log("query: ", JSON.stringify({"query": queryBuilder(searchConfig) }));
 
-    const val = await fetch("http://localhost:8080/v5/DUMMY/clusius/graphql", {
+    const val = await fetch(request.dataEndPoint, {
       headers: {
-        Accept: "application/json"
+        Accept: "application/json",
+        "Content-Type": "application/json"
       },
       method: "POST",
-      body: `{
-        clusius_PersonsList {
-          uri
-          tim_names {
-            value
-          }
-        }
-      }`
+      body: JSON.stringify({"query": queryBuilder(searchConfig) })
     });
 
     const json = await val.json()
 
-    return JSON.stringify(json);
+    return json;
   }
 }
 
@@ -32,4 +27,24 @@ export interface Request {
 
 export function isRequest(body: {}): body is Request {
   return body.hasOwnProperty("dataSetUri") && body.hasOwnProperty("dataEndPoint");
+}
+
+function queryBuilder(searchConfig: { [key: string]: any }): string {
+  const config = searchConfig;
+
+  let query: string = "{ ";
+
+  for (const key in config) {
+    if(key !== "facetType") {
+      query += key;
+      const val = config[key];
+      if (val instanceof Object) {
+        query += queryBuilder(val);
+      }
+    }
+  }
+
+  query += " }";
+
+  return query === "{  }" ? " ": query;
 }

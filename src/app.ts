@@ -1,5 +1,5 @@
 import * as Koa from "koa";
-import {Reindexer, Request, isRequest} from "./datafetcher";
+import {Reindexer, Request, isRequest} from "./reindexer";
 
 const app = new Koa();
 const dataFetcher = new Reindexer;
@@ -7,7 +7,6 @@ const dataFetcher = new Reindexer;
 app.use(async (ctx) => {
   if(ctx.method === "POST") {
     var body:Object = await getBody(ctx).then((val) => JSON.parse(val));
-    console.log(body);
     if (isRequest(body)) {
       ctx.body = await dataFetcher.fetchData(body);
     }
