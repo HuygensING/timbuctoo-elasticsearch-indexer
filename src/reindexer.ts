@@ -19,13 +19,7 @@ export class Reindexer {
   }
 }
 
-export interface Request {
-  dataSetUri: string;
-  dataEndPoint: string;
-}
 
-export function isRequest(body: {}): body is Request {
-  return body.hasOwnProperty("dataSetUri") && body.hasOwnProperty("dataEndPoint");
 }
 
 function queryBuilder(searchConfig: { [key: string]: any }): string {
@@ -45,5 +39,14 @@ function queryBuilder(searchConfig: { [key: string]: any }): string {
 
   query += " }";
 
-  return query === "{  }" ? " ": query;
+  return query === "{  }" ? " " : query;
+}
+
+export interface Request {
+  dataSetUri: string;
+  dataEndPoint: string;
+}
+
+export function isRequest(body: {}): body is Request {
+  return body.hasOwnProperty("dataSetUri") && body.hasOwnProperty("dataEndPoint");
 }
