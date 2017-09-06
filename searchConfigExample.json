@@ -1,11 +1,15 @@
 {
   "clusius_PersonsList": {
-    "uri": {
-      "facetType": "Select"
-    },
     "tim_names": {
       "value": {
         "facetType": "Select"
+      }
+    },
+    "tim_hasDeathPlace": {
+      "tim_name": {
+        "value": {
+          "facetType": "Select"
+        }
       }
     }
   }
