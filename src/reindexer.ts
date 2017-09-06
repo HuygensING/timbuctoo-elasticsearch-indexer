@@ -2,8 +2,7 @@ import fetch from "node-fetch";
 import * as searchConfig from "../searchConfigExample.json";
 
 export class Reindexer {
-  public async fetchData(request: Request): Promise<string> {
-    console.log("query: ", JSON.stringify({"query": queryBuilder(searchConfig) }));
+  public async reindex(request: Request): Promise<string> {
 
     const val = await fetch(request.dataEndPoint, {
       headers: {
