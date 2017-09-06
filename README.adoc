@@ -1,0 +1,14 @@
+= Timbuctoo Elastic Search Indexer
+A tool that autmatically updates the Elastic Search indices used by data sets in Timbuctoo.
+
+== Development
+
+Run both commands from the root directory of the project.
+
+=== Compilation of Type script
+
+`tsc -w`
+
+=== Running the tool
+
+`nodemon dist/**`
