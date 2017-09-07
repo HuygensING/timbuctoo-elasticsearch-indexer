@@ -12,5 +12,17 @@
         }
       }
     }
+  },
+  "clusius_PlacesList": {
+    "tim_name": {
+      "value": {
+        "facetType": "Select"
+      }
+    },
+    "tim_country": {
+      "value": {
+        "facetType": "Select"
+      }
+    }
   }
 }
