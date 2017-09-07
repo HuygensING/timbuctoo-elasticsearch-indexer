@@ -21,10 +21,11 @@ export class Reindexer {
       this.indexCollection(dataSetUri, collectionKey, searchConfig, dataEndPoint);
     })
   
-    return "Succeeded";
+    return "Succeeded\n";
   }
 
   private async indexCollection(dataSetUri: string, collectionKey: string, searchConfig: { [key: string]: any }, dataEndPoint: string, cursor?: string): Promise<void> {
+    console.log("index collection: ", collectionKey);
     return await fetch(dataEndPoint, {
       headers: {
           Accept: "application/json",
@@ -41,6 +42,8 @@ export class Reindexer {
               this.indexCollection(dataSetUri, collectionKey, searchConfig, dataEndPoint, maybeCursor["nextCursor"]);
             }
         });
+      } else {
+        console.log("request failed: ", resp.statusText);
       }
     });
   }

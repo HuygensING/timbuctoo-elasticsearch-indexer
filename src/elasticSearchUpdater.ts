@@ -9,7 +9,7 @@ export class ElasticSearchUpdater {
   }
 
   public async updateElasticSearch(dataSetUri: string, collection: string, reindexingData: ReindexingData): Promise<void> {
-    console.log("update elastic search");
+    console.log("update elastic search", collection);
     const indexName = this.makeIndexNameFromDataSetUri(dataSetUri);
 
     return await this.indexExists(indexName).then(async exists => {
@@ -36,9 +36,15 @@ export class ElasticSearchUpdater {
 
   public async clearCollection(dataSetUri: string, collection: string): Promise<void> {
     const indexName = this.makeIndexNameFromDataSetUri(dataSetUri);
-    await this.client.deleteByQuery({
-      index: indexName,
-      type: collection
+    await this.indexExists(dataSetUri).then (exists => {
+      if(exists === true) {
+        this.client.deleteByQuery({
+          index: indexName,
+          type: collection
+        }).catch(onrejected => {
+          console.log("clear failed: ", onrejected)
+        });
+      }
     });
   }
 
