@@ -2,7 +2,7 @@ import * as Koa from "koa";
 import {Reindexer, Request, isRequest} from "./reindexer";
 
 const app = new Koa();
-const dataFetcher = new Reindexer;
+const dataFetcher = new Reindexer("http://elastic:changeme@localhost:9200/");
 
 app.use(async (ctx) => {
   if(ctx.method === "POST") {

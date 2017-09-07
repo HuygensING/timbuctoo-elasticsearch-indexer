@@ -15,5 +15,8 @@
     "nodemon": "^1.11.0",
     "typescript": "^2.5.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@types/elasticsearch": "^5.0.16",
+    "elasticsearch": "^13.3.1"
+  }
 }
