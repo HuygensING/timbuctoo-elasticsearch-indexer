@@ -1,2 +1,6 @@
+# javascript
 dist/**
 node_modules/**
+
+# visual studio code
+.vscode/
