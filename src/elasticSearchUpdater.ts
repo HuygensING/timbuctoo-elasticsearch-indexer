@@ -10,18 +10,17 @@ export class ElasticSearchUpdater {
 
   public async updateElasticSearch(dataSetUri: string, collection: string, reindexingData: ReindexingData): Promise<void> {
     console.log("update elastic search", collection);
-    const indexName = this.makeIndexNameFromDataSetUri(dataSetUri);
 
-    return await this.indexExists(indexName).then(async exists => {
+    return await this.indexExists(dataSetUri).then(async exists => {
       if (exists === false) {
-        return await this.createIndex(indexName);
+        return await this.createIndex(dataSetUri);
       }
     }).then(() => {
       for (const dataItem of reindexingData.data.data[collection]) {
         const keys = Object.keys(dataItem);
         if (keys.indexOf("nextCursor") < 0 && keys.indexOf("prevCursor") < 0) {
           this.client.index({
-            index: indexName,
+            index: this.makeIndexNameFromDataSetUri(dataSetUri),
             type: collection,
             body: dataItem
           });
@@ -31,15 +30,14 @@ export class ElasticSearchUpdater {
   }
 
   private makeIndexNameFromDataSetUri(dataSetUri: string): string {
-    return dataSetUri.replace(/\W/g, "");
+    return dataSetUri.replace("_", "__").replace(/\W/g, "_");
   }
 
   public async clearCollection(dataSetUri: string, collection: string): Promise<void> {
-    const indexName = this.makeIndexNameFromDataSetUri(dataSetUri);
     await this.indexExists(dataSetUri).then (exists => {
       if(exists === true) {
         this.client.deleteByQuery({
-          index: indexName,
+          index: this.makeIndexNameFromDataSetUri(dataSetUri),
           type: collection
         }).catch(onrejected => {
           console.log("clear failed: ", onrejected)
@@ -49,17 +47,15 @@ export class ElasticSearchUpdater {
   }
 
   public async indexExists(dataSetUri: string): Promise<boolean> {
-    const indexName = this.makeIndexNameFromDataSetUri(dataSetUri);
-    return this.client.indices.exists({ index: dataSetUri });
+    return this.client.indices.exists({ index: this.makeIndexNameFromDataSetUri(dataSetUri) });
   }
 
   public async createIndex(dataSetUri: string): Promise<any> {
-    const indexName = this.makeIndexNameFromDataSetUri(dataSetUri);
-    return this.client.indices.create({ index: dataSetUri });
+    return this.client.indices.create({ index: this.makeIndexNameFromDataSetUri(dataSetUri) });
   }
 
   public mapIndex(dataSetUri: string, config: { [key: string]: any }) {
-
+    
   }
 
 }
