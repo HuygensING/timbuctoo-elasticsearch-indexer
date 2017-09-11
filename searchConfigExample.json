@@ -1,27 +1,33 @@
 {
   "clusius_PersonsList": {
-    "tim_names": {
-      "value": {
-        "facetType": "Select"
-      }
-    },
-    "tim_hasDeathPlace": {
-      "tim_name": {
-        "value": {
-          "facetType": "Select"
+    "items": {
+      "tim_names": { 
+        "items": {
+          "value" :{
+            "facetType": "Select"
+          }
+        }
+      },
+      "tim_hasDeathPlace": {
+        "tim_name": {
+          "value": {
+            "facetType": "Select"
+          }
         }
       }
     }
   },
   "clusius_PlacesList": {
-    "tim_name": {
-      "value": {
-        "facetType": "Select"
-      }
-    },
-    "tim_country": {
-      "value": {
-        "facetType": "Select"
+    "items": {
+      "tim_name": {
+        "value": {
+          "facetType": "Select"
+        }
+      },
+      "tim_country": {
+        "value": {
+          "facetType": "Select"
+        }
       }
     }
   }

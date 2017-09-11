@@ -10,18 +10,21 @@ export class Reindexer {
   public async reindex(request: Request): Promise<string> {
     let val = "";
 
-    for (const collectionKey in searchConfig) {
-      val += await this.handleCollection(request.dataSetUri, collectionKey, searchConfig, request.dataEndPoint);
-    }
+    await this.elasticSearchUpdater.remapIndex(request.dataSetUri, searchConfig).then(async () => {
+      for (const collectionKey in searchConfig) {
+        await this.indexCollection(request.dataSetUri, collectionKey, searchConfig, request.dataEndPoint).then(resp => {
+          // val += "collection: " + collectionKey + " response: "; // TODO handle real response value
+          val += "Success\n"
+        });
+      }
+    });
 
     return await val;
   }
   private async handleCollection(dataSetUri: string, collectionKey: string, searchConfig: { [key: string]: any }, dataEndPoint: string, cursor?: string): Promise<string> {
-    await this.elasticSearchUpdater.clearCollection(dataSetUri, collectionKey).then(async () => {
-      this.indexCollection(dataSetUri, collectionKey, searchConfig, dataEndPoint);
-    })
-  
-    return "Succeeded\n";
+    await this.indexCollection(dataSetUri, collectionKey, searchConfig, dataEndPoint);
+      
+    return "Succeeded\n"; // TODO return something different when failing
   }
 
   private async indexCollection(dataSetUri: string, collectionKey: string, searchConfig: { [key: string]: any }, dataEndPoint: string, cursor?: string): Promise<void> {
@@ -36,12 +39,12 @@ export class Reindexer {
     }).then(async resp => {
       if (resp.status === 200) {
         const data = await resp.json();
-        this.elasticSearchUpdater.updateElasticSearch(dataSetUri, collectionKey, { config: searchConfig, data: data }).then(() => {
-          const maybeCursor = data["data"][collectionKey][0];
-            if (maybeCursor.hasOwnProperty("nextCursor")) {
+        this.elasticSearchUpdater.updateElasticSearch(dataSetUri, collectionKey, { config: searchConfig, data: data.data[collectionKey].items }).then(() => {
+          const maybeCursor = data["data"][collectionKey].nextCursor;
+            if (maybeCursor) {
               this.indexCollection(dataSetUri, collectionKey, searchConfig, dataEndPoint, maybeCursor["nextCursor"]);
             }
-        });
+       });
       } else {
         console.log("request failed: ", resp.statusText);
       }
@@ -51,7 +54,7 @@ export class Reindexer {
 
 function buildQueryForCollection(collectionKey: string, searchConfig: { [key: string]: any }, cursor?: string): string {
   if (cursor != null) {
-      return "{ " + collectionKey + " (cursor: \"" + cursor + "\")" + buildQuery(searchConfig[collectionKey]) + " }";
+    return "{ " + collectionKey + " (cursor: \"" + cursor + "\")" + buildQuery(searchConfig[collectionKey]) + " }";
   }
 
   return "{ " + collectionKey + " " + buildQuery(searchConfig[collectionKey]) + " }";
@@ -63,13 +66,13 @@ function buildQuery(searchConfig: { [key: string]: any }): string {
   let query: string = "{ ";
 
   for (const key in config) {
-      if (key !== "facetType") {
-          query += key;
-          const val = config[key];
-          if (val instanceof Object) {
-              query += buildQuery(val);
-          }
+    if (key !== "facetType") {
+      query += key;
+      const val = config[key];
+      if (val instanceof Object) {
+          query += buildQuery(val);
       }
+    }
   }
 
   query += " }";
