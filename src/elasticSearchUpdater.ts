@@ -21,14 +21,11 @@ export class ElasticSearchUpdater {
       }
     }).then(() => {
       for (const dataItem of reindexingData.data) {
-        const keys = Object.keys(dataItem);
-        if (keys.indexOf("nextCursor") < 0 && keys.indexOf("prevCursor") < 0) {
-          this.client.index({
-            index: this.makeIndexNameFromDataSetUri(dataSetUri),
-            type: collection,
-            body: dataItem
-          });
-        }
+        this.client.index({
+          index: this.makeIndexNameFromDataSetUri(dataSetUri),
+          type: collection,
+          body: dataItem
+        });
       }
     });
   }
