@@ -21,11 +21,6 @@ export class Reindexer {
 
     return await val;
   }
-  private async handleCollection(dataSetUri: string, collectionKey: string, searchConfig: { [key: string]: any }, dataEndPoint: string, cursor?: string): Promise<string> {
-    await this.indexCollection(dataSetUri, collectionKey, searchConfig, dataEndPoint);
-      
-    return "Succeeded\n"; // TODO return something different when failing
-  }
 
   private async indexCollection(dataSetUri: string, collectionKey: string, searchConfig: { [key: string]: any }, dataEndPoint: string, cursor?: string): Promise<void> {
     console.log("index collection: ", collectionKey);
@@ -44,10 +39,14 @@ export class Reindexer {
             if (maybeCursor) {
               this.indexCollection(dataSetUri, collectionKey, searchConfig, dataEndPoint, maybeCursor["nextCursor"]);
             }
-       });
+       })//.then( () => return "Success\n");
       } else {
         console.log("request failed: ", resp.statusText);
+        // return "data retrieval failed"
       }
+    }).catch( reason => {
+      console.log("error indexing collection: " + collectionKey + "\nreason: " + reason);
+      // return "error indexing collection: " + collectionKey +"\n";
     });
   }
 }
