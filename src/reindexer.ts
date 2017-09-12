@@ -24,6 +24,7 @@ export class Reindexer {
 
   private async indexCollection(dataSetUri: string, collectionKey: string, searchConfig: { [key: string]: any }, dataEndPoint: string, cursor?: string): Promise<void> {
     console.log("index collection: ", collectionKey);
+    console.log("query: ", JSON.stringify({ "query": buildQueryForCollection(collectionKey, searchConfig, cursor) }));
     return await fetch(dataEndPoint, {
       headers: {
           Accept: "application/json",
@@ -52,6 +53,7 @@ export class Reindexer {
 }
 
 function buildQueryForCollection(collectionKey: string, searchConfig: { [key: string]: any }, cursor?: string): string {
+  searchConfig[collectionKey]["nextCursor"]  = { "facetType": null };
   if (cursor != null) {
     return "{ " + collectionKey + " (cursor: \"" + cursor + "\")" + buildQuery(searchConfig[collectionKey]) + " }";
   }
