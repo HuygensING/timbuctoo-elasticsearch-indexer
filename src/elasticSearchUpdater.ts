@@ -1,7 +1,9 @@
 import { Client } from "elasticsearch";
 import { MappingCreator } from "./mappingCreator";
+import { ElasticSearchDataFormatter } from "./elasticSearchDataFormatter"
 
 export class ElasticSearchUpdater {
+  private elasticSearchDataFormatter: ElasticSearchDataFormatter;
   private mappingCreator: MappingCreator;
   private client: Client;
 
@@ -10,6 +12,7 @@ export class ElasticSearchUpdater {
       host: esUri
     });
     this.mappingCreator = new MappingCreator();
+    this.elasticSearchDataFormatter = new ElasticSearchDataFormatter();
   }
 
   public async updateElasticSearch(dataSetUri: string, collection: string, reindexingData: ReindexingData): Promise<void> {
@@ -24,7 +27,7 @@ export class ElasticSearchUpdater {
         this.client.index({
           index: this.makeIndexNameFromDataSetUri(dataSetUri),
           type: collection,
-          body: dataItem
+          body: this.elasticSearchDataFormatter.formatData(dataItem, reindexingData.config)
         });
       }
     });
@@ -69,7 +72,7 @@ export class ElasticSearchUpdater {
   }
 }
 
-interface ReindexingData {
+export interface ReindexingData {
   config: { [key: string]: any }
   data: [any]
 }
