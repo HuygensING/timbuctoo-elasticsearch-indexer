@@ -58,9 +58,11 @@ export class ElasticSearchUpdater {
           index: indexName,
           type: type,
           body: this.mappingCreator.createMapping(config[type].items)
-        }).then(() => console.log(("create index")));
+        });
 
       }
+    }).then(() => {
+       console.log( "create index: " + dataSetUri);
     }).catch(reason => {
       console.log("mapping failed: ", reason);
     });
