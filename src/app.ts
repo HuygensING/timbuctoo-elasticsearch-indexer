@@ -1,17 +1,17 @@
 import * as Koa from "koa";
-import {Reindexer, Request, isRequest} from "./reindexer";
+import { Reindexer, Request, isRequest } from "./reindexer";
 
 const app = new Koa();
 const dataFetcher = new Reindexer("http://elastic:changeme@localhost:9200/");
 
 app.use(async (ctx) => {
-  if(ctx.method === "POST") {
-    var body:Object = await getBody(ctx).then((val) => JSON.parse(val));
+  if (ctx.method === "POST") {
+    var body: Object = await getBody(ctx).then((val) => JSON.parse(val));
     if (isRequest(body)) {
       ctx.body = await dataFetcher.reindex(body);
     }
     else {
-      ctx.body = { error : "Unsupported request" };
+      ctx.body = { error: "Unsupported request" };
     }
   }
 });

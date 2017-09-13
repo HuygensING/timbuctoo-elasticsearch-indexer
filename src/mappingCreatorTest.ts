@@ -1,12 +1,12 @@
-import {MappingCreator} from "./mappingCreator";
+import { MappingCreator } from "./mappingCreator";
 
 const mappingCreator = new MappingCreator();
 
 function testKeyGeneration() {
   const personDesc: {} = {
-    "tim_names": { 
+    "tim_names": {
       "items": {
-        "value" :{
+        "value": {
           "facetType": "Select"
         }
       }
@@ -18,10 +18,10 @@ function testKeyGeneration() {
         }
       }
     }
-  }; 
+  };
 
-  const expected: {} = { 
-    "properties" : {
+  const expected: {} = {
+    "properties": {
       "tim_names.items.value": {
         "type": "text"
       },
@@ -34,7 +34,7 @@ function testKeyGeneration() {
 
   const actual = mappingCreator.createMapping(personDesc);
 
-  console.assert(JSON.stringify(expected) === JSON.stringify(actual), 
+  console.assert(JSON.stringify(expected) === JSON.stringify(actual),
     "expected:\n" + JSON.stringify(expected) + "\nbut was:\n" + JSON.stringify(actual)
   );
 }

@@ -5,7 +5,7 @@ import { ElasticSearchUpdater } from "./elasticSearchUpdater";
 export class Reindexer {
   private elasticSearchUpdater: ElasticSearchUpdater;
   constructor(esUri: string) {
-      this.elasticSearchUpdater = new ElasticSearchUpdater(esUri);
+    this.elasticSearchUpdater = new ElasticSearchUpdater(esUri);
   }
   public async reindex(request: Request): Promise<string> {
     let val = "";
@@ -25,27 +25,27 @@ export class Reindexer {
     console.log("index collection: ", collectionKey);
     return await fetch(dataEndPoint, {
       headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
+        Accept: "application/json",
+        "Content-Type": "application/json"
       },
       method: "POST",
       body: JSON.stringify({ "query": buildQueryForCollection(collectionKey, searchConfig, cursor) })
     }).then(async resp => {
       if (resp.status === 200) {
         const data = await resp.json();
-        await this.elasticSearchUpdater.updateElasticSearch(dataSetUri, collectionKey, { config: searchConfig, data: data.data[collectionKey].items }).then(async() => {
+        await this.elasticSearchUpdater.updateElasticSearch(dataSetUri, collectionKey, { config: searchConfig, data: data.data[collectionKey].items }).then(async () => {
           const maybeCursor = data["data"][collectionKey].nextCursor;
-            if (maybeCursor) {
-             return await this.indexCollection(dataSetUri, collectionKey, searchConfig, dataEndPoint, maybeCursor["nextCursor"]).then(() => "Success");
-            }
-            return "Success"
-       });
-       return "Success"
+          if (maybeCursor) {
+            return await this.indexCollection(dataSetUri, collectionKey, searchConfig, dataEndPoint, maybeCursor["nextCursor"]).then(() => "Success");
+          }
+          return "Success"
+        });
+        return "Success"
       } else {
         console.log("request failed: ", resp.statusText);
         return "data retrieval failed"
       }
-    }).then( message => {return message}).catch( reason => {
+    }).then(message => { return message }).catch(reason => {
       console.log("error indexing collection: " + collectionKey + "\nreason: " + reason);
       return "error indexing collection: " + collectionKey;
     });
@@ -53,7 +53,7 @@ export class Reindexer {
 }
 
 function buildQueryForCollection(collectionKey: string, searchConfig: { [key: string]: any }, cursor?: string): string {
-  searchConfig[collectionKey]["nextCursor"]  = { "facetType": null };
+  searchConfig[collectionKey]["nextCursor"] = { "facetType": null };
   if (cursor != null) {
     return "{ " + collectionKey + " (cursor: \"" + cursor + "\")" + buildQuery(searchConfig[collectionKey]) + " }";
   }
@@ -71,7 +71,7 @@ function buildQuery(searchConfig: { [key: string]: any }): string {
       query += key;
       const val = config[key];
       if (val instanceof Object) {
-          query += buildQuery(val);
+        query += buildQuery(val);
       }
     }
   }

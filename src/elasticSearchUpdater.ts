@@ -1,10 +1,10 @@
 import { Client } from "elasticsearch";
-import {MappingCreator} from "./mappingCreator";
+import { MappingCreator } from "./mappingCreator";
 
 export class ElasticSearchUpdater {
   private mappingCreator: MappingCreator;
   private client: Client;
-  
+
   public constructor(esUri: string) {
     this.client = new Client({
       host: esUri
@@ -44,7 +44,7 @@ export class ElasticSearchUpdater {
 
   public async remapIndex(dataSetUri: string, config: { [key: string]: any }) {
     return await this.indexExists(dataSetUri).then(async exists => {
-      if(exists) {
+      if (exists) {
         return await this.client.indices.delete({
           index: this.makeIndexNameFromDataSetUri(dataSetUri)
         })
@@ -54,7 +54,7 @@ export class ElasticSearchUpdater {
     }).then(async () => {
       const indexName = this.makeIndexNameFromDataSetUri(dataSetUri);
       for (const type of Object.getOwnPropertyNames(config)) {
-       await this.client.indices.putMapping({
+        await this.client.indices.putMapping({
           index: indexName,
           type: type,
           body: this.mappingCreator.createMapping(config[type].items)

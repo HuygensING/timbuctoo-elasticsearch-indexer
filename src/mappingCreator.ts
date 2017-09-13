@@ -1,20 +1,20 @@
 export class MappingCreator {
-  public createMapping(typeConfig: {[key: string]: any}): {} {
+  public createMapping(typeConfig: { [key: string]: any }): {} {
     var mapping = {};
 
-    for(const key of Object.getOwnPropertyNames(typeConfig)) {
+    for (const key of Object.getOwnPropertyNames(typeConfig)) {
       this.addKey(typeConfig, new PropertyKey(key), mapping);
     }
 
     return { "properties": mapping };
   }
 
-  private addKey(config: {[key: string]: any}, parent: PropertyKey, mapping: {[key: string]: any}) {
+  private addKey(config: { [key: string]: any }, parent: PropertyKey, mapping: { [key: string]: any }) {
     const prop = config[parent.getName()];
     if (prop instanceof Object) {
-      for(const key of Object.getOwnPropertyNames(prop)) {
-        if(key === "facetType") {
-          mapping[parent.getFullName()] = { 
+      for (const key of Object.getOwnPropertyNames(prop)) {
+        if (key === "facetType") {
+          mapping[parent.getFullName()] = {
             "type": "text"
           }; // TODO support multiple types
         } else {
