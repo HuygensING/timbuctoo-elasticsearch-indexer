@@ -13,8 +13,7 @@ export class Reindexer {
     await this.elasticSearchUpdater.remapIndex(request.dataSetUri, searchConfig).then(async () => {
       for (const collectionKey in searchConfig) {
         await this.indexCollection(request.dataSetUri, collectionKey, searchConfig, request.dataEndPoint).then(resp => {
-          // val += "collection: " + collectionKey + " response: "; // TODO handle real response value
-          val += "Success\n"
+          val += "collection: " + collectionKey + " response: \"" + resp + "\" \n";
         });
       }
     });
@@ -22,9 +21,8 @@ export class Reindexer {
     return await val;
   }
 
-  private async indexCollection(dataSetUri: string, collectionKey: string, searchConfig: { [key: string]: any }, dataEndPoint: string, cursor?: string): Promise<void> {
+  private async indexCollection(dataSetUri: string, collectionKey: string, searchConfig: { [key: string]: any }, dataEndPoint: string, cursor?: string): Promise<string> {
     console.log("index collection: ", collectionKey);
-    console.log("query: ", JSON.stringify({ "query": buildQueryForCollection(collectionKey, searchConfig, cursor) }));
     return await fetch(dataEndPoint, {
       headers: {
           Accept: "application/json",
@@ -35,19 +33,21 @@ export class Reindexer {
     }).then(async resp => {
       if (resp.status === 200) {
         const data = await resp.json();
-        this.elasticSearchUpdater.updateElasticSearch(dataSetUri, collectionKey, { config: searchConfig, data: data.data[collectionKey].items }).then(() => {
+        await this.elasticSearchUpdater.updateElasticSearch(dataSetUri, collectionKey, { config: searchConfig, data: data.data[collectionKey].items }).then(async() => {
           const maybeCursor = data["data"][collectionKey].nextCursor;
             if (maybeCursor) {
-              this.indexCollection(dataSetUri, collectionKey, searchConfig, dataEndPoint, maybeCursor["nextCursor"]);
+             return await this.indexCollection(dataSetUri, collectionKey, searchConfig, dataEndPoint, maybeCursor["nextCursor"]).then(() => "Success");
             }
-       })//.then( () => return "Success\n");
+            return "Success"
+       });
+       return "Success"
       } else {
         console.log("request failed: ", resp.statusText);
-        // return "data retrieval failed"
+        return "data retrieval failed"
       }
-    }).catch( reason => {
+    }).then( message => {return message}).catch( reason => {
       console.log("error indexing collection: " + collectionKey + "\nreason: " + reason);
-      // return "error indexing collection: " + collectionKey +"\n";
+      return "error indexing collection: " + collectionKey;
     });
   }
 }
