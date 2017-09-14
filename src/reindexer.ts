@@ -23,13 +23,15 @@ export class Reindexer {
 
   private async indexCollection(dataSetUri: string, collectionKey: string, searchConfig: { [key: string]: any }, dataEndPoint: string, cursor?: string): Promise<string> {
     console.log("index collection: ", collectionKey);
+    const query = buildQueryForCollection(collectionKey, searchConfig, cursor);
+    console.log(query);
     return await fetch(dataEndPoint, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
       method: "POST",
-      body: JSON.stringify({ "query": buildQueryForCollection(collectionKey, searchConfig, cursor) })
+      body: JSON.stringify({ "query": query })
     }).then(async resp => {
       if (resp.status === 200) {
         const data = await resp.json();
@@ -53,32 +55,31 @@ export class Reindexer {
 }
 
 function buildQueryForCollection(collectionKey: string, searchConfig: { [key: string]: any }, cursor?: string): string {
-  searchConfig[collectionKey]["nextCursor"] = { "facetType": null };
   if (cursor != null) {
-    return "{ " + collectionKey + " (cursor: \"" + cursor + "\")" + buildQuery(searchConfig[collectionKey]) + " }";
+    return "{ " + collectionKey + " (cursor: \"" + cursor + "\") {" + buildQuery(searchConfig[collectionKey]) + " nextCursor } }";
   }
 
-  return "{ " + collectionKey + " " + buildQuery(searchConfig[collectionKey]) + " }";
+  return "{ " + collectionKey + " { " + buildQuery(searchConfig[collectionKey]) + "nextCursor } }";
 }
 
 function buildQuery(searchConfig: { [key: string]: any }): string {
   const config = searchConfig;
 
-  let query: string = "{ ";
+  let query = "";
 
   for (const key in config) {
     if (key !== "facetType") {
       query += key;
       const val = config[key];
       if (val instanceof Object) {
-        query += buildQuery(val);
+        query += " { " + buildQuery(val) + " } ";
       }
+    } else {
+      query += "value"
     }
   }
 
-  query += " }";
-
-  return query === "{  }" ? " " : query;
+  return query;
 }
 
 export interface Request {

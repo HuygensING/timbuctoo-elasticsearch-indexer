@@ -6,26 +6,22 @@ function testKeyGeneration() {
   const personDesc: {} = {
     "tim_names": {
       "items": {
-        "value": {
-          "facetType": "Select"
-        }
+        "facetType": "Select"
       }
     },
     "tim_hasDeathPlace": {
       "tim_name": {
-        "value": {
-          "facetType": "Select"
-        }
+        "facetType": "Select"
       }
     }
   };
 
   const expected: {} = {
     "properties": {
-      "tim_names.items.value": {
+      "tim_names.items": {
         "type": "text"
       },
-      "tim_hasDeathPlace.tim_name.value": {
+      "tim_hasDeathPlace.tim_name": {
         "type": "text"
       }
     }

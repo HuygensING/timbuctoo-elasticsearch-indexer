@@ -3,16 +3,12 @@
     "items": {
       "tim_names": { 
         "items": {
-          "value" :{
-            "facetType": "Select"
-          }
+          "facetType": "Select"
         }
       },
       "tim_hasDeathPlace": {
         "tim_name": {
-          "value": {
-            "facetType": "Select"
-          }
+          "facetType": "Select"
         }
       }
     }
@@ -20,14 +16,10 @@
   "clusius_PlacesList": {
     "items": {
       "tim_name": {
-        "value": {
-          "facetType": "Select"
-        }
+        "facetType": "Select"
       },
       "tim_country": {
-        "value": {
-          "facetType": "Select"
-        }
+        "facetType": "Select"
       }
     }
   }
