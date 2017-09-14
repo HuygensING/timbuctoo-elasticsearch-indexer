@@ -1,0 +1,253 @@
+{
+	"_type": "export",
+	"__export_format": 3,
+	"__export_date": "2017-09-14T12:14:22.248Z",
+	"__export_source": "insomnia.desktop.app:v5.7.12",
+	"resources": [
+		{
+			"_id": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
+			"parentId": null,
+			"modified": 1504702491219,
+			"created": 1504269921535,
+			"name": "elasticsearchindexer",
+			"description": "",
+			"certificates": [],
+			"_type": "workspace"
+		},
+		{
+			"_id": "env_ca0d97610c304e69b2139780ebd0761d",
+			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
+			"modified": 1504269931713,
+			"created": 1504269931713,
+			"name": "Base Environment",
+			"data": {},
+			"color": null,
+			"isPrivate": false,
+			"_type": "environment"
+		},
+		{
+			"_id": "jar_63c441f0715845439c6850c088bb7c9b",
+			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
+			"modified": 1504269979211,
+			"created": 1504269979211,
+			"name": "Default Jar",
+			"cookies": [],
+			"_type": "cookie_jar"
+		},
+		{
+			"_id": "req_c3bd3cfa8ac74c739dba3326f83a51ee",
+			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
+			"modified": 1505391248179,
+			"created": 1504269931645,
+			"url": "http://localhost:3000",
+			"name": "runIndexerRequest",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"dataSetUri\": \"http://example.org/dataset\", \n\t\"dataEndPoint\": \"http://localhost:8080/v5/DUMMY/clusius/graphql\"\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_d594694efece47a1b3e4941eda1e1fa3"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1504269931646,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_ce81cab7498d417e8f10a8f3370b56cf",
+			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
+			"modified": 1505391174834,
+			"created": 1504617044762,
+			"url": "http://localhost:8080/v5/DUMMY/clusius/graphql",
+			"name": "queryTimbuctoo",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": " {\"query\":\"{ clusius_PlacesList { items{ tim_name{ value  }tim_country{ value  } }nextCursor  } }\"}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_d95f837ed4dd421f94d80c9f1f540c95"
+				},
+				{
+					"name": "Accept",
+					"value": "application/ld+json",
+					"id": "pair_e001cfca85724007bf3973c4e5f92348"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1504617044762,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_496070b9989f4061a65405fd237383e2",
+			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
+			"modified": 1505391166035,
+			"created": 1504702507581,
+			"url": "http://localhost:9200/http___example_org_dataset",
+			"name": "getIndexMetaData",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {
+				"type": "basic",
+				"username": "elastic",
+				"password": "changeme",
+				"disabled": false
+			},
+			"metaSortKey": -1504702507581,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_778a75e757b7417b9681fea787708e74",
+			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
+			"modified": 1505391157251,
+			"created": 1504702653003,
+			"url": "http://localhost:9200/http___example_org_dataset/_search?q=*:*",
+			"name": "getAllFromIndex",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {
+				"type": "basic",
+				"username": "elastic",
+				"password": "changeme",
+				"disabled": false
+			},
+			"metaSortKey": -1504702653003,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_dd20ee9958a942708780a0f3a92d88b0",
+			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
+			"modified": 1505391221874,
+			"created": 1504875715965,
+			"url": "http://localhost:9200/http___example_org_dataset/clusius_PersonsList/_search",
+			"name": "queryPersonWithDeatchPlaceInIndex",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"query\": {\n\t\t\"match\": {\n\t\t\t\"tim_hasDeathPlace.tim_name.value\": \"Arnemuiden\"\n\t\t}\n\t}\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_7db7674a12e74c62a2f0ad245943e9a7"
+				}
+			],
+			"authentication": {
+				"type": "basic",
+				"username": "elastic",
+				"password": "changeme",
+				"disabled": false
+			},
+			"metaSortKey": -1504875715965,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_49eabac1308a476bbd9f81315bcb6080",
+			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
+			"modified": 1505391185427,
+			"created": 1505127989437,
+			"url": "http://localhost:9200/http___example_org_dataset/_search",
+			"name": "filterIndexOnType",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"query\": {\n\t\t\"type\": {\n\t\t\t\"value\": \"clusius_PersonsList\"\n\t\t}\n\t}\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_7db7674a12e74c62a2f0ad245943e9a7"
+				}
+			],
+			"authentication": {
+				"type": "basic",
+				"username": "elastic",
+				"password": "changeme",
+				"disabled": false
+			},
+			"metaSortKey": -1504789184484,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_9066431b93194151958700050a07d47e",
+			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
+			"modified": 1505391227778,
+			"created": 1505375285300,
+			"url": "http://localhost:9200/http___example_org_dataset/clusius_PersonsList/_search",
+			"name": "queryPersonWithNameInIndex",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"query\": {\n\t\t\"match\": {\n\t\t\t\"tim_names.items.value\": \"Hadrianus\"\n\t\t}\n\t}\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_7db7674a12e74c62a2f0ad245943e9a7"
+				}
+			],
+			"authentication": {
+				"type": "basic",
+				"username": "elastic",
+				"password": "changeme",
+				"disabled": false
+			},
+			"metaSortKey": -1504832450224.5,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		}
+	]
+}
