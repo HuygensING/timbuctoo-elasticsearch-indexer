@@ -1,7 +1,7 @@
 {
   "clusius_PersonsList": {
     "items": {
-      "tim_names": { 
+      "tim_names": {
         "items": {
           "facetType": "Select"
         }
@@ -10,6 +10,9 @@
         "tim_name": {
           "facetType": "Select"
         }
+      },
+      "tim_deathDate": {
+        "facetType" : "Select"
       }
     }
   },

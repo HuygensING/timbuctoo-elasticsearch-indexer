@@ -1,3 +1,5 @@
+import * as edtf from "edtf";
+
 export class ElasticSearchDataFormatter {
   public formatData(data: { [key: string]: any }, config: { [key: string]: any }): {} {
     console.log(JSON.stringify(data));
@@ -30,6 +32,8 @@ export class ElasticSearchDataFormatter {
     switch (field.type) {
       case "http://timbuctoo.huygens.knaw.nl/datatypes/person-name":
         return formatPersonName(field);
+      case "http://timbuctoo.huygens.knaw.nl/datatypes/datable":
+        return formateDatable(field);
       default:
         return formatDefault(field);
     }
@@ -40,13 +44,25 @@ function formatDefault(field: { type: string, value: string }): string | string[
   return field.value;
 }
 
+function formateDatable(field: { type: string, value: string }): string | string[] {
+  try {
+    const edtfDate = edtf(field.value);
+    const start = new Date(edtfDate.min).toISOString();
+    const end = new Date(edtfDate.max).toISOString();
+    return new Array<string>(start, end);
+  } catch (e) {
+    console.log("value not supported: ", field.value);
+    
+    return ["-42424242-12-31T00:00:00.000Z", "42424242-12-31T23:59:59.999Z"]; // default value for unparsable edtf
+  }
+}
+
 function formatPersonName(field: { type: string, value: string }): string | string[] {
   const value = field.value;
   console.log("personname: ", value);
   if (value != null) {
     const parsedValue = JSON.parse(value);
     if (Object.getOwnPropertyNames(parsedValue).indexOf("components") >= 0 && parsedValue.components instanceof Array) {
-      // field.value = removeTei(parsedValue.components);
       return parsedValue.components.map((component: { type: string, value: string }) => component.value);
     }
   }
