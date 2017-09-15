@@ -27,6 +27,7 @@ Make sure:
 
 === Add dependencies
 `yarn add {name of the dependency} --dev` 
+install all dependencies: `yarn install`
 
 === Test requests
 To test the tool we use https://insomnia.rest/[Insomnia].
