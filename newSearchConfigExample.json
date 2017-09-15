@@ -1,0 +1,102 @@
+{
+  "clusius_PlacesList": {
+    "facets": {
+      "path": "clusius_PlacesList.items.tim_name.value",
+      "type": "Select",
+      "next": {
+        "path": "clusius_PlacesList.items.tim_country.value",
+        "type": "Select",
+        "next": {
+          "path": "clusius_PlacesList.items.tim_latitude.value",
+          "type": "Select",
+          "next": {
+            "path": "clusius_PlacesList.items.tim_longitude.value",
+            "type": "Select",
+            "next": {
+              "path": "clusius_PlacesList.items.tim_remarks.value",
+              "type": "Select"
+            }
+          }
+        }
+      }
+    }
+  },
+  "clusius_PersonsList": {
+    "facets": {
+      "path": "clusius_PersonsList.items.tim_names.value",
+      "type": "Select",
+      "next": {
+        "path": "clusius_PersonsList.items.tim_gender.value",
+        "type": "Select",
+        "next": {
+          "path": "clusius_PersonsList.items.tim_birthDate.value",
+          "type": "Select",
+          "next": {
+            "path": "clusius_PersonsList.items.tim_deathDate.value",
+            "type": "Select",
+            "next": {
+              "path": "clusius_PersonsList.items.tim_hasDeathPlace.tim_name.value",
+              "type": "Select",
+              "next": {
+                "path": "clusius_PersonsList.items.tim_hasDeathPlace.tim_country.value",
+                "type": "Select",
+                "next": {
+                  "path": "clusius_PersonsList.items.tim_hasBirthPlace.tim_name.value",
+                  "type": "Select",
+                  "next": {
+                    "path": "clusius_PersonsList.items.tim_hasBirthPlace.tim_country.value",
+                    "type": "Select",
+                    "next": {
+                      "path": "clusius_PersonsList.items._inverse_tim_isScientistBioOf.tim_biography.value",
+                      "type": "Select",
+                      "next": {
+                        "next": {
+                          "path": "clusius_PersonsList.items._inverse_tim_hasResident.items.tim_hasLocation.tim_name.value",
+                          "type": "Select",
+                          "next": {
+                            "next": {
+                              "path": "clusius_PersonsList.items._inverse_tim_hasResident.items.tim_hasLocation.tim_country.value",
+                              "type": "Select",
+                              "next": {
+                                "next": {
+                                  "path": "clusius_PersonsList.items._inverse_tim_isEducationOf.items.tim_description.value",
+                                  "type": "Select",
+                                  "next": {
+                                    "path": "clusius_PersonsList.items._inverse_tim_isOccupationOf.items.tim_description.value",
+                                    "type": "Select"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "clusius_BiographyList": {
+    "facets": {
+      "path": "clusius_BiographyList.items.tim_isScientistBioOf.tim_names.items.value",
+      "type": "Select",
+      "next": {
+        "path": "clusius_BiographyList.items.tim_hasFieldOfInterest.items.tim_value.value",
+        "type": "Select",
+        "next": {
+          "path": "clusius_BiographyList.items.tim_biography.value",
+          "type": "Select",
+          "next": {
+            "path": "clusius_BiographyList.items.tim_highest_degree.value",
+            "type": "Select"
+          }
+        }
+      }
+    }
+  }
+}
