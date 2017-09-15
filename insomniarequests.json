@@ -1,7 +1,7 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2017-09-14T12:14:22.248Z",
+	"__export_date": "2017-09-15T07:36:26.452Z",
 	"__export_source": "insomnia.desktop.app:v5.7.12",
 	"resources": [
 		{
@@ -150,15 +150,15 @@
 		{
 			"_id": "req_dd20ee9958a942708780a0f3a92d88b0",
 			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
-			"modified": 1505391221874,
+			"modified": 1505460917309,
 			"created": 1504875715965,
 			"url": "http://localhost:9200/http___example_org_dataset/clusius_PersonsList/_search",
-			"name": "queryPersonWithDeatchPlaceInIndex",
+			"name": "exactMatchQuery",
 			"description": "",
 			"method": "POST",
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\"query\": {\n\t\t\"match\": {\n\t\t\t\"tim_hasDeathPlace.tim_name.value\": \"Arnemuiden\"\n\t\t}\n\t}\n}"
+				"text": "{\n\t\"query\": {\n\t\t\"match\": {\n\t\t\t\"tim_hasDeathPlace.tim_name\": \"Arnemuiden\"\n\t\t}\n\t}\n}"
 			},
 			"parameters": [],
 			"headers": [
@@ -216,17 +216,17 @@
 			"_type": "request"
 		},
 		{
-			"_id": "req_9066431b93194151958700050a07d47e",
+			"_id": "req_84ea0263cff54739bf700d03257a15ae",
 			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
-			"modified": 1505391227778,
-			"created": 1505375285300,
+			"modified": 1505460922093,
+			"created": 1505460799808,
 			"url": "http://localhost:9200/http___example_org_dataset/clusius_PersonsList/_search",
-			"name": "queryPersonWithNameInIndex",
+			"name": "fullTextQuery",
 			"description": "",
 			"method": "POST",
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\"query\": {\n\t\t\"match\": {\n\t\t\t\"tim_names.items.value\": \"Hadrianus\"\n\t\t}\n\t}\n}"
+				"text": "{\n\t\"query\": {\n\t\t\"query_string\": {\n\t\t\t\"fields\": [\"tim_names.items\"], \n\t\t\t\"query\": \"Adr*\"\n\t\t}\n\t}\n}"
 			},
 			"parameters": [],
 			"headers": [
@@ -242,7 +242,7 @@
 				"password": "changeme",
 				"disabled": false
 			},
-			"metaSortKey": -1504832450224.5,
+			"metaSortKey": -1504810817354.25,
 			"settingStoreCookies": true,
 			"settingSendCookies": true,
 			"settingDisableRenderRequestBody": false,
