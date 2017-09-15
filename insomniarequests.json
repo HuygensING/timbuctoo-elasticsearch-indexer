@@ -1,7 +1,7 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2017-09-15T07:36:26.452Z",
+	"__export_date": "2017-09-15T09:07:52.203Z",
 	"__export_source": "insomnia.desktop.app:v5.7.12",
 	"resources": [
 		{
@@ -243,6 +243,74 @@
 				"disabled": false
 			},
 			"metaSortKey": -1504810817354.25,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_a0223b62d78442bfaacebf0b0b8cfd8c",
+			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
+			"modified": 1505461695257,
+			"created": 1505461077501,
+			"url": "http://localhost:9200/http___example_org_dataset/clusius_PersonsList/_search",
+			"name": "multiFieldQuery",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"query\": {\n\t\t\"bool\" : {\n\t\t\t\"must\": {\n\t\t\t\t\"query_string\": {\n\t\t\t\t\t\"fields\": [\"tim_names.items\"], \n\t\t\t\t\t\"query\": \"*us\"\n\t\t\t\t}\n\t\t\t},\n\t\t\t\"must\": {\n\t\t\t\t\"match\": {\n\t\t\t\t\t\"tim_hasDeathPlace.tim_name\": \"Arnemuiden\"\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_7db7674a12e74c62a2f0ad245943e9a7"
+				}
+			],
+			"authentication": {
+				"type": "basic",
+				"username": "elastic",
+				"password": "changeme",
+				"disabled": false
+			},
+			"metaSortKey": -1504800000919.125,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_53adbba9ec8e43bebcb201d511b52ef4",
+			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
+			"modified": 1505466344534,
+			"created": 1505464687695,
+			"url": "http://localhost:9200/http___example_org_dataset/clusius_PersonsList/_search",
+			"name": "getFacets",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"query\": {\n\t\t\"query_string\": {\n\t\t\t\"fields\": [\"tim_names.items\"], \n\t\t\t\"query\": \"*us\"\n\t\t}\n\t},\n\t\"aggs\": {\n\t\t\"deathPlaces\": {\n\t\t\t\"terms\" : {\n\t\t\t\t\"field\": \"tim_hasDeathPlace.tim_name\"\n\t\t\t}\n\t\t}\n\t}\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_7db7674a12e74c62a2f0ad245943e9a7"
+				}
+			],
+			"authentication": {
+				"type": "basic",
+				"username": "elastic",
+				"password": "changeme",
+				"disabled": false
+			},
+			"metaSortKey": -1504794592701.5625,
 			"settingStoreCookies": true,
 			"settingSendCookies": true,
 			"settingDisableRenderRequestBody": false,

@@ -15,7 +15,8 @@ export class MappingCreator {
       for (const key of Object.getOwnPropertyNames(prop)) {
         if (key === "facetType") {
           mapping[parent.getFullName()] = {
-            "type": "text"
+            "type": "text",
+            "fielddata": true // You only want this on facets not on full text fields
           }; // TODO support multiple types
         } else {
           this.addKey(prop, new PropertyKey(key, parent), mapping);
