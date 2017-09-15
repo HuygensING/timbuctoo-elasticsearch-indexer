@@ -17,12 +17,13 @@ Run both commands from the root directory of the project.
 Make sure:
 * You have a version of https://github.com/HuygensING/timbuctoo[Timbuctoo] running and follow the "Getting Started" from the `README.adoc`.
 * You have Elasticsearch running
-  * For example with docker: https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
-    * This project uses:
-    ```
-    docker pull docker.elastic.co/elasticsearch/elasticsearch:5.5.2
-    docker run -p 9200:9200 -e "http.host=0.0.0.0" -e "transport.host=127.0.0.1" docker.elastic.co/elasticsearch/elasticsearch:5.5.2
-    ```
+  ** For example with docker: https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
+    *** This project uses:
+
+....
+  docker pull docker.elastic.co/elasticsearch/elasticsearch:5.5.2
+  docker run -p 9200:9200 -e "http.host=0.0.0.0" -e "transport.host=127.0.0.1" docker.elastic.co/elasticsearch/elasticsearch:5.5.2
+....
 
 === Add dependencies
 `yarn add {name of the dependency} --dev` 
@@ -33,22 +34,22 @@ The requests can be imported from `insomniarequests.json`.
 
 
 == TODO
-+ Elastic search indexer
-        + Nieuwe configuratie gebruiken
-        + Default config kunnen serveren aan de Timbuctoo front-end
-              ``` 
-              http://timbuctoo.huygens.knaw.nl/datatypes/person-name {
-                        possibleFacetTypes : [ MultiSelect, bla ]
-                        fullTextPossible: true
-                }
-                *: {
-                        possibleFacetTypes : [ MultiSelect, bla ]
-                        fullTextPossible: true
-                }
-              ```
-        + Ophalen index config async
-        + Ophalen index config via graphql
-                + 50 diep
-        + Dependencies voor runtime ook als runtime dep toevoegen
-        + In Timbuctoo reindex ping toevoegen
+* Elastic search indexer
+        ** Nieuwe configuratie gebruiken
+        ** Default config kunnen serveren aan de Timbuctoo front-end:
+....
+  http://timbuctoo.huygens.knaw.nl/datatypes/person-name {
+          possibleFacetTypes : [ MultiSelect, bla ]
+          fullTextPossible: true
+  }
+  *: {
+          possibleFacetTypes : [ MultiSelect, bla ]
+          fullTextPossible: true
+  }
+....
+        ** Ophalen index config async
+        ** Ophalen index config via graphql
+                *** 50 diep
+        ** Dependencies voor runtime ook als runtime dep toevoegen
+        ** In Timbuctoo reindex ping toevoegen
 
