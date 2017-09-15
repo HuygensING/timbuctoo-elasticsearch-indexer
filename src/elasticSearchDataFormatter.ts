@@ -2,7 +2,6 @@ import * as edtf from "edtf";
 
 export class ElasticSearchDataFormatter {
   public formatData(data: { [key: string]: any }, config: { [key: string]: any }): {} {
-    console.log(JSON.stringify(data));
     for (const key of Object.getOwnPropertyNames(data)) {
       const property = data[key]
       if (property != null && property instanceof Object) {
@@ -59,7 +58,6 @@ function formateDatable(field: { type: string, value: string }): string | string
 
 function formatPersonName(field: { type: string, value: string }): string | string[] {
   const value = field.value;
-  console.log("personname: ", value);
   if (value != null) {
     const parsedValue = JSON.parse(value);
     if (Object.getOwnPropertyNames(parsedValue).indexOf("components") >= 0 && parsedValue.components instanceof Array) {
