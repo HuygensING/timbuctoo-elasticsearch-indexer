@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-import * as searchConfig from "../searchConfigExample.json";
+import * as searchConfig from "../newSearchConfigExample.json";
 import { ElasticSearchUpdater } from "./elasticSearchUpdater";
 import { buildQueryForCollection } from "./queryGenerator";
 

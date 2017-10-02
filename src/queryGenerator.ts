@@ -1,27 +1,27 @@
 export function buildQueryForCollection(collectionKey: string, searchConfig: { [key: string]: any }, cursor?: string): string {
   const facets = searchConfig[collectionKey].facets;
+
+  const query = buildQuery(facets, collectionKey);
+
   if (cursor != null) {
-    return "{ " + collectionKey + " (cursor: \"" + cursor + "\") {" + buildQuery(facets) + " nextCursor } }";
+    return "{ " + collectionKey + " (cursor: \"" + cursor + "\") {" + query + " nextCursor } }";
   }
 
-  return "{ " + collectionKey + " { " + buildQuery(facets) + "nextCursor } }";
+  return "{ " + collectionKey + " { " + query + "nextCursor } }";
 }
 
-function buildQuery(searchConfig: { [key: string]: any }): string {
+function buildQuery(searchConfig: { [key: string]: any }, collection: string): string {
   const config = searchConfig;
-  let facet = searchConfig
+  let facet: { [key: string]: any } | undefined = searchConfig;
   const mappedQuery: MappedQuery = {};
 
-  do {
-    console.log("facet: ", JSON.stringify(facet))
+  while (facet) {
     mapQuery(facet.path.split("."), mappedQuery);
+
     facet = facet.next;
   }
-  while (facet.next);
 
-  let query = buildQueryFromMap(mappedQuery);
-
-  return query;
+  return buildQueryFromMap(mappedQuery, collection);
 }
 
 function mapQuery(splittedPath: [string], mappedQuery: MappedQuery) {
@@ -48,27 +48,27 @@ function mapQuery(splittedPath: [string], mappedQuery: MappedQuery) {
   }
 }
 
-function buildQueryFromMap(mappedQuery: { [key: string]: any }): string {
+function buildQueryFromMap(mappedQuery: { [key: string]: any }, collection: string): string {
   let query = "";
+  
+  const keys = Object.keys(mappedQuery);
+
+  if(keys.length == 1 && keys.indexOf(collection) > -1) {
+    return buildQueryFromMap(mappedQuery[collection], collection);
+  }
 
   for (const key in mappedQuery) {
     query += key;
     const val = mappedQuery[key];
     if (val instanceof Object) {
-      query += " { " + buildQuery(val) + " } ";
+      query += " { " + buildQueryFromMap(val, collection).trim() + " } ";
     }
     else {
-      query += " " + key + " ";
+      query += " { " + val + " } ";
     }
 
   }
   return query
-}
-
-interface Facet {
-  path: string,
-  type: string,
-  next: Facet
 }
 
 class MappedQuery {

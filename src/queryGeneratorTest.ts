@@ -29,7 +29,7 @@ function testBuildQueryForCollection() {
       }
     }
   };
-  const expectedQuery = "{ clusius_PersonsList { items { tim_hasDeathPlace { tim_name { value } tim_country { value } } tim_names { items { value } } tim_gender { value } tim_birthDate { value } tim_deathDate { value } tim_names { items { value } } } nextCursor } }";
+  const expectedQuery = "{ clusius_PersonsList { items { tim_hasDeathPlace { tim_country { value } tim_name { value } } tim_gender { value } tim_birthDate { value } tim_deathDate { value } tim_names { items { value } } } nextCursor } }";
   
   const actual = buildQueryForCollection("clusius_PersonsList", input);
 
