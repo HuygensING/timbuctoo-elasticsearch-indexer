@@ -17,7 +17,6 @@ function buildQuery(searchConfig: { [key: string]: any }, collection: string): s
 
   while (facet) {
     mapQuery(facet.path.split("."), mappedQuery);
-
     facet = facet.next;
   }
 

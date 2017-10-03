@@ -23,7 +23,7 @@ export class Reindexer {
   }
 
   private async indexCollection(dataSetUri: string, collectionKey: string, searchConfig: { [key: string]: any }, dataEndPoint: string, cursor?: string): Promise<string> {
-    console.log("index collection: ", collectionKey);
+    console.log("index collection: " + collectionKey + " cursor: " + cursor);
     const query = buildQueryForCollection(collectionKey, searchConfig, cursor);
     return await fetch(dataEndPoint, {
       headers: {
@@ -38,14 +38,14 @@ export class Reindexer {
         await this.elasticSearchUpdater.updateElasticSearch(dataSetUri, collectionKey, { config: searchConfig, data: data.data[collectionKey].items }).then(async () => {
           const maybeCursor = data["data"][collectionKey].nextCursor;
           if (maybeCursor) {
-            return await this.indexCollection(dataSetUri, collectionKey, searchConfig, dataEndPoint, maybeCursor["nextCursor"]).then(() => "Success");
+            return await this.indexCollection(dataSetUri, collectionKey, searchConfig, dataEndPoint, maybeCursor).then(() => "Success");
           }
           return "Success"
         });
         return "Success"
       } else {
         console.log("request failed: ", resp.statusText);
-        return "data retrieval failed"
+        return "data retrieval failed for query: " + query;
       }
     }).then(message => { return message }).catch(reason => {
       console.log("error indexing collection: " + collectionKey + "\nreason: " + reason);

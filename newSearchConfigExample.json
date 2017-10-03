@@ -23,7 +23,7 @@
   },
   "clusius_PersonsList": {
     "facets": {
-      "path": "clusius_PersonsList.items.tim_names.value",
+      "path": "clusius_PersonsList.items.tim_names.items.value",
       "type": "Select",
       "next": {
         "path": "clusius_PersonsList.items.tim_gender.value",
@@ -50,23 +50,17 @@
                       "path": "clusius_PersonsList.items._inverse_tim_isScientistBioOf.tim_biography.value",
                       "type": "Select",
                       "next": {
+                        "path": "clusius_PersonsList.items._inverse_tim_hasResident.items.tim_hasLocation.tim_name.value",
+                        "type": "Select",
                         "next": {
-                          "path": "clusius_PersonsList.items._inverse_tim_hasResident.items.tim_hasLocation.tim_name.value",
+                          "path": "clusius_PersonsList.items._inverse_tim_hasResident.items.tim_hasLocation.tim_country.value",
                           "type": "Select",
                           "next": {
+                            "path": "clusius_PersonsList.items._inverse_tim_isEducationOf.items.tim_description.value",
+                            "type": "Select",
                             "next": {
-                              "path": "clusius_PersonsList.items._inverse_tim_hasResident.items.tim_hasLocation.tim_country.value",
-                              "type": "Select",
-                              "next": {
-                                "next": {
-                                  "path": "clusius_PersonsList.items._inverse_tim_isEducationOf.items.tim_description.value",
-                                  "type": "Select",
-                                  "next": {
-                                    "path": "clusius_PersonsList.items._inverse_tim_isOccupationOf.items.tim_description.value",
-                                    "type": "Select"
-                                  }
-                                }
-                              }
+                              "path": "clusius_PersonsList.items._inverse_tim_isOccupationOf.items.tim_description.value",
+                              "type": "Select"
                             }
                           }
                         }
