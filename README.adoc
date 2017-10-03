@@ -36,7 +36,6 @@ The requests can be imported from `insomniarequests.json`.
 
 == TODO
 * Elastic search indexer
-        ** Nieuwe configuratie gebruiken
         ** Default config kunnen serveren aan de Timbuctoo front-end:
 ....
   http://timbuctoo.huygens.knaw.nl/datatypes/person-name {
