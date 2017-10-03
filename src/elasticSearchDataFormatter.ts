@@ -52,7 +52,7 @@ function formateDatable(field: { type: string, value: string }): string | string
   } catch (e) {
     console.log("value not supported: ", field.value);
     
-    return ["-42424242-12-31T00:00:00.000Z", "42424242-12-31T23:59:59.999Z"]; // default value for unparsable edtf
+    return ["42424242-12-31T23:59:59.999Z"]; // default value for unparsable edtf
   }
 }
 
