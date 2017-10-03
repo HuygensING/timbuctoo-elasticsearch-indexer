@@ -6,7 +6,7 @@ export class ElasticSearchDataFormatter {
       const property = data[key]
       if (property != null && property instanceof Object) {
         const propertyNames = Object.getOwnPropertyNames(property);
-        if (propertyNames.length === 2 && propertyNames.indexOf("type") > -1 && propertyNames.indexOf("value") > -1 ) {
+        if (propertyNames.length === 2 && propertyNames.indexOf("type") > -1 && propertyNames.indexOf("value") > -1) {
           data[key] = this.formatField(property);
         }
         else if (property instanceof Array) {
@@ -51,7 +51,7 @@ function formateDatable(field: { type: string, value: string }): string | string
     return new Array<string>(start, end);
   } catch (e) {
     console.log("value not supported: ", field.value);
-    
+
     return ["42424242-12-31T23:59:59.999Z"]; // default value for unparsable edtf
   }
 }
@@ -81,4 +81,17 @@ function getProperty(data: { [key: string]: any }, propName: string): any {
     }
   }
   return null;
+}
+
+export function getPossibleFacetTypes(): { [key: string]: { possibleFacetTypes: [string], fullTextPossible: boolean } } {
+  return {
+    "http://timbuctoo.huygens.knaw.nl/datatypes/person-name": {
+      "possibleFacetTypes": ["MultiSelect"],
+      "fullTextPossible": true
+    },
+    "*": {
+      "possibleFacetTypes": ["MultiSelect"],
+      "fullTextPossible": true
+    }
+  }
 }

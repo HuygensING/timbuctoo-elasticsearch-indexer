@@ -1,5 +1,6 @@
 import * as Koa from "koa";
 import { Reindexer, Request, isRequest } from "./reindexer";
+import { getPossibleFacetTypes } from "./elasticSearchDataFormatter";
 
 const app = new Koa();
 const dataFetcher = new Reindexer("http://elastic:changeme@localhost:9200/");
@@ -13,6 +14,8 @@ app.use(async (ctx) => {
     else {
       ctx.body = { error: "Unsupported request" };
     }
+  } else if (ctx.method === "GET") {
+    ctx.body = getPossibleFacetTypes();
   }
 });
 

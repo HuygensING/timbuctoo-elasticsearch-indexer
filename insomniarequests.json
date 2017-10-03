@@ -1,8 +1,8 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2017-09-15T09:07:52.203Z",
-	"__export_source": "insomnia.desktop.app:v5.7.12",
+	"__export_date": "2017-10-03T09:51:10.601Z",
+	"__export_source": "insomnia.desktop.app:v5.8.4",
 	"resources": [
 		{
 			"_id": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
@@ -37,9 +37,9 @@
 		{
 			"_id": "req_c3bd3cfa8ac74c739dba3326f83a51ee",
 			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
-			"modified": 1505391248179,
+			"modified": 1507024230583,
 			"created": 1504269931645,
-			"url": "http://localhost:3000",
+			"url": "http://localhost:3000 ",
 			"name": "runIndexerRequest",
 			"description": "",
 			"method": "POST",
@@ -66,7 +66,7 @@
 		{
 			"_id": "req_ce81cab7498d417e8f10a8f3370b56cf",
 			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
-			"modified": 1505391174834,
+			"modified": 1507019533580,
 			"created": 1504617044762,
 			"url": "http://localhost:8080/v5/DUMMY/clusius/graphql",
 			"name": "queryTimbuctoo",
@@ -74,7 +74,7 @@
 			"method": "POST",
 			"body": {
 				"mimeType": "application/json",
-				"text": " {\"query\":\"{ clusius_PlacesList { items{ tim_name{ value  }tim_country{ value  } }nextCursor  } }\"}"
+				"text": " {\"query\":\"{ clusius_PlacesList { items{ tim_name{ value  }tim_country{ value  } } nextCursor  } }\"}"
 			},
 			"parameters": [],
 			"headers": [
@@ -150,7 +150,7 @@
 		{
 			"_id": "req_dd20ee9958a942708780a0f3a92d88b0",
 			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
-			"modified": 1505460917309,
+			"modified": 1505480611573,
 			"created": 1504875715965,
 			"url": "http://localhost:9200/http___example_org_dataset/clusius_PersonsList/_search",
 			"name": "exactMatchQuery",
@@ -311,6 +311,26 @@
 				"disabled": false
 			},
 			"metaSortKey": -1504794592701.5625,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_f4875e5da7d2414e8ee474a6a61e5d67",
+			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
+			"modified": 1507024238258,
+			"created": 1507024186630,
+			"url": "http://localhost:3000",
+			"name": "getPossibleFacetTypes",
+			"description": "",
+			"method": "GET",
+			"body": {},
+			"parameters": [],
+			"headers": [],
+			"authentication": {},
+			"metaSortKey": -1504269931596,
 			"settingStoreCookies": true,
 			"settingSendCookies": true,
 			"settingDisableRenderRequestBody": false,
