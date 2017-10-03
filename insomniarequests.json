@@ -1,7 +1,7 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2017-10-03T09:51:10.601Z",
+	"__export_date": "2017-10-03T13:59:38.653Z",
 	"__export_source": "insomnia.desktop.app:v5.8.4",
 	"resources": [
 		{
@@ -35,38 +35,42 @@
 			"_type": "cookie_jar"
 		},
 		{
-			"_id": "req_c3bd3cfa8ac74c739dba3326f83a51ee",
+			"_id": "fld_81705174c99c4c819c4d0aab62af996d",
 			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
-			"modified": 1507024230583,
-			"created": 1504269931645,
-			"url": "http://localhost:3000 ",
-			"name": "runIndexerRequest",
+			"modified": 1507038991557,
+			"created": 1507038991557,
+			"name": "timbuctoo",
 			"description": "",
-			"method": "POST",
-			"body": {
-				"mimeType": "application/json",
-				"text": "{\n\t\"dataSetUri\": \"http://example.org/dataset\", \n\t\"dataEndPoint\": \"http://localhost:8080/v5/DUMMY/clusius/graphql\"\n}"
-			},
-			"parameters": [],
-			"headers": [
-				{
-					"name": "Content-Type",
-					"value": "application/json",
-					"id": "pair_d594694efece47a1b3e4941eda1e1fa3"
-				}
-			],
-			"authentication": {},
-			"metaSortKey": -1504269931646,
-			"settingStoreCookies": true,
-			"settingSendCookies": true,
-			"settingDisableRenderRequestBody": false,
-			"settingEncodeUrl": true,
-			"_type": "request"
+			"environment": {},
+			"metaSortKey": -1507038991557,
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
+			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
+			"modified": 1507039036915,
+			"created": 1507039036915,
+			"name": "elasticsearch",
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1507039036915,
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_acf473df401940d099d09ec35a7ce69f",
+			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
+			"modified": 1507039132151,
+			"created": 1507039127844,
+			"name": "tim_elastic_indexer",
+			"description": "",
+			"environment": {},
+			"metaSortKey": -1505654461601.5,
+			"_type": "request_group"
 		},
 		{
 			"_id": "req_ce81cab7498d417e8f10a8f3370b56cf",
-			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
-			"modified": 1507019533580,
+			"parentId": "fld_81705174c99c4c819c4d0aab62af996d",
+			"modified": 1507039004254,
 			"created": 1504617044762,
 			"url": "http://localhost:8080/v5/DUMMY/clusius/graphql",
 			"name": "queryTimbuctoo",
@@ -90,7 +94,7 @@
 				}
 			],
 			"authentication": {},
-			"metaSortKey": -1504617044762,
+			"metaSortKey": -1505957353761,
 			"settingStoreCookies": true,
 			"settingSendCookies": true,
 			"settingDisableRenderRequestBody": false,
@@ -99,8 +103,8 @@
 		},
 		{
 			"_id": "req_496070b9989f4061a65405fd237383e2",
-			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
-			"modified": 1505391166035,
+			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
+			"modified": 1507039110882,
 			"created": 1504702507581,
 			"url": "http://localhost:9200/http___example_org_dataset",
 			"name": "getIndexMetaData",
@@ -115,7 +119,7 @@
 				"password": "changeme",
 				"disabled": false
 			},
-			"metaSortKey": -1504702507581,
+			"metaSortKey": -1504875715665,
 			"settingStoreCookies": true,
 			"settingSendCookies": true,
 			"settingDisableRenderRequestBody": false,
@@ -124,8 +128,8 @@
 		},
 		{
 			"_id": "req_778a75e757b7417b9681fea787708e74",
-			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
-			"modified": 1505391157251,
+			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
+			"modified": 1507039097599,
 			"created": 1504702653003,
 			"url": "http://localhost:9200/http___example_org_dataset/_search?q=*:*",
 			"name": "getAllFromIndex",
@@ -140,7 +144,7 @@
 				"password": "changeme",
 				"disabled": false
 			},
-			"metaSortKey": -1504702653003,
+			"metaSortKey": -1504875715715,
 			"settingStoreCookies": true,
 			"settingSendCookies": true,
 			"settingDisableRenderRequestBody": false,
@@ -149,8 +153,8 @@
 		},
 		{
 			"_id": "req_dd20ee9958a942708780a0f3a92d88b0",
-			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
-			"modified": 1505480611573,
+			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
+			"modified": 1507039051133,
 			"created": 1504875715965,
 			"url": "http://localhost:9200/http___example_org_dataset/clusius_PersonsList/_search",
 			"name": "exactMatchQuery",
@@ -183,8 +187,8 @@
 		},
 		{
 			"_id": "req_49eabac1308a476bbd9f81315bcb6080",
-			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
-			"modified": 1505391185427,
+			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
+			"modified": 1507039087766,
 			"created": 1505127989437,
 			"url": "http://localhost:9200/http___example_org_dataset/_search",
 			"name": "filterIndexOnType",
@@ -208,7 +212,7 @@
 				"password": "changeme",
 				"disabled": false
 			},
-			"metaSortKey": -1504789184484,
+			"metaSortKey": -1504875715765,
 			"settingStoreCookies": true,
 			"settingSendCookies": true,
 			"settingDisableRenderRequestBody": false,
@@ -217,8 +221,8 @@
 		},
 		{
 			"_id": "req_84ea0263cff54739bf700d03257a15ae",
-			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
-			"modified": 1505460922093,
+			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
+			"modified": 1507039055021,
 			"created": 1505460799808,
 			"url": "http://localhost:9200/http___example_org_dataset/clusius_PersonsList/_search",
 			"name": "fullTextQuery",
@@ -242,7 +246,7 @@
 				"password": "changeme",
 				"disabled": false
 			},
-			"metaSortKey": -1504810817354.25,
+			"metaSortKey": -1504875715915,
 			"settingStoreCookies": true,
 			"settingSendCookies": true,
 			"settingDisableRenderRequestBody": false,
@@ -251,8 +255,8 @@
 		},
 		{
 			"_id": "req_a0223b62d78442bfaacebf0b0b8cfd8c",
-			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
-			"modified": 1505461695257,
+			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
+			"modified": 1507039060370,
 			"created": 1505461077501,
 			"url": "http://localhost:9200/http___example_org_dataset/clusius_PersonsList/_search",
 			"name": "multiFieldQuery",
@@ -276,7 +280,7 @@
 				"password": "changeme",
 				"disabled": false
 			},
-			"metaSortKey": -1504800000919.125,
+			"metaSortKey": -1504875715865,
 			"settingStoreCookies": true,
 			"settingSendCookies": true,
 			"settingDisableRenderRequestBody": false,
@@ -285,8 +289,8 @@
 		},
 		{
 			"_id": "req_53adbba9ec8e43bebcb201d511b52ef4",
-			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
-			"modified": 1505466344534,
+			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
+			"modified": 1507039064209,
 			"created": 1505464687695,
 			"url": "http://localhost:9200/http___example_org_dataset/clusius_PersonsList/_search",
 			"name": "getFacets",
@@ -310,7 +314,36 @@
 				"password": "changeme",
 				"disabled": false
 			},
-			"metaSortKey": -1504794592701.5625,
+			"metaSortKey": -1504875715815,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_c3bd3cfa8ac74c739dba3326f83a51ee",
+			"parentId": "fld_acf473df401940d099d09ec35a7ce69f",
+			"modified": 1507039147466,
+			"created": 1504269931645,
+			"url": "http://localhost:3000 ",
+			"name": "runIndexerRequest",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"dataSetUri\": \"http://example.org/dataset\", \n\t\"dataEndPoint\": \"http://localhost:8080/v5/DUMMY/clusius/graphql\"\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_d594694efece47a1b3e4941eda1e1fa3"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1504269931646,
 			"settingStoreCookies": true,
 			"settingSendCookies": true,
 			"settingDisableRenderRequestBody": false,
@@ -319,8 +352,8 @@
 		},
 		{
 			"_id": "req_f4875e5da7d2414e8ee474a6a61e5d67",
-			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
-			"modified": 1507024238258,
+			"parentId": "fld_acf473df401940d099d09ec35a7ce69f",
+			"modified": 1507039149359,
 			"created": 1507024186630,
 			"url": "http://localhost:3000",
 			"name": "getPossibleFacetTypes",
