@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-import * as searchConfig from "../searchConfigExample.json";
+import { getConfig } from "./configRetriever";
 import { ElasticSearchUpdater } from "./elasticSearchUpdater";
 import { buildQueryForCollection } from "./queryGenerator";
 
@@ -10,6 +10,7 @@ export class Reindexer {
   }
   public async reindex(request: Request): Promise<string> {
     let val = "";
+    const searchConfig:any = await getConfig();
 
     await this.elasticSearchUpdater.remapIndex(request.dataSetUri, searchConfig).then(async () => {
       for (const collectionKey in searchConfig) {
