@@ -1,13 +1,13 @@
-export function buildQueryForCollection(collectionKey: string, searchConfig: { [key: string]: any }, cursor?: string): string {
+export function buildQueryForCollection(dataSetId: string, collectionKey: string, searchConfig: { [key: string]: any }, cursor?: string): string {
   const facets = searchConfig[collectionKey].facets;
 
   const query = buildQuery(facets, collectionKey);
 
   if (cursor != null) {
-    return "{ " + collectionKey + " (cursor: \"" + cursor + "\") {" + query + " nextCursor } }";
+    return "{ dataSets { " + dataSetId + " { " + collectionKey + " (cursor: \"" + cursor + "\") {" + query + " nextCursor } } } }";
   }
 
-  return "{ " + collectionKey + " { " + query + "nextCursor } }";
+  return "{ dataSets { " + dataSetId + " { " + collectionKey + " { " + query + " nextCursor } } } }";
 }
 
 function buildQuery(searchConfig: { [key: string]: any }, collection: string): string {
@@ -49,10 +49,10 @@ function mapQuery(splittedPath: [string], mappedQuery: MappedQuery) {
 
 function buildQueryFromMap(mappedQuery: { [key: string]: any }, collection: string): string {
   let query = "";
-  
+
   const keys = Object.keys(mappedQuery);
 
-  if(keys.length == 1 && keys.indexOf(collection) > -1) {
+  if (keys.length == 1 && keys.indexOf(collection) > -1) {
     return buildQueryFromMap(mappedQuery[collection], collection);
   }
 
@@ -67,7 +67,7 @@ function buildQueryFromMap(mappedQuery: { [key: string]: any }, collection: stri
     }
 
   }
-  return query
+  return query.trim();
 }
 
 class MappedQuery {

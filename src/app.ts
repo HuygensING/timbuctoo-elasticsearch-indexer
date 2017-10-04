@@ -3,7 +3,7 @@ import { Reindexer, Request, isRequest } from "./reindexer";
 import { getPossibleFacetTypes } from "./elasticSearchDataFormatter";
 
 const app = new Koa();
-const dataFetcher = new Reindexer("http://elastic:changeme@localhost:9200/");
+const dataFetcher = new Reindexer("http://elastic:changeme@localhost:9200/", "http://localhost:8080/v5/graphql");
 
 app.use(async (ctx) => {
   if (ctx.method === "POST") {

@@ -4,17 +4,19 @@ import { ElasticSearchUpdater } from "./elasticSearchUpdater";
 import { buildQueryForCollection } from "./queryGenerator";
 
 export class Reindexer {
+  private dataEndpoint: string;
   private elasticSearchUpdater: ElasticSearchUpdater;
-  constructor(esUri: string) {
+  constructor(esUri: string, dataEndpoint: string) {
     this.elasticSearchUpdater = new ElasticSearchUpdater(esUri);
+    this.dataEndpoint = dataEndpoint;
   }
   public async reindex(request: Request): Promise<string> {
     let val = "";
-    const searchConfig:any = await getConfig();
+    const searchConfig: any = await getConfig();
 
     await this.elasticSearchUpdater.remapIndex(request.dataSetUri, searchConfig).then(async () => {
       for (const collectionKey in searchConfig) {
-        await this.indexCollection(request.dataSetUri, collectionKey, searchConfig, request.dataEndPoint).then(resp => {
+        await this.indexCollection(request.dataSetUri, request.dataSetId, collectionKey, searchConfig).then(resp => {
           val += "collection: " + collectionKey + " response: \"" + resp + "\" \n";
         });
       }
@@ -23,10 +25,10 @@ export class Reindexer {
     return await val;
   }
 
-  private async indexCollection(dataSetUri: string, collectionKey: string, searchConfig: { [key: string]: any }, dataEndPoint: string, cursor?: string): Promise<string> {
+  private async indexCollection(dataSetUri: string, dataSetId: string, collectionKey: string, searchConfig: { [key: string]: any }, cursor?: string): Promise<string> {
     console.log("index collection: " + collectionKey + " cursor: " + cursor);
-    const query = buildQueryForCollection(collectionKey, searchConfig, cursor);
-    return await fetch(dataEndPoint, {
+    const query = buildQueryForCollection(dataSetId, collectionKey, searchConfig, cursor);
+    return await fetch(this.dataEndpoint, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
@@ -36,14 +38,24 @@ export class Reindexer {
     }).then(async resp => {
       if (resp.status === 200) {
         const data = await resp.json();
-        await this.elasticSearchUpdater.updateElasticSearch(dataSetUri, collectionKey, { config: searchConfig, data: data.data[collectionKey].items }).then(async () => {
-          const maybeCursor = data["data"][collectionKey].nextCursor;
+
+        if (!this.isExpectedData(data, dataSetId, collectionKey)) {
+          console.log("Retrieved data: '" + JSON.stringify(data, null, ' ') + "' is not supported");
+          return "Timbuctoo return unsupported data";
+        }
+
+        const dataToIndex = data.data.dataSets[dataSetId][collectionKey].items;
+        await this.elasticSearchUpdater.updateElasticSearch(dataSetUri, collectionKey, { config: searchConfig, data: dataToIndex }).then(async () => {
+          const maybeCursor = data.data.dataSets[dataSetId][collectionKey].nextCursor;
+          
           if (maybeCursor) {
-            return await this.indexCollection(dataSetUri, collectionKey, searchConfig, dataEndPoint, maybeCursor).then(() => "Success");
+            return await this.indexCollection(dataSetUri, dataSetId, collectionKey, searchConfig, maybeCursor).then(() => "Success");
           }
-          return "Success"
+
+          return "Success";
         });
-        return "Success"
+
+        return "Success";
       } else {
         console.log("request failed: ", resp.statusText);
         return "data retrieval failed for query: " + query;
@@ -53,13 +65,16 @@ export class Reindexer {
       return "error indexing collection: " + collectionKey;
     });
   }
+  private isExpectedData(data: any, dataSetId: string, collectionKey: string): boolean {
+    return data.data && data.data.dataSets && data.data.dataSets[dataSetId] && data.data.dataSets[dataSetId][collectionKey] && data.data.dataSets[dataSetId][collectionKey].items;
+  }
 }
 
 export interface Request {
   dataSetUri: string;
-  dataEndPoint: string;
+  dataSetId: string;
 }
 
 export function isRequest(body: {}): body is Request {
-  return body.hasOwnProperty("dataSetUri") && body.hasOwnProperty("dataEndPoint");
+  return body.hasOwnProperty("dataSetUri") && body.hasOwnProperty("dataSetId");
 }

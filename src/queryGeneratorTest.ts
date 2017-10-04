@@ -29,9 +29,9 @@ function testBuildQueryForCollection() {
       }
     }
   };
-  const expectedQuery = "{ clusius_PersonsList { items { tim_hasDeathPlace { tim_country { value } tim_name { value } } tim_gender { value } tim_birthDate { value } tim_deathDate { value } tim_names { items { value } } } nextCursor } }";
+  const expectedQuery = "{ dataSets { DUMMY_clusius { clusius_PersonsList { items { tim_hasDeathPlace { tim_country { value } tim_name { value } } tim_gender { value } tim_birthDate { value } tim_deathDate { value } tim_names { items { value } } } nextCursor } } } }";
   
-  const actual = buildQueryForCollection("clusius_PersonsList", input);
+  const actual = buildQueryForCollection("DUMMY_clusius", "clusius_PersonsList", input);
 
   console.assert(actual === expectedQuery, "expected:\n" + expectedQuery + "\nbut was:\n" + actual);
   console.log("testBuildQueryForCollection succeeded");
