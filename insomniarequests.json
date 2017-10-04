@@ -1,7 +1,7 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2017-10-03T13:59:38.653Z",
+	"__export_date": "2017-10-04T08:37:37.502Z",
 	"__export_source": "insomnia.desktop.app:v5.8.4",
 	"resources": [
 		{
@@ -95,6 +95,58 @@
 			],
 			"authentication": {},
 			"metaSortKey": -1505957353761,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_2e584095a3714cf48656c4102b5e99fa",
+			"parentId": "fld_81705174c99c4c819c4d0aab62af996d",
+			"modified": 1507039885592,
+			"created": 1507039245780,
+			"url": "http://localhost:8080/v5/DUMMY/clusius/upload/rdf",
+			"name": "saveSearchConfig",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "multipart/form-data",
+				"params": [
+					{
+						"name": "file",
+						"value": "",
+						"id": "pair_527d655942664933ba09ad5b5a8f888b",
+						"type": "file",
+						"fileName": "/home/martijnm/workspace/timbuctoo-elasticsearch-indexer/searchConfigToSave.json"
+					},
+					{
+						"name": "fileMimeTypeOverride",
+						"value": "application/ld+json",
+						"id": "pair_1eb04b4297de4022ad56edc8cebe8104"
+					},
+					{
+						"name": "encoding",
+						"value": "UTF-8",
+						"id": "pair_46fbc9c7215c40c6938eaf413794eb2c"
+					}
+				]
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "multipart/form-data",
+					"id": "pair_d0fab80e5a6f40eeb9844288bc5c8cf9"
+				},
+				{
+					"name": "Authorization",
+					"value": "fake",
+					"id": "pair_c36ca3daf68a40eb992ad7273b7c0de5"
+				}
+			],
+			"authentication": {},
+			"metaSortKey": -1507039245780,
 			"settingStoreCookies": true,
 			"settingSendCookies": true,
 			"settingDisableRenderRequestBody": false,
@@ -324,7 +376,7 @@
 		{
 			"_id": "req_c3bd3cfa8ac74c739dba3326f83a51ee",
 			"parentId": "fld_acf473df401940d099d09ec35a7ce69f",
-			"modified": 1507039147466,
+			"modified": 1507103835290,
 			"created": 1504269931645,
 			"url": "http://localhost:3000 ",
 			"name": "runIndexerRequest",
@@ -332,7 +384,7 @@
 			"method": "POST",
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\"dataSetUri\": \"http://example.org/dataset\", \n\t\"dataEndPoint\": \"http://localhost:8080/v5/DUMMY/clusius/graphql\"\n}"
+				"text": "{\n\t\"dataSetUri\": \"http://example.org/dataset\", \n\t\"dataSetId\": \"DUMMY_clusius\"\n}"
 			},
 			"parameters": [],
 			"headers": [
