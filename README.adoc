@@ -36,20 +36,7 @@ The requests can be imported from `insomniarequests.json`.
 
 == TODO
 * Elastic search indexer
-        ** Default config kunnen serveren aan de Timbuctoo front-end:
-....
-  http://timbuctoo.huygens.knaw.nl/datatypes/person-name {
-          possibleFacetTypes : [ MultiSelect, bla ]
-          fullTextPossible: true
-  }
-  *: {
-          possibleFacetTypes : [ MultiSelect, bla ]
-          fullTextPossible: true
-  }
-....
-        ** Ophalen index config async
         ** Ophalen index config via graphql
                 *** 50 diep
-        ** Dependencies voor runtime ook als runtime dep toevoegen
         ** In Timbuctoo reindex ping toevoegen
 
