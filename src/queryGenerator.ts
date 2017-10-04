@@ -1,7 +1,12 @@
-export function buildQueryForCollection(dataSetId: string, collectionKey: string, searchConfig: { [key: string]: any }, cursor?: string): string {
-  const facets = searchConfig[collectionKey].facets;
+export function buildQueryForCollection(dataSetId: string, collectionKey: string, indexConfig: { [key: string]: any }, cursor?: string): string {
+  const collectionIndexConfig = getCollectionIndexConfig(indexConfig, collectionKey);
+  
+  if (!collectionIndexConfig && !collectionIndexConfig.indexConfig) {
+    console.log("unsupported search config: ", JSON.stringify(indexConfig));
+    return "";
+  }
 
-  const query = buildQuery(facets, collectionKey);
+  const query = buildQuery(collectionIndexConfig.indexConfig, collectionKey);
 
   if (cursor != null) {
     return "{ dataSets { " + dataSetId + " { " + collectionKey + " (cursor: \"" + cursor + "\") {" + query + " nextCursor } } } }";
@@ -10,20 +15,19 @@ export function buildQueryForCollection(dataSetId: string, collectionKey: string
   return "{ dataSets { " + dataSetId + " { " + collectionKey + " { " + query + " nextCursor } } } }";
 }
 
-function buildQuery(searchConfig: { [key: string]: any }, collection: string): string {
-  const config = searchConfig;
-  let facet: { [key: string]: any } | undefined = searchConfig;
-  const mappedQuery: MappedQuery = {};
+function buildQuery(collectionIndexConfig: { facet: [{ paths: string[] }], fullText: { fields: [{ path: string }] } }, collection: string): string {
+    const mappedQuery: MappedQuery = {};
 
-  while (facet) {
-    mapQuery(facet.path.split("."), mappedQuery);
-    facet = facet.next;
+  for (const facet of collectionIndexConfig.facet) {
+    for (const path of facet.paths) {
+      mapQuery(path.split("."), mappedQuery);
+    }
   }
 
   return buildQueryFromMap(mappedQuery, collection);
 }
 
-function mapQuery(splittedPath: [string], mappedQuery: MappedQuery) {
+function mapQuery(splittedPath: string[], mappedQuery: MappedQuery) {
   if (splittedPath.length <= 0) {
     return;
   }
@@ -68,6 +72,16 @@ function buildQueryFromMap(mappedQuery: { [key: string]: any }, collection: stri
 
   }
   return query.trim();
+}
+
+function getCollectionIndexConfig(indexConfig: any, collectionKey: string): any {
+  for (const collection of indexConfig.data.dataSetMetadata.collectionList.items) {
+    if (collection.collectionListId === collectionKey) {
+      return collection;
+    }
+  }
+
+  return null;
 }
 
 class MappedQuery {

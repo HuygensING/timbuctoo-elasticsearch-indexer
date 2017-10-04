@@ -15,7 +15,7 @@ export class Reindexer {
     const searchConfig: any = await getConfig();
 
     await this.elasticSearchUpdater.remapIndex(request.dataSetUri, searchConfig).then(async () => {
-      for (const collectionKey in searchConfig) {
+      for (const collectionKey of getCollections(searchConfig)) {
         await this.indexCollection(request.dataSetUri, request.dataSetId, collectionKey, searchConfig).then(resp => {
           val += "collection: " + collectionKey + " response: \"" + resp + "\" \n";
         });
@@ -26,7 +26,7 @@ export class Reindexer {
   }
 
   private async indexCollection(dataSetUri: string, dataSetId: string, collectionKey: string, searchConfig: { [key: string]: any }, cursor?: string): Promise<string> {
-    console.log("index collection: " + collectionKey + " cursor: " + cursor);
+    console.log("index collection: \"" + collectionKey + "\" cursor: \"" + cursor + "\"");
     const query = buildQueryForCollection(dataSetId, collectionKey, searchConfig, cursor);
     return await fetch(this.dataEndpoint, {
       headers: {
@@ -47,7 +47,7 @@ export class Reindexer {
         const dataToIndex = data.data.dataSets[dataSetId][collectionKey].items;
         await this.elasticSearchUpdater.updateElasticSearch(dataSetUri, collectionKey, { config: searchConfig, data: dataToIndex }).then(async () => {
           const maybeCursor = data.data.dataSets[dataSetId][collectionKey].nextCursor;
-          
+
           if (maybeCursor) {
             return await this.indexCollection(dataSetUri, dataSetId, collectionKey, searchConfig, maybeCursor).then(() => "Success");
           }
@@ -77,4 +77,8 @@ export interface Request {
 
 export function isRequest(body: {}): body is Request {
   return body.hasOwnProperty("dataSetUri") && body.hasOwnProperty("dataSetId");
+}
+
+function getCollections(searchConfig: any): string[] {
+  return searchConfig.data.dataSetMetadata.collectionList.items.map((col: any) => col.collectionListId);
 }
