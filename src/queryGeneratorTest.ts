@@ -51,7 +51,7 @@ function testBuildQueryForCollection() {
     };
 
 
-  const expectedQuery = "{ dataSets { DUMMY__clusius { clusius_PersonsList { items { tim_hasDeathPlace { tim_country { value } tim_name { value } } tim_gender { value } tim_birthDate { value } tim_deathDate { value } tim_names { items { value } } } nextCursor } } } }";
+  const expectedQuery = "{ dataSets { DUMMY__clusius { clusius_PersonsList { items { uri tim_hasDeathPlace { tim_country { value } tim_name { value } } tim_gender { value } tim_birthDate { value } tim_deathDate { value } tim_names { items { value } } } nextCursor } } } }";
 
   const actual = buildQueryForCollection("DUMMY__clusius", "clusius_PersonsList", input);
 
