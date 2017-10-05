@@ -32,11 +32,3 @@ install all dependencies: `yarn install`
 === Test requests
 To test the tool we use https://insomnia.rest/[Insomnia].
 The requests can be imported from `insomniarequests.json`.
-
-
-== TODO
-* Elastic search indexer
-        ** Ophalen index config via graphql
-                *** 50 diep
-        ** In Timbuctoo reindex ping toevoegen
-
