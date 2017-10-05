@@ -2,8 +2,12 @@ import * as Koa from "koa";
 import { Reindexer, Request, isRequest } from "./reindexer";
 import { getPossibleFacetTypes } from "./elasticSearchDataFormatter";
 
+let timbuctooUrl=process.env["indexer_timbuctoo_graphql_endpoint"] || "http://localhost:8080/v5/graphql"
+let elasticSearchUrl=process.env["indexer_elasticsearch_host"] || "http://elastic:changeme@localhost:9200/"
+let port=process.env["indexer_port"] || 3000
+
 const app = new Koa();
-const dataFetcher = new Reindexer("http://elastic:changeme@localhost:9200/", "http://localhost:8080/v5/graphql");
+const dataFetcher = new Reindexer(elasticSearchUrl, timbuctooUrl);
 
 app.use(async (ctx) => {
   if (ctx.method === "POST") {
@@ -33,4 +37,4 @@ function getBody(ctx: Koa.Context): Promise<string> {
 
 
 
-app.listen(3000);
+app.listen(port);
