@@ -1,8 +1,7 @@
-export function buildQueryForCollection(dataSetId: string, collectionKey: string, indexConfig: { [key: string]: any }, cursor?: string): string {
-  const collectionIndexConfig = getCollectionIndexConfig(indexConfig, collectionKey);
-  
-  if (!collectionIndexConfig && !collectionIndexConfig.indexConfig) {
-    console.log("unsupported search config: ", JSON.stringify(indexConfig));
+export function buildQueryForCollection(dataSetId: string, collectionKey: string, collectionIndexConfig: any, cursor?: string): string {
+    
+  if (!collectionIndexConfig && !collectionIndexConfig["indexConfig"]) {
+    console.log("unsupported search config: ", JSON.stringify(collectionIndexConfig));
     return "";
   }
 
@@ -72,16 +71,6 @@ function buildQueryFromMap(mappedQuery: { [key: string]: any }): string {
 
   }
   return query.trim();
-}
-
-function getCollectionIndexConfig(indexConfig: any, collectionKey: string): any {
-  for (const collection of indexConfig.data.dataSetMetadata.collectionList.items) {
-    if (collection.collectionListId === collectionKey) {
-      return collection;
-    }
-  }
-
-  return null;
 }
 
 class MappedQuery {

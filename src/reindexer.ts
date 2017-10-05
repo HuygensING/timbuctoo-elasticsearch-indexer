@@ -16,7 +16,7 @@ export class Reindexer {
 
     await this.elasticSearchUpdater.remapIndex(request.dataSetId, searchConfig).then(async () => {
       for (const collectionKey of getCollections(searchConfig)) {
-        await this.indexCollection(request.dataSetId, collectionKey, searchConfig).then(resp => {
+        await this.indexCollection(request.dataSetId, collectionKey, getCollectionIndexConfig(searchConfig, collectionKey)).then(resp => {
           val += "collection: " + collectionKey + " response: \"" + resp + "\" \n";
         });
       }
@@ -46,11 +46,11 @@ export class Reindexer {
           }
 
           const dataToIndex = data.data.dataSets[dataSetId][collectionKey].items;
-          await this.elasticSearchUpdater.updateElasticSearch(dataSetId, collectionKey, { config: searchConfig, data: dataToIndex }).then(async () => {
+          await this.elasticSearchUpdater.updateElasticSearch(dataSetId, searchConfig.collectionId, { config: searchConfig, data: dataToIndex }).then(async () => {
             const maybeCursor = data.data.dataSets[dataSetId][collectionKey].nextCursor;
 
             if (maybeCursor) {
-              return await this.indexCollection(dataSetId, collectionKey, searchConfig, maybeCursor).then(() => "Success");
+              return await this.indexCollection(dataSetId, searchConfig.collectionId, searchConfig, maybeCursor).then(() => "Success");
             }
 
             return "Success";
@@ -85,4 +85,14 @@ export function isRequest(body: {}): body is Request {
 
 function getCollections(searchConfig: any): string[] {
   return searchConfig.data.dataSetMetadata.collectionList.items.map((col: any) => col.collectionListId);
+}
+
+function getCollectionIndexConfig(indexConfig: any, collectionKey: string): any {
+  for (const collection of indexConfig.data.dataSetMetadata.collectionList.items) {
+    if (collection.collectionListId === collectionKey) {
+      return collection;
+    }
+  }
+
+  return null;
 }
