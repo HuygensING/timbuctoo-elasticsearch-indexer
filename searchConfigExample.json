@@ -9,31 +9,31 @@
               "facet": [
                 {
                   "paths": [
-                    "clusius_PlacesList.items.tim_name.value"
+                    "tim_name.value"
                   ],
                   "type": "MultiSelect"
                 },
                 {
                   "paths": [
-                    "clusius_PlacesList.items.tim_country.value"
+                    "tim_country.value"
                   ],
                   "type": "MultiSelect"
                 },
                 {
                   "paths": [
-                    "clusius_PlacesList.items.tim_latitude.value"
+                    "tim_latitude.value"
                   ],
                   "type": "MultiSelect"
                 },
                 {
                   "paths": [
-                    "clusius_PlacesList.items.tim_longitude.value"
+                    "tim_longitude.value"
                   ],
                   "type": "MultiSelect"
                 },
                 {
                   "paths": [
-                    "clusius_PlacesList.items.tim_remarks.value"
+                    "tim_remarks.value"
                   ],
                   "type": "MultiSelect"
                 }
@@ -46,64 +46,64 @@
               "facet": [
                 {
                   "paths": [
-                    "clusius_PersonsList.items.tim_names.items.value"
+                    "tim_names.items.value"
                   ],
                   "type": "MultiSelect"
                 },
                 {
                   "paths": [
-                    "clusius_PersonsList.items.tim_gender.value"
+                    "tim_gender.value"
                   ],
                   "type": "MultiSelect"
                 },
                 {
                   "paths": [
-                    "clusius_PersonsList.items.tim_birthDate.value"
+                    "tim_birthDate.value"
                   ],
-                  "type": "MultiSelect"
+                  "type": "DateRange"
                 },
                 {
                   "paths": [
-                    "clusius_PersonsList.items.tim_deathDate.value"
+                    "tim_deathDate.value"
                   ],
-                  "type": "MultiSelect"
+                  "type": "DateRange"
                 },
                 {
                   "paths": [
-                    "clusius_PersonsList.items.tim_hasDeathPlace.tim_country.value",
-                    "clusius_PersonsList.items.tim_hasDeathPlace.tim_name.value"
+                    "tim_hasDeathPlace.tim_country.value",
+                    "tim_hasDeathPlace.tim_name.value"
                   ],
                   "type": "Hierarchical"
                 },
                 {
                   "paths": [
-                    "clusius_PersonsList.items.tim_hasBirthPlace.tim_country.value",
-                    "clusius_PersonsList.items.tim_hasBirthPlace.tim_name.value"
+                    "tim_hasBirthPlace.tim_country.value",
+                    "tim_hasBirthPlace.tim_name.value"
                   ],
                   "type": "Hierarchical"
                 },
                 {
                   "paths": [
-                    "clusius_PersonsList.items._inverse_tim_isScientistBioOf.tim_biography.value"
+                    "_inverse_tim_isScientistBioOf.tim_biography.value"
                   ],
                   "type": "MultiSelect"
                 },
                 {
                   "paths": [
-                    "clusius_PersonsList.items._inverse_tim_hasResident.items.tim_hasLocation.tim_country.value",
-                    "clusius_PersonsList.items._inverse_tim_hasResident.items.tim_hasLocation.tim_name.value"
+                    "_inverse_tim_hasResident.items.tim_hasLocation.tim_country.value",
+                    "_inverse_tim_hasResident.items.tim_hasLocation.tim_name.value"
                   ],
                   "type": "Hierarchical"
                 },
                 {
                   "paths": [
-                    "clusius_PersonsList.items._inverse_tim_isEducationOf.items.tim_description.value"
+                    "_inverse_tim_isEducationOf.items.tim_description.value"
                   ],
                   "type": "MultiSelect"
                 },
                 {
                   "paths": [
-                    "clusius_PersonsList.items._inverse_tim_isOccupationOf.items.tim_description.value"
+                    "_inverse_tim_isOccupationOf.items.tim_description.value"
                   ],
                   "type": "MultiSelect"
                 }
@@ -112,7 +112,7 @@
                 {
                   "fields": [
                     {
-                      "path": "clusius_PersonsList.items.tim_names.items.value"
+                      "path": "tim_names.items.value"
                     }
                   ]
                 }
@@ -125,25 +125,25 @@
               "facet": [
                 {
                   "paths": [
-                    "clusius_BiographyList.items.tim_isScientistBioOf.tim_names.items.value"
+                    "tim_isScientistBioOf.tim_names.items.value"
                   ],
                   "type": "MultiSelect"
                 },
                 {
                   "paths": [
-                    "clusius_BiographyList.items.tim_hasFieldOfInterest.items.tim_value.value"
+                    "tim_hasFieldOfInterest.items.tim_value.value"
                   ],
                   "type": "MultiSelect"
                 },
                 {
                   "paths": [
-                    "clusius_BiographyList.items.tim_biography.value"
+                    "tim_biography.value"
                   ],
                   "type": "MultiSelect"
                 },
                 {
                   "paths": [
-                    "clusius_BiographyList.items.tim_highest_degree.value"
+                    "tim_highest_degree.value"
                   ],
                   "type": "MultiSelect"
                 }

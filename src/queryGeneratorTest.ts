@@ -12,32 +12,32 @@ function testBuildQueryForCollection() {
                 "facet": [
                   {
                     "paths": [
-                      "clusius_PersonsList.items.tim_hasDeathPlace.tim_country.value",
-                      "clusius_PersonsList.items.tim_hasDeathPlace.tim_name.value"
+                      "tim_hasDeathPlace.tim_country.value",
+                      "tim_hasDeathPlace.tim_name.value"
                     ],
                     "type": "Hierarchical"
                   },
                   {
                     "paths": [
-                      "clusius_PersonsList.items.tim_gender.value"
+                      "tim_gender.value"
                     ],
                     "type": "MultiSelect"
                   },
                   {
                     "paths": [
-                      "clusius_PersonsList.items.tim_birthDate.value"
+                      "tim_birthDate.value"
                     ],
-                    "type": "MultiSelect"
+                    "type": "DateRange"
                   },
                   {
                     "paths": [
-                      "clusius_PersonsList.items.tim_deathDate.value"
+                      "tim_deathDate.value"
                     ],
-                    "type": "MultiSelect"
+                    "type": "DateRange"
                   },
                   {
                     "paths": [
-                      "clusius_PersonsList.items.tim_names.items.value"
+                      "tim_names.items.value"
                     ],
                     "type": "MultiSelect"
                   }
@@ -46,7 +46,7 @@ function testBuildQueryForCollection() {
                   {
                     "fields": [
                       {
-                        "path": "clusius_PersonsList.items.tim_names.items.value"
+                        "path": "tim_names.items.value"
                       }
                     ]
                   }
@@ -59,9 +59,9 @@ function testBuildQueryForCollection() {
     }
   }
 
-  const expectedQuery = "{ dataSets { DUMMY_clusius { clusius_PersonsList { items { tim_hasDeathPlace { tim_country { value } tim_name { value } } tim_gender { value } tim_birthDate { value } tim_deathDate { value } tim_names { items { value } } } nextCursor } } } }";
+  const expectedQuery = "{ dataSets { DUMMY__clusius { clusius_PersonsList { items { tim_hasDeathPlace { tim_country { value } tim_name { value } } tim_gender { value } tim_birthDate { value } tim_deathDate { value } tim_names { items { value } } } nextCursor } } } }";
 
-  const actual = buildQueryForCollection("DUMMY_clusius", "clusius_PersonsList", input);
+  const actual = buildQueryForCollection("DUMMY__clusius", "clusius_PersonsList", input);
 
   console.assert(actual === expectedQuery, "expected:\n" + expectedQuery + "\nbut was:\n" + actual);
   console.log("testBuildQueryForCollection succeeded");

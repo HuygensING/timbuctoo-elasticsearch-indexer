@@ -9,10 +9,10 @@ export function buildQueryForCollection(dataSetId: string, collectionKey: string
   const query = buildQuery(collectionIndexConfig.indexConfig, collectionKey);
 
   if (cursor != null) {
-    return "{ dataSets { " + dataSetId + " { " + collectionKey + " (cursor: \"" + cursor + "\") {" + query + " nextCursor } } } }";
+    return "{ dataSets { " + dataSetId + " { " + collectionKey + " (cursor: \"" + cursor + "\") { items {" + query + " } nextCursor } } } }";
   }
 
-  return "{ dataSets { " + dataSetId + " { " + collectionKey + " { " + query + " nextCursor } } } }";
+  return "{ dataSets { " + dataSetId + " { " + collectionKey + " { items { " + query + " } nextCursor } } } }";
 }
 
 function buildQuery(collectionIndexConfig: { facet: [{ paths: string[] }], fullText: { fields: [{ path: string }] } }, collection: string): string {
@@ -24,7 +24,7 @@ function buildQuery(collectionIndexConfig: { facet: [{ paths: string[] }], fullT
     }
   }
 
-  return buildQueryFromMap(mappedQuery, collection);
+  return buildQueryFromMap(mappedQuery);
 }
 
 function mapQuery(splittedPath: string[], mappedQuery: MappedQuery) {
@@ -51,20 +51,16 @@ function mapQuery(splittedPath: string[], mappedQuery: MappedQuery) {
   }
 }
 
-function buildQueryFromMap(mappedQuery: { [key: string]: any }, collection: string): string {
+function buildQueryFromMap(mappedQuery: { [key: string]: any }): string {
   let query = "";
 
   const keys = Object.keys(mappedQuery);
-
-  if (keys.length == 1 && keys.indexOf(collection) > -1) {
-    return buildQueryFromMap(mappedQuery[collection], collection);
-  }
 
   for (const key in mappedQuery) {
     query += key;
     const val = mappedQuery[key];
     if (val instanceof Object) {
-      query += " { " + buildQueryFromMap(val, collection).trim() + " } ";
+      query += " { " + buildQueryFromMap(val).trim() + " } ";
     }
     else {
       query += " { " + val + " } ";
