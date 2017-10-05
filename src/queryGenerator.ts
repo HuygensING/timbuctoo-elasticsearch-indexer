@@ -12,10 +12,10 @@ export function buildQueryForCollection(dataSetId: string, collectionKey: string
   }
 
   if (cursor != null) {
-    return "{ dataSets { " + dataSetId + " { " + collectionIndexConfig.collectionListId + " (cursor: \"" + cursor + "\") { items {" + query + " } nextCursor } } } }";
+    return "{ dataSets { " + dataSetId + " { " + collectionIndexConfig.collectionListId + " (cursor: \"" + cursor + "\") { items { uri " + query + " } nextCursor } } } }";
   }
 
-  return "{ dataSets { " + dataSetId + " { " + collectionIndexConfig.collectionListId + " { items { " + query + " } nextCursor } } } }";
+  return "{ dataSets { " + dataSetId + " { " + collectionIndexConfig.collectionListId + " { items { uri " + query + " } nextCursor } } } }";
 }
 
 function buildQuery(collectionIndexConfig: { facet: [{ paths: string[] }], fullText: { fields: [{ path: string }] } }, collection: string): string {
