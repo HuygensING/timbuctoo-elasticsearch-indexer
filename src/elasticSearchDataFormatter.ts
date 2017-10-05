@@ -89,8 +89,12 @@ export function getPossibleFacetTypes(): { [key: string]: { possibleFacetTypes: 
       "possibleFacetTypes": ["MultiSelect"],
       "fullTextPossible": true
     },
+    "http://timbuctoo.huygens.knaw.nl/datatypes/datable": {
+      "possibleFacetTypes": ["DateRange"],
+      "fullTextPossible": true
+    },
     "*": {
-      "possibleFacetTypes": ["MultiSelect"],
+      "possibleFacetTypes": ["MultiSelect", "Hierarchical"],
       "fullTextPossible": true
     }
   }
