@@ -1,7 +1,7 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2017-10-05T11:39:03.455Z",
+	"__export_date": "2017-10-05T12:26:19.636Z",
 	"__export_source": "insomnia.desktop.app:v5.8.4",
 	"resources": [
 		{
@@ -342,15 +342,15 @@
 		{
 			"_id": "req_53adbba9ec8e43bebcb201d511b52ef4",
 			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
-			"modified": 1507115551078,
+			"modified": 1507206341177,
 			"created": 1505464687695,
-			"url": "http://localhost:9200/http___example_org_dataset/clusius_PersonsList/_search",
+			"url": "http://localhost:9200/dummy__clusius/clusius_Persons/_search",
 			"name": "getFacets",
 			"description": "",
 			"method": "POST",
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\t\"query\": {\n\t\t\t\"query_string\": {\n\t\t\t\t\"fields\": [\"tim_names.items.value\"], \n\t\t\t\t\"query\": \"J*\"\n\t\t\t}\n\t\t},\n\t\"aggs\": {\n\t\t\"deathPlaces\": {\n\t\t\t\"terms\" : {\n\t\t\t\t\"field\": \"tim_hasDeathPlace.tim_name\"\n\t\t\t}\n\t\t}\n\t}\n}"
+				"text": "{\n\t\"aggs\": {\n\t\t\"deathPlaces\": {\n\t\t\t\"terms\" : {\n\t\t\t\t\"field\": \"tim_hasDeathPlace.tim_name.value\"\n\t\t\t}\n\t\t},\n\t\t\"deathCountries\": {\n\t\t\t\"terms\" : {\n\t\t\t\t\"field\": \"tim_hasDeathPlace.tim_country.value\"\n\t\t\t}\n\t\t},\n\t\t\"birthPlaces\": {\n\t\t\t\"terms\" : {\n\t\t\t\t\"field\": \"tim_hasBirthPlace.tim_name.value\"\n\t\t\t}\n\t\t}\n\t}\n}"
 			},
 			"parameters": [],
 			"headers": [
