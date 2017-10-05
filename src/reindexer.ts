@@ -12,7 +12,7 @@ export class Reindexer {
   }
   public async reindex(request: Request): Promise<string> {
     let val = "";
-    const searchConfig: any = await getConfig();
+    const searchConfig: any = await getConfig(this.dataEndpoint, request.dataSetId);
 
     await this.elasticSearchUpdater.remapIndex(request.dataSetUri, searchConfig).then(async () => {
       for (const collectionKey of getCollections(searchConfig)) {
