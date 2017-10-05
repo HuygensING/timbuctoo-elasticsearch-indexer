@@ -13,6 +13,7 @@ export class Reindexer {
   public async reindex(request: Request): Promise<string> {
     let val = "";
     const searchConfig: any = await getConfig(this.dataEndpoint, request.dataSetId);
+    // console.log("search config: ", searchConfig);
 
     await this.elasticSearchUpdater.remapIndex(request.dataSetUri, searchConfig).then(async () => {
       for (const collectionKey of getCollections(searchConfig)) {
@@ -28,42 +29,47 @@ export class Reindexer {
   private async indexCollection(dataSetUri: string, dataSetId: string, collectionKey: string, searchConfig: { [key: string]: any }, cursor?: string): Promise<string> {
     console.log("index collection: \"" + collectionKey + "\" cursor: \"" + cursor + "\"");
     const query = buildQueryForCollection(dataSetId, collectionKey, searchConfig, cursor);
-    return await fetch(this.dataEndpoint, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      method: "POST",
-      body: JSON.stringify({ "query": query })
-    }).then(async resp => {
-      if (resp.status === 200) {
-        const data = await resp.json();
+    if (query !== "") {
+      return await fetch(this.dataEndpoint, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify({ "query": query })
+      }).then(async resp => {
+        if (resp.status === 200) {
+          const data = await resp.json();
 
-        if (!this.isExpectedData(data, dataSetId, collectionKey)) {
-          console.log("Retrieved data: '" + JSON.stringify(data, null, ' ') + "' is not supported");
-          return "Timbuctoo return unsupported data";
-        }
-
-        const dataToIndex = data.data.dataSets[dataSetId][collectionKey].items;
-        await this.elasticSearchUpdater.updateElasticSearch(dataSetUri, collectionKey, { config: searchConfig, data: dataToIndex }).then(async () => {
-          const maybeCursor = data.data.dataSets[dataSetId][collectionKey].nextCursor;
-
-          if (maybeCursor) {
-            return await this.indexCollection(dataSetUri, dataSetId, collectionKey, searchConfig, maybeCursor).then(() => "Success");
+          if (!this.isExpectedData(data, dataSetId, collectionKey)) {
+            console.log("Retrieved data: '" + JSON.stringify(data, null, ' ') + "' is not supported");
+            return "Timbuctoo returned unsupported data";
           }
 
-          return "Success";
-        });
+          const dataToIndex = data.data.dataSets[dataSetId][collectionKey].items;
+          await this.elasticSearchUpdater.updateElasticSearch(dataSetUri, collectionKey, { config: searchConfig, data: dataToIndex }).then(async () => {
+            const maybeCursor = data.data.dataSets[dataSetId][collectionKey].nextCursor;
 
-        return "Success";
-      } else {
-        console.log("request failed: ", resp.statusText);
-        return "data retrieval failed for query: " + query;
-      }
-    }).then(message => { return message }).catch(reason => {
-      console.log("error indexing collection: " + collectionKey + "\nreason: " + reason);
-      return "error indexing collection: " + collectionKey;
-    });
+            if (maybeCursor) {
+              return await this.indexCollection(dataSetUri, dataSetId, collectionKey, searchConfig, maybeCursor).then(() => "Success");
+            }
+
+            return "Success";
+          });
+
+          return "Success";
+        } else {
+          console.log("request failed: ", resp.statusText);
+          return "data retrieval failed for query: " + query;
+        }
+      }).then(message => { return message }).catch(reason => {
+        console.log("error indexing collection: " + collectionKey + "\nreason: " + reason);
+        return "error indexing collection: " + collectionKey;
+      });
+    }
+    else {
+      return "ignored";
+    }
   }
   private isExpectedData(data: any, dataSetId: string, collectionKey: string): boolean {
     return data.data && data.data.dataSets && data.data.dataSets[dataSetId] && data.data.dataSets[dataSetId][collectionKey] && data.data.dataSets[dataSetId][collectionKey].items;

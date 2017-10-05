@@ -8,11 +8,15 @@ export function buildQueryForCollection(dataSetId: string, collectionKey: string
 
   const query = buildQuery(collectionIndexConfig.indexConfig, collectionKey);
 
-  if (cursor != null) {
-    return "{ dataSets { " + dataSetId + " { " + collectionKey + " (cursor: \"" + cursor + "\") { items {" + query + " } nextCursor } } } }";
+  if(query == "") {
+    return "";
   }
 
-  return "{ dataSets { " + dataSetId + " { " + collectionKey + " { items { " + query + " } nextCursor } } } }";
+  if (cursor != null) {
+    return "{ dataSets { " + dataSetId + " { " + collectionIndexConfig.collectionListId + " (cursor: \"" + cursor + "\") { items {" + query + " } nextCursor } } } }";
+  }
+
+  return "{ dataSets { " + dataSetId + " { " + collectionIndexConfig.collectionListId + " { items { " + query + " } nextCursor } } } }";
 }
 
 function buildQuery(collectionIndexConfig: { facet: [{ paths: string[] }], fullText: { fields: [{ path: string }] } }, collection: string): string {
