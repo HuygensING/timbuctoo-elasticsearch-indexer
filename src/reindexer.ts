@@ -13,11 +13,10 @@ export class Reindexer {
   public async reindex(request: Request): Promise<string> {
     let val = "";
     const searchConfig: any = await getConfig(this.dataEndpoint, request.dataSetId);
-    // console.log("search config: ", searchConfig);
 
-    await this.elasticSearchUpdater.remapIndex(request.dataSetUri, searchConfig).then(async () => {
+    await this.elasticSearchUpdater.remapIndex(request.dataSetId, searchConfig).then(async () => {
       for (const collectionKey of getCollections(searchConfig)) {
-        await this.indexCollection(request.dataSetUri, request.dataSetId, collectionKey, searchConfig).then(resp => {
+        await this.indexCollection(request.dataSetId, collectionKey, searchConfig).then(resp => {
           val += "collection: " + collectionKey + " response: \"" + resp + "\" \n";
         });
       }
@@ -26,7 +25,7 @@ export class Reindexer {
     return await val;
   }
 
-  private async indexCollection(dataSetUri: string, dataSetId: string, collectionKey: string, searchConfig: { [key: string]: any }, cursor?: string): Promise<string> {
+  private async indexCollection(dataSetId: string, collectionKey: string, searchConfig: { [key: string]: any }, cursor?: string): Promise<string> {
     console.log("index collection: \"" + collectionKey + "\" cursor: \"" + cursor + "\"");
     const query = buildQueryForCollection(dataSetId, collectionKey, searchConfig, cursor);
     if (query !== "") {
@@ -47,11 +46,11 @@ export class Reindexer {
           }
 
           const dataToIndex = data.data.dataSets[dataSetId][collectionKey].items;
-          await this.elasticSearchUpdater.updateElasticSearch(dataSetUri, collectionKey, { config: searchConfig, data: dataToIndex }).then(async () => {
+          await this.elasticSearchUpdater.updateElasticSearch(dataSetId, collectionKey, { config: searchConfig, data: dataToIndex }).then(async () => {
             const maybeCursor = data.data.dataSets[dataSetId][collectionKey].nextCursor;
 
             if (maybeCursor) {
-              return await this.indexCollection(dataSetUri, dataSetId, collectionKey, searchConfig, maybeCursor).then(() => "Success");
+              return await this.indexCollection(dataSetId, collectionKey, searchConfig, maybeCursor).then(() => "Success");
             }
 
             return "Success";
@@ -77,12 +76,11 @@ export class Reindexer {
 }
 
 export interface Request {
-  dataSetUri: string;
   dataSetId: string;
 }
 
 export function isRequest(body: {}): body is Request {
-  return body.hasOwnProperty("dataSetUri") && body.hasOwnProperty("dataSetId");
+  return body.hasOwnProperty("dataSetId");
 }
 
 function getCollections(searchConfig: any): string[] {

@@ -1,7 +1,7 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2017-10-04T15:02:21.284Z",
+	"__export_date": "2017-10-05T11:39:03.455Z",
 	"__export_source": "insomnia.desktop.app:v5.8.4",
 	"resources": [
 		{
@@ -156,9 +156,9 @@
 		{
 			"_id": "req_496070b9989f4061a65405fd237383e2",
 			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
-			"modified": 1507039110882,
+			"modified": 1507201601946,
 			"created": 1504702507581,
-			"url": "http://localhost:9200/http___example_org_dataset",
+			"url": "http://localhost:9200/dummy__clusius",
 			"name": "getIndexMetaData",
 			"description": "",
 			"method": "GET",
@@ -376,7 +376,7 @@
 		{
 			"_id": "req_c3bd3cfa8ac74c739dba3326f83a51ee",
 			"parentId": "fld_acf473df401940d099d09ec35a7ce69f",
-			"modified": 1507129099286,
+			"modified": 1507202641780,
 			"created": 1504269931645,
 			"url": "http://localhost:3000 ",
 			"name": "runIndexerRequest",
@@ -384,7 +384,7 @@
 			"method": "POST",
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\"dataSetUri\": \"http://example.org/dataset\", \n\t\"dataSetId\": \"DUMMY__clusius\"\n}"
+				"text": "{\n\t\"dataSetId\": \"DUMMY__clusius\"\n}"
 			},
 			"parameters": [],
 			"headers": [
