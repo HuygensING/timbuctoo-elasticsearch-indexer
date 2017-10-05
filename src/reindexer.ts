@@ -25,9 +25,9 @@ export class Reindexer {
     return await val;
   }
 
-  private async indexCollection(dataSetId: string, collectionKey: string, searchConfig: { [key: string]: any }, cursor?: string): Promise<string> {
-    console.log("index collection: \"" + collectionKey + "\" cursor: \"" + cursor + "\"");
-    const query = buildQueryForCollection(dataSetId, collectionKey, searchConfig, cursor);
+  private async indexCollection(dataSetId: string, collectionListId: string, searchConfig: { [key: string]: any }, cursor?: string): Promise<string> {
+    console.log("index collection: \"" + collectionListId + "\" cursor: \"" + cursor + "\"");
+    const query = buildQueryForCollection(dataSetId, collectionListId, searchConfig, cursor);
     if (query !== "") {
       return await fetch(this.dataEndpoint, {
         headers: {
@@ -40,17 +40,17 @@ export class Reindexer {
         if (resp.status === 200) {
           const data = await resp.json();
 
-          if (!this.isExpectedData(data, dataSetId, collectionKey)) {
+          if (!this.isExpectedData(data, dataSetId, collectionListId)) {
             console.log("Retrieved data: '" + JSON.stringify(data, null, ' ') + "' is not supported");
             return "Timbuctoo returned unsupported data";
           }
 
-          const dataToIndex = data.data.dataSets[dataSetId][collectionKey].items;
+          const dataToIndex = data.data.dataSets[dataSetId][collectionListId].items;
           await this.elasticSearchUpdater.updateElasticSearch(dataSetId, searchConfig.collectionId, { config: searchConfig, data: dataToIndex }).then(async () => {
-            const maybeCursor = data.data.dataSets[dataSetId][collectionKey].nextCursor;
+            const maybeCursor = data.data.dataSets[dataSetId][collectionListId].nextCursor;
 
             if (maybeCursor) {
-              return await this.indexCollection(dataSetId, searchConfig.collectionId, searchConfig, maybeCursor).then(() => "Success");
+              return await this.indexCollection(dataSetId, collectionListId, searchConfig, maybeCursor).then(() => "Success");
             }
 
             return "Success";
@@ -62,16 +62,16 @@ export class Reindexer {
           return "data retrieval failed for query: " + query;
         }
       }).then(message => { return message }).catch(reason => {
-        console.log("error indexing collection: " + collectionKey + "\nreason: " + reason);
-        return "error indexing collection: " + collectionKey;
+        console.log("error indexing collection: " + collectionListId + "\nreason: " + reason);
+        return "error indexing collection: " + collectionListId;
       });
     }
     else {
       return "ignored";
     }
   }
-  private isExpectedData(data: any, dataSetId: string, collectionKey: string): boolean {
-    return data.data && data.data.dataSets && data.data.dataSets[dataSetId] && data.data.dataSets[dataSetId][collectionKey] && data.data.dataSets[dataSetId][collectionKey].items;
+  private isExpectedData(data: any, dataSetId: string, collectionListId: string): boolean {
+    return data.data && data.data.dataSets && data.data.dataSets[dataSetId] && data.data.dataSets[dataSetId][collectionListId] && data.data.dataSets[dataSetId][collectionListId].items;
   }
 }
 
