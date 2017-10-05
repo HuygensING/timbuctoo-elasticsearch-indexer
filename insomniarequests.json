@@ -1,7 +1,7 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2017-10-05T12:26:19.636Z",
+	"__export_date": "2017-10-05T13:59:56.070Z",
 	"__export_source": "insomnia.desktop.app:v5.8.4",
 	"resources": [
 		{
@@ -102,58 +102,6 @@
 			"_type": "request"
 		},
 		{
-			"_id": "req_2e584095a3714cf48656c4102b5e99fa",
-			"parentId": "fld_81705174c99c4c819c4d0aab62af996d",
-			"modified": 1507039885592,
-			"created": 1507039245780,
-			"url": "http://localhost:8080/v5/DUMMY/clusius/upload/rdf",
-			"name": "saveSearchConfig",
-			"description": "",
-			"method": "POST",
-			"body": {
-				"mimeType": "multipart/form-data",
-				"params": [
-					{
-						"name": "file",
-						"value": "",
-						"id": "pair_527d655942664933ba09ad5b5a8f888b",
-						"type": "file",
-						"fileName": "/home/martijnm/workspace/timbuctoo-elasticsearch-indexer/searchConfigToSave.json"
-					},
-					{
-						"name": "fileMimeTypeOverride",
-						"value": "application/ld+json",
-						"id": "pair_1eb04b4297de4022ad56edc8cebe8104"
-					},
-					{
-						"name": "encoding",
-						"value": "UTF-8",
-						"id": "pair_46fbc9c7215c40c6938eaf413794eb2c"
-					}
-				]
-			},
-			"parameters": [],
-			"headers": [
-				{
-					"name": "Content-Type",
-					"value": "multipart/form-data",
-					"id": "pair_d0fab80e5a6f40eeb9844288bc5c8cf9"
-				},
-				{
-					"name": "Authorization",
-					"value": "fake",
-					"id": "pair_c36ca3daf68a40eb992ad7273b7c0de5"
-				}
-			],
-			"authentication": {},
-			"metaSortKey": -1507039245780,
-			"settingStoreCookies": true,
-			"settingSendCookies": true,
-			"settingDisableRenderRequestBody": false,
-			"settingEncodeUrl": true,
-			"_type": "request"
-		},
-		{
 			"_id": "req_496070b9989f4061a65405fd237383e2",
 			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
 			"modified": 1507201601946,
@@ -181,9 +129,9 @@
 		{
 			"_id": "req_778a75e757b7417b9681fea787708e74",
 			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
-			"modified": 1507039097599,
+			"modified": 1507211949467,
 			"created": 1504702653003,
-			"url": "http://localhost:9200/http___example_org_dataset/_search?q=*:*",
+			"url": "http://localhost:9200/dummy__clusius/_search?q=*:*",
 			"name": "getAllFromIndex",
 			"description": "",
 			"method": "GET",
@@ -206,15 +154,15 @@
 		{
 			"_id": "req_dd20ee9958a942708780a0f3a92d88b0",
 			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
-			"modified": 1507039051133,
+			"modified": 1507208212491,
 			"created": 1504875715965,
-			"url": "http://localhost:9200/http___example_org_dataset/clusius_PersonsList/_search",
+			"url": "http://localhost:9200/dummy__clusius/clusius_Persons/_search",
 			"name": "exactMatchQuery",
 			"description": "",
 			"method": "POST",
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\"query\": {\n\t\t\"match\": {\n\t\t\t\"tim_hasDeathPlace.tim_name\": \"Arnemuiden\"\n\t\t}\n\t}\n}"
+				"text": "{\n\t\"query\": {\n\t\t\"match\": {\n\t\t\t\"tim_hasDeathPlace.tim_name.value\": \"Wittenberg\"\n\t\t}\n\t}\n}"
 			},
 			"parameters": [],
 			"headers": [
@@ -240,15 +188,15 @@
 		{
 			"_id": "req_49eabac1308a476bbd9f81315bcb6080",
 			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
-			"modified": 1507039087766,
+			"modified": 1507211937087,
 			"created": 1505127989437,
-			"url": "http://localhost:9200/http___example_org_dataset/_search",
+			"url": "http://localhost:9200/dummy__clusius/_search",
 			"name": "filterIndexOnType",
 			"description": "",
 			"method": "POST",
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\"query\": {\n\t\t\"type\": {\n\t\t\t\"value\": \"clusius_PersonsList\"\n\t\t}\n\t}\n}"
+				"text": "{\n\t\"query\": {\n\t\t\"type\": {\n\t\t\t\"value\": \"clusius_Persons\"\n\t\t}\n\t}\n}"
 			},
 			"parameters": [],
 			"headers": [
@@ -274,15 +222,15 @@
 		{
 			"_id": "req_84ea0263cff54739bf700d03257a15ae",
 			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
-			"modified": 1507039055021,
+			"modified": 1507208252343,
 			"created": 1505460799808,
-			"url": "http://localhost:9200/http___example_org_dataset/clusius_PersonsList/_search",
+			"url": "http://localhost:9200/dummy__clusius/clusius_Persons/_search",
 			"name": "fullTextQuery",
 			"description": "",
 			"method": "POST",
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\"query\": {\n\t\t\"query_string\": {\n\t\t\t\"fields\": [\"tim_names.items\"], \n\t\t\t\"query\": \"Adr*\"\n\t\t}\n\t}\n}"
+				"text": "{\n\t\"query\": {\n\t\t\"query_string\": {\n\t\t\t\"fields\": [\"tim_names.items.value\"], \n\t\t\t\"query\": \"Adr*\"\n\t\t}\n\t}\n}"
 			},
 			"parameters": [],
 			"headers": [
@@ -308,9 +256,9 @@
 		{
 			"_id": "req_a0223b62d78442bfaacebf0b0b8cfd8c",
 			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
-			"modified": 1507039060370,
+			"modified": 1507208278325,
 			"created": 1505461077501,
-			"url": "http://localhost:9200/http___example_org_dataset/clusius_PersonsList/_search",
+			"url": "http://localhost:9200/dummy__clusius/clusius_Persons/_search",
 			"name": "multiFieldQuery",
 			"description": "",
 			"method": "POST",
