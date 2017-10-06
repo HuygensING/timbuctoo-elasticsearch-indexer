@@ -1,0 +1,30 @@
+version: '2'
+
+services:
+  timbuctoo:
+    image: huygensing/timbuctoo
+    environment:
+      BASE_URI: http://localhost:8080
+      TIMBUCTOO_INDEXER_URL: http://indexer
+      TIMBUCTOO_ELASTICSEARCH_HOST: elasticsearch
+      TIMBUCTOO_ELASTICSEARCH_PORT: 9200
+      TIMBUCTOO_ELASTICSEARCH_USER: elastic
+      TIMBUCTOO_ELASTICSEARCH_PASSWORD: changeme
+    ports:
+      - "8080:80"
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.2
+    environment:
+      discovery.type: single-node
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+  indexer:
+    image: huygensing/timbuctoo-elasticsearch-indexer
+    environment:
+      indexer_timbuctoo_graphql_endpoint: http://timbuctoo/v5/graphql
+      indexer_elasticsearch_host: http://elastic:changeme@elasticsearch:9200
+      indexer_port: 80
+    ports:
+      - "8083:80"
