@@ -10,16 +10,31 @@ const app = new Koa();
 const dataFetcher = new Reindexer(elasticSearchUrl, timbuctooUrl);
 
 app.use(async (ctx) => {
-  if (ctx.method === "POST") {
-    var body: Object = await getBody(ctx).then((val) => JSON.parse(val));
-    if (isRequest(body)) {
-      ctx.body = await dataFetcher.reindex(body);
+  try {
+    console.log(`Received ${ctx.method} request`)
+    if (ctx.method === "POST") {
+      console.log(`parsing data`)
+      var body: Object = await getBody(ctx).then((val) => {
+        try {
+          return JSON.parse(val);
+        } catch (error) {
+          console.error(`"${val}" is not a valid json value: ${error}`);
+        }
+      });
+      if (isRequest(body)) {
+        console.log(`starting index-job`)
+        ctx.body = await dataFetcher.reindex(body);
+      }
+      else {
+        console.error("request is not valid");
+        ctx.body = { error: "Unsupported request" };
+      }
+    } else if (ctx.method === "GET") {
+      console.log(`returning info`)
+      ctx.body = getPossibleFacetTypes();
     }
-    else {
-      ctx.body = { error: "Unsupported request" };
-    }
-  } else if (ctx.method === "GET") {
-    ctx.body = getPossibleFacetTypes();
+  } catch(error) {
+    console.error("An error occurred: ", error);
   }
 });
 
