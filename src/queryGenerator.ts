@@ -1,13 +1,13 @@
-export function buildQueryForCollection(dataSetId: string, collectionKey: string, collectionIndexConfig: any, cursor?: string): string {
-    
+export function buildQueryForCollection(dataSetId: string, collectionIndexConfig: any, cursor?: string): string {
+
   if (!collectionIndexConfig && !collectionIndexConfig["indexConfig"]) {
     console.log("unsupported search config: ", JSON.stringify(collectionIndexConfig));
     return "";
   }
 
-  const query = buildQuery(collectionIndexConfig.indexConfig, collectionKey);
+  const query = buildQuery(collectionIndexConfig.indexConfig);
 
-  if(query == "") {
+  if (query == "") {
     return "";
   }
 
@@ -18,12 +18,18 @@ export function buildQueryForCollection(dataSetId: string, collectionKey: string
   return "{ dataSets { " + dataSetId + " { " + collectionIndexConfig.collectionListId + " { items { uri " + query + " } nextCursor } } } }";
 }
 
-function buildQuery(collectionIndexConfig: { facet: [{ paths: string[] }], fullText: { fields: [{ path: string }] } }, collection: string): string {
-    const mappedQuery: MappedQuery = {};
+function buildQuery(collectionIndexConfig: { facet: [{ paths: string[] }], fullText: [{ fields: [{ path: string }] }] }): string {
+  const mappedQuery: MappedQuery = {};
 
   for (const facet of collectionIndexConfig.facet) {
     for (const path of facet.paths) {
       mapQuery(path.split("."), mappedQuery);
+    }
+  }
+
+  for (const fullText of collectionIndexConfig.fullText) {
+    for (const field of fullText.fields) {
+      mapQuery(field.path.split("."), mappedQuery);
     }
   }
 
