@@ -12,6 +12,9 @@ export class MappingCreator {
     return { "properties": mapping };
   }
   private getFacetType(type: string): string {
+    if (type === "DateRange") {
+      return "date";
+    }
     return "keyword";
   }
 }

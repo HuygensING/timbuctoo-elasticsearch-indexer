@@ -17,6 +17,12 @@ function testKeyGeneration() {
           "tim_hasDeathPlace.tim_name.value"
         ],
         "type": "Hierarchical"
+      },
+      {
+        "paths": [
+          "tim_birthDate.value"
+        ],
+        "type": "DateRange"
       }
     ],
     "fullText": [
@@ -33,14 +39,17 @@ function testKeyGeneration() {
   const expected: {} = {
     "properties": {
       "tim_names.items.value": {
-        "type": "text"
+        "type": "keyword"
       },
       "tim_hasDeathPlace.tim_country.value": {
-        "type": "text"
+        "type": "keyword"
       },
       "tim_hasDeathPlace.tim_name.value": {
-        "type": "text"
-      }      
+        "type": "keyword"
+      },
+      "tim_birthDate.value": {
+        "type": "date"
+      }
     }
   };
 
@@ -50,7 +59,7 @@ function testKeyGeneration() {
   console.assert(JSON.stringify(expected) === JSON.stringify(actual),
     "expected:\n" + JSON.stringify(expected) + "\nbut was:\n" + JSON.stringify(actual)
   );
-  console.log("success");
+  console.log("test createMapping succeeded");
 }
 
 testKeyGeneration();
