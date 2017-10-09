@@ -72,7 +72,7 @@ function buildQueryFromMap(mappedQuery: { [key: string]: any }): string {
       query += " { " + buildQueryFromMap(val).trim() + " } ";
     }
     else {
-      query += " { " + val + " } ";
+      query += " { type " + val + " } ";
     }
 
   }
