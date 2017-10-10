@@ -1,7 +1,7 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2017-10-05T13:59:56.070Z",
+	"__export_date": "2017-10-10T13:33:30.879Z",
 	"__export_source": "insomnia.desktop.app:v5.8.4",
 	"resources": [
 		{
@@ -154,7 +154,7 @@
 		{
 			"_id": "req_dd20ee9958a942708780a0f3a92d88b0",
 			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
-			"modified": 1507208212491,
+			"modified": 1507642331622,
 			"created": 1504875715965,
 			"url": "http://localhost:9200/dummy__clusius/clusius_Persons/_search",
 			"name": "exactMatchQuery",
@@ -162,7 +162,7 @@
 			"method": "POST",
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\"query\": {\n\t\t\"match\": {\n\t\t\t\"tim_hasDeathPlace.tim_name.value\": \"Wittenberg\"\n\t\t}\n\t}\n}"
+				"text": "{\n\t\"query\": {\n\t\t\"match\": {\n\t\t\t\"tim_hasDeathPlace.tim_name.value.raw\": \"Leiden\"\n\t\t}\n\t}\n}"
 			},
 			"parameters": [],
 			"headers": [
@@ -290,7 +290,7 @@
 		{
 			"_id": "req_53adbba9ec8e43bebcb201d511b52ef4",
 			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
-			"modified": 1507206341177,
+			"modified": 1507642365651,
 			"created": 1505464687695,
 			"url": "http://localhost:9200/dummy__clusius/clusius_Persons/_search",
 			"name": "getFacets",
@@ -298,7 +298,7 @@
 			"method": "POST",
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\"aggs\": {\n\t\t\"deathPlaces\": {\n\t\t\t\"terms\" : {\n\t\t\t\t\"field\": \"tim_hasDeathPlace.tim_name.value\"\n\t\t\t}\n\t\t},\n\t\t\"deathCountries\": {\n\t\t\t\"terms\" : {\n\t\t\t\t\"field\": \"tim_hasDeathPlace.tim_country.value\"\n\t\t\t}\n\t\t},\n\t\t\"birthPlaces\": {\n\t\t\t\"terms\" : {\n\t\t\t\t\"field\": \"tim_hasBirthPlace.tim_name.value\"\n\t\t\t}\n\t\t}\n\t}\n}"
+				"text": "{\n\t\"aggs\": {\n\t\t\"deathPlaces\": {\n\t\t\t\"terms\" : {\n\t\t\t\t\"field\": \"tim_hasDeathPlace.tim_name.value.raw\"\n\t\t\t}\n\t\t},\n\t\t\"deathCountries\": {\n\t\t\t\"terms\" : {\n\t\t\t\t\"field\": \"tim_hasDeathPlace.tim_country.value.raw\"\n\t\t\t}\n\t\t},\n\t\t\"birthPlaces\": {\n\t\t\t\"terms\" : {\n\t\t\t\t\"field\": \"tim_hasBirthPlace.tim_name.value.raw\"\n\t\t\t}\n\t\t}\n\t}\n}"
 			},
 			"parameters": [],
 			"headers": [
@@ -314,7 +314,7 @@
 				"password": "changeme",
 				"disabled": false
 			},
-			"metaSortKey": -1504875715815,
+			"metaSortKey": -1504875715840,
 			"settingStoreCookies": true,
 			"settingSendCookies": true,
 			"settingDisableRenderRequestBody": false,
