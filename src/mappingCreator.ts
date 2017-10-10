@@ -4,9 +4,15 @@ export class MappingCreator {
 
     for (const facet of typeConfig.facet) {
       for (const path of facet.paths)
-        mapping[path] = {
+        mapping[path + ".raw"] = {
           "type": this.getFacetType(facet.type),
         };
+    }
+
+    for (const fullText of typeConfig.fullText) {
+      for (const field of fullText.fields) {
+        mapping[field.path + ".fulltext"] = { "type": "text" };
+      }
     }
 
     return { "properties": mapping };

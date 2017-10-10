@@ -2,7 +2,7 @@ import { MappingCreator } from "./mappingCreator";
 
 const mappingCreator = new MappingCreator();
 
-function testKeyGeneration() {
+function testCreateMapping() {
   const personDesc: {} = {
     "facet": [
       {
@@ -38,28 +38,32 @@ function testKeyGeneration() {
 
   const expected: {} = {
     "properties": {
-      "tim_names.items.value": {
+      "tim_names.items.value.raw": {
         "type": "keyword"
       },
-      "tim_hasDeathPlace.tim_country.value": {
+      "tim_hasDeathPlace.tim_country.value.raw": {
         "type": "keyword"
       },
-      "tim_hasDeathPlace.tim_name.value": {
+      "tim_hasDeathPlace.tim_name.value.raw": {
         "type": "keyword"
       },
-      "tim_birthDate.value": {
+      "tim_birthDate.value.raw": {
         "type": "date"
-      }
+      },
+      "tim_names.items.value.fulltext": {
+        "type": "text"
+      },
     }
   };
 
 
   const actual = mappingCreator.createMapping(personDesc);
 
+  console.log("test createMapping");
   console.assert(JSON.stringify(expected) === JSON.stringify(actual),
     "expected:\n" + JSON.stringify(expected) + "\nbut was:\n" + JSON.stringify(actual)
   );
   console.log("test createMapping succeeded");
 }
 
-testKeyGeneration();
+testCreateMapping();

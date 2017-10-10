@@ -28,7 +28,7 @@ export class ElasticSearchDataFormatter {
     return data;
   }
 
-  private formatField(field: { type: string, value: string }): { "value": string | string[] } {
+  private formatField(field: { type: string, value: string }): {} {
     switch (field.type) {
       case "http://timbuctoo.huygens.knaw.nl/datatypes/person-name":
         return formatPersonName(field);
@@ -40,34 +40,34 @@ export class ElasticSearchDataFormatter {
   }
 }
 
-function formatDefault(field: { type: string, value: string }): { "value": string | string[] } {
+function formatDefault(field: { type: string, value: string }): {} {
   const val: string = field.value == null ? "¯\_(ツ)_/¯" : field.value;
 
-  return { "value": val };
+  return { "value": { "raw": val } };
 }
 
-function formateDatable(field: { type: string, value: string }): { "value": string | string[] } {
+function formateDatable(field: { type: string, value: string }): {} {
   try {
     const edtfDate = edtf(field.value);
     const start = new Date(edtfDate.min).toISOString();
     const end = new Date(edtfDate.max).toISOString();
-    return { "value": new Array<string>(start, end) };
+    return { "value": { "raw": new Array<string>(start, end) } };
   } catch (e) {
     console.log("value not supported: ", field.value);
 
-    return { "value": ["4242-12-31T23:59:59.999Z"] }; // default value for unparsable edtf
+    return { "value": { "raw": ["4242-12-31T23:59:59.999Z"] } }; // default value for unparsable edtf
   }
 }
 
-function formatPersonName(field: { type: string, value: string }): { "value": string | string[] } {
+function formatPersonName(field: { type: string, value: string }): {} {
   const value = field.value;
   if (value != null) {
     const parsedValue = JSON.parse(value);
     if (Object.getOwnPropertyNames(parsedValue).indexOf("components") >= 0 && parsedValue.components instanceof Array) {
-      return { "value": parsedValue.components.map((component: { type: string, value: string }) => component.value) };
+      return { "value": { "raw": parsedValue.components.map((component: { type: string, value: string }) => component.value) } };
     }
   }
-  return { "value": "¯\_(ツ)_/¯" }; // default value for unparsable person names
+  return { "value": { "raw": "¯\_(ツ)_/¯" } }; // default value for unparsable person names
 }
 
 function getProperty(data: { [key: string]: any }, propName: string): any {

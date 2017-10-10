@@ -60,24 +60,43 @@ function testFormatPersonName() {
   const expected = JSON.stringify(
     {
       "tim_names": {
-        "items": [{
-          "value": [
-            "Mathias ",
-            "Obel ",
-            "de l'"
-          ]
-        },
-        {
-          "value": [
-            "Matthias",
-            "Lobelius"
-          ]
-        }
+        "items": [
+          {
+            "value": {
+              "raw": [
+                "Mathias ",
+                "Obel ",
+                "de l'"
+              ]
+            }
+          },
+          {
+            "value": {
+              "raw": [
+                "Matthias",
+                "Lobelius"
+              ]
+            }
+          }
         ]
       },
     });
 
-  const actual = JSON.stringify(formatter.formatData(input, {}));
+  const actual = JSON.stringify(formatter.formatData(input,
+    {
+      "collectionListId": "clusius_PersonsList",
+      "indexConfig": {
+        "facet": [
+          {
+            "paths": [
+              "tim_names.items.value"
+            ],
+            "type": "MultiSelect"
+          }
+        ]
+      }
+    }
+  ));
 
   console.log("test format person name");
   console.assert(actual === expected, "expected:\n" + expected + "\nbut was:\n" + actual);
@@ -106,19 +125,72 @@ function testPersonNameNullValue() {
       "tim_names": {
         "items": [
           {
-            "value": "¯\_(ツ)_/¯"
+            "value": {
+              "raw": "¯\_(ツ)_/¯"
+            }
           }
         ]
       }
     }
   });
 
-  const actual = JSON.stringify(formatter.formatData(input, {}));
+  const actual = JSON.stringify(formatter.formatData(input, {
+    "collectionListId": "clusius_PersonsList",
+    "indexConfig": {
+      "facet": [
+        {
+          "paths": [
+            "tim_names.items.value"
+          ],
+          "type": "MultiSelect"
+        }
+      ]
+    }
+  }));
 
   console.log("test format with null person name");
   console.assert(actual === expected, "expected:\n" + expected + "\nbut was:\n" + actual);
   console.log("test format with null person name succeeded");
 
+}
+
+function testFormatDatable() {
+  const input = {
+    "@id": "http://timbuctoo.huygens.knaw.nl/datasets/clusius/Persons_PE00002125",
+    "@type": "http://timbuctoo.huygens.knaw.nl/datasets/clusius/Persons",
+    "tim_deathDate": {
+      "type": "http://timbuctoo.huygens.knaw.nl/datatypes/datable",
+      "value": "[1616]"
+    }
+  };
+
+  const expected = JSON.stringify({
+    "@id": "http://timbuctoo.huygens.knaw.nl/datasets/clusius/Persons_PE00002125",
+    "@type": "http://timbuctoo.huygens.knaw.nl/datasets/clusius/Persons",
+    "tim_deathDate": {
+      "value": {
+        "raw": ["1616-01-01T00:00:00.000Z", "1616-12-31T23:59:59.999Z"]
+      }
+    }
+  });
+
+  const actual = JSON.stringify(formatter.formatData(input, {
+    "collectionListId": "clusius_PersonsList",
+    "indexConfig": {
+      "facet": [
+        {
+          "paths": [
+            "tim_deathDate.value"
+          ],
+          "type": "DateRange"
+        }
+      ]
+    }
+  }));
+
+  console.log("test format datable");
+  console.assert(actual === expected, "expected:\n" + expected + "\nbut was:\n" + actual);
+  console.log("test format datable succeeded");
 }
 
 function testFormatInvalidDatable() {
@@ -130,23 +202,39 @@ function testFormatInvalidDatable() {
       "value": "[1616..]"
     }
   };
-  
+
   const expected = JSON.stringify({
     "@id": "http://timbuctoo.huygens.knaw.nl/datasets/clusius/Persons_PE00002125",
     "@type": "http://timbuctoo.huygens.knaw.nl/datasets/clusius/Persons",
     "tim_deathDate": {
-      "value": ["4242-12-31T23:59:59.999Z"]
+      "value": {
+        "raw": ["4242-12-31T23:59:59.999Z"]
+      }
     }
   });
 
-  const actual = JSON.stringify(formatter.formatData(input, {}));
+  const actual = JSON.stringify(formatter.formatData(input, {
+    "collectionListId": "clusius_PersonsList",
+    "indexConfig": {
+      "facet": [
+        {
+          "paths": [
+            "tim_deathDate.value"
+          ],
+          "type": "DateRange"
+        }
+      ]
+    }
+  }));
 
   console.log("test format invalid datable");
   console.assert(actual === expected, "expected:\n" + expected + "\nbut was:\n" + actual);
   console.log("test format invalid datable succeeded");
 }
 
-  // testFormatData();
-  testFormatPersonName();
-  testPersonNameNullValue();
-  testFormatInvalidDatable();
+// testFormatData();
+testFormatPersonName();
+testPersonNameNullValue();
+testFormatDatable();
+testFormatInvalidDatable();
+// TODO add test for full text configurations
