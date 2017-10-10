@@ -33,7 +33,7 @@ export class ElasticSearchDataFormatter {
       case "http://timbuctoo.huygens.knaw.nl/datatypes/person-name":
         return formatPersonName(field);
       case "http://timbuctoo.huygens.knaw.nl/datatypes/datable":
-        return formateDatable(field);
+        return formatDatable(field);
       default:
         return formatDefault(field);
     }
@@ -46,7 +46,7 @@ function formatDefault(field: { type: string, value: string }): {} {
   return { "value": { "raw": val } };
 }
 
-function formateDatable(field: { type: string, value: string }): {} {
+function formatDatable(field: { type: string, value: string }): {} {
   try {
     const edtfDate = edtf(field.value);
     const start = new Date(edtfDate.min).toISOString();
