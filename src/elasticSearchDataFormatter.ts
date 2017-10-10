@@ -70,22 +70,6 @@ function formatPersonName(field: { type: string, value: string }): {} {
   return { "value": { "raw": "¯\_(ツ)_/¯" } }; // default value for unparsable person names
 }
 
-function getProperty(data: { [key: string]: any }, propName: string): any {
-  for (const key of Object.getOwnPropertyNames(data)) {
-    if (key === propName) {
-      return data[key];
-    }
-
-    if (data[key] instanceof Object) {
-      const prop = getProperty(data[key], propName);
-      if (prop !== null) {
-        return prop;
-      }
-    }
-  }
-  return null;
-}
-
 export function getPossibleFacetTypes(): { [key: string]: { possibleFacetTypes: [string], fullTextPossible: boolean } } {
   return {
     "http://timbuctoo.huygens.knaw.nl/datatypes/person-name": {
