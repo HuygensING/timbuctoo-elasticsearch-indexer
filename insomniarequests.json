@@ -1,7 +1,7 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2017-10-10T13:33:30.879Z",
+	"__export_date": "2017-10-11T07:47:23.761Z",
 	"__export_source": "insomnia.desktop.app:v5.8.4",
 	"resources": [
 		{
@@ -222,7 +222,7 @@
 		{
 			"_id": "req_84ea0263cff54739bf700d03257a15ae",
 			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
-			"modified": 1507208252343,
+			"modified": 1507707800701,
 			"created": 1505460799808,
 			"url": "http://localhost:9200/dummy__clusius/clusius_Persons/_search",
 			"name": "fullTextQuery",
@@ -230,7 +230,7 @@
 			"method": "POST",
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\"query\": {\n\t\t\"query_string\": {\n\t\t\t\"fields\": [\"tim_names.items.value\"], \n\t\t\t\"query\": \"Adr*\"\n\t\t}\n\t}\n}"
+				"text": "{\n\t\"query\": {\n\t\t\"query_string\": {\n\t\t\t\"fields\": [\"tim_names.items.value.fulltext\"], \n\t\t\t\"query\": \"Adr*\"\n\t\t}\n\t}\n}"
 			},
 			"parameters": [],
 			"headers": [
@@ -256,7 +256,7 @@
 		{
 			"_id": "req_a0223b62d78442bfaacebf0b0b8cfd8c",
 			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
-			"modified": 1507208278325,
+			"modified": 1507708019074,
 			"created": 1505461077501,
 			"url": "http://localhost:9200/dummy__clusius/clusius_Persons/_search",
 			"name": "multiFieldQuery",
@@ -264,7 +264,7 @@
 			"method": "POST",
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\"query\": {\n\t\t\"bool\" : {\n\t\t\t\"must\": {\n\t\t\t\t\"query_string\": {\n\t\t\t\t\t\"fields\": [\"tim_names.items\"], \n\t\t\t\t\t\"query\": \"*us\"\n\t\t\t\t}\n\t\t\t},\n\t\t\t\"must\": {\n\t\t\t\t\"match\": {\n\t\t\t\t\t\"tim_hasDeathPlace.tim_name\": \"Arnemuiden\"\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}"
+				"text": "{\n\t\"query\": {\n\t\t\"bool\" : {\n\t\t\t\"must\": {\n\t\t\t\t\"query_string\": {\n\t\t\t\t\t\"fields\": [\"tim_names.items.value.fulltext\"], \n\t\t\t\t\t\"query\": \"*us\"\n\t\t\t\t}\n\t\t\t},\n\t\t\t\"must\": {\n\t\t\t\t\"match\": {\n\t\t\t\t\t\"tim_hasDeathPlace.tim_name.value.raw\": \"Arnemuiden\"\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n}"
 			},
 			"parameters": [],
 			"headers": [
