@@ -1,7 +1,7 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2017-10-11T08:06:05.570Z",
+	"__export_date": "2017-10-11T09:50:09.543Z",
 	"__export_source": "insomnia.desktop.app:v5.8.4",
 	"resources": [
 		{
@@ -35,17 +35,6 @@
 			"_type": "cookie_jar"
 		},
 		{
-			"_id": "fld_81705174c99c4c819c4d0aab62af996d",
-			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
-			"modified": 1507038991557,
-			"created": 1507038991557,
-			"name": "timbuctoo",
-			"description": "",
-			"environment": {},
-			"metaSortKey": -1507038991557,
-			"_type": "request_group"
-		},
-		{
 			"_id": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
 			"parentId": "wrk_011f04d8dc7a4f2eb59851cd1447fe99",
 			"modified": 1507039036915,
@@ -68,45 +57,11 @@
 			"_type": "request_group"
 		},
 		{
-			"_id": "req_ce81cab7498d417e8f10a8f3370b56cf",
-			"parentId": "fld_81705174c99c4c819c4d0aab62af996d",
-			"modified": 1507039004254,
-			"created": 1504617044762,
-			"url": "http://localhost:8080/v5/DUMMY/clusius/graphql",
-			"name": "queryTimbuctoo",
-			"description": "",
-			"method": "POST",
-			"body": {
-				"mimeType": "application/json",
-				"text": " {\"query\":\"{ clusius_PlacesList { items{ tim_name{ value  }tim_country{ value  } } nextCursor  } }\"}"
-			},
-			"parameters": [],
-			"headers": [
-				{
-					"name": "Content-Type",
-					"value": "application/json",
-					"id": "pair_d95f837ed4dd421f94d80c9f1f540c95"
-				},
-				{
-					"name": "Accept",
-					"value": "application/ld+json",
-					"id": "pair_e001cfca85724007bf3973c4e5f92348"
-				}
-			],
-			"authentication": {},
-			"metaSortKey": -1505957353761,
-			"settingStoreCookies": true,
-			"settingSendCookies": true,
-			"settingDisableRenderRequestBody": false,
-			"settingEncodeUrl": true,
-			"_type": "request"
-		},
-		{
 			"_id": "req_496070b9989f4061a65405fd237383e2",
 			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
-			"modified": 1507201601946,
+			"modified": 1507715390421,
 			"created": 1504702507581,
-			"url": "http://localhost:9200/dummy__clusius",
+			"url": "http://localhost:9200/u33707283d426f900d4d33707283d426f900d4d0d__clusius",
 			"name": "getIndexMetaData",
 			"description": "",
 			"method": "GET",
@@ -129,9 +84,9 @@
 		{
 			"_id": "req_778a75e757b7417b9681fea787708e74",
 			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
-			"modified": 1507211949467,
+			"modified": 1507715383094,
 			"created": 1504702653003,
-			"url": "http://localhost:9200/dummy__clusius/_search?q=*:*",
+			"url": "http://localhost:9200/u33707283d426f900d4d33707283d426f900d4d0d__clusius/_search?q=*:*",
 			"name": "getAllFromIndex",
 			"description": "",
 			"method": "GET",
@@ -154,15 +109,15 @@
 		{
 			"_id": "req_dd20ee9958a942708780a0f3a92d88b0",
 			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
-			"modified": 1507709111067,
+			"modified": 1507715351844,
 			"created": 1504875715965,
-			"url": "http://localhost:9200/dummy__clusius/clusius_PersonsList/_search",
+			"url": "http://localhost:9200/u33707283d426f900d4d33707283d426f900d4d0d__clusius/clusius_PersonsList/_search",
 			"name": "exactMatchQuery",
 			"description": "",
 			"method": "POST",
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\"query\": {\n\t\t\"match\": {\n\t\t\t\"tim_hasDeathPlace.tim_name.value.raw\": \"Leiden\"\n\t\t}\n\t}\n}"
+				"text": "{ \"query\": { \"match\": { \"tim_hasDeathPlace.tim_name.value.raw\": \"Leiden\" } } }"
 			},
 			"parameters": [],
 			"headers": [
@@ -188,9 +143,9 @@
 		{
 			"_id": "req_49eabac1308a476bbd9f81315bcb6080",
 			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
-			"modified": 1507709142622,
+			"modified": 1507715375748,
 			"created": 1505127989437,
-			"url": "http://localhost:9200/dummy__clusius/_search",
+			"url": "http://localhost:9200/u33707283d426f900d4d33707283d426f900d4d0d__clusius/_search",
 			"name": "filterIndexOnType",
 			"description": "",
 			"method": "POST",
@@ -222,9 +177,9 @@
 		{
 			"_id": "req_84ea0263cff54739bf700d03257a15ae",
 			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
-			"modified": 1507709118096,
+			"modified": 1507715360038,
 			"created": 1505460799808,
-			"url": "http://localhost:9200/dummy__clusius/clusius_PersonsList/_search",
+			"url": "http://localhost:9200/u33707283d426f900d4d33707283d426f900d4d0d__clusius/clusius_PersonsList/_search",
 			"name": "fullTextQuery",
 			"description": "",
 			"method": "POST",
@@ -256,9 +211,9 @@
 		{
 			"_id": "req_a0223b62d78442bfaacebf0b0b8cfd8c",
 			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
-			"modified": 1507709127142,
+			"modified": 1507715364244,
 			"created": 1505461077501,
-			"url": "http://localhost:9200/dummy__clusius/clusius_PersonsList/_search",
+			"url": "http://localhost:9200/u33707283d426f900d4d33707283d426f900d4d0d__clusius/clusius_PersonsList/_search",
 			"name": "multiFieldQuery",
 			"description": "",
 			"method": "POST",
@@ -290,9 +245,9 @@
 		{
 			"_id": "req_53adbba9ec8e43bebcb201d511b52ef4",
 			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
-			"modified": 1507709133703,
+			"modified": 1507715368115,
 			"created": 1505464687695,
-			"url": "http://localhost:9200/dummy__clusius/clusius_PersonsList/_search",
+			"url": "http://localhost:9200/u33707283d426f900d4d33707283d426f900d4d0d__clusius/clusius_PersonsList/_search",
 			"name": "getFacets",
 			"description": "",
 			"method": "POST",
@@ -324,7 +279,7 @@
 		{
 			"_id": "req_c3bd3cfa8ac74c739dba3326f83a51ee",
 			"parentId": "fld_acf473df401940d099d09ec35a7ce69f",
-			"modified": 1507202641780,
+			"modified": 1507714454124,
 			"created": 1504269931645,
 			"url": "http://localhost:3000 ",
 			"name": "runIndexerRequest",
@@ -332,7 +287,7 @@
 			"method": "POST",
 			"body": {
 				"mimeType": "application/json",
-				"text": "{\n\t\"dataSetId\": \"DUMMY__clusius\"\n}"
+				"text": "{\n\t\"dataSetId\": \"u33707283d426f900d4d33707283d426f900d4d0d__clusius\"\n}"
 			},
 			"parameters": [],
 			"headers": [
