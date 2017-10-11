@@ -32,3 +32,7 @@ install all dependencies: `yarn install`
 === Test requests
 To test the tool we use https://insomnia.rest/[Insomnia].
 The requests can be imported from `insomniarequests.json`.
+
+
+== Versioning
+The releases / versions of this tool will follow the Timbuctoo versions. The version build for Timbuctoo `v5.0.0`, will be `v5.0.0`.
