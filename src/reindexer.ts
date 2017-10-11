@@ -2,6 +2,7 @@ import fetch from "node-fetch";
 import { getConfig } from "./configRetriever";
 import { ElasticSearchUpdater } from "./elasticSearchUpdater";
 import { buildQueryForCollection } from "./queryGenerator";
+import { getCollectionIndexConfig, getCollectionListIds } from "./searchConfigHelper";
 
 export class Reindexer {
   private dataEndpoint: string;
@@ -15,9 +16,9 @@ export class Reindexer {
     const searchConfig: any = await getConfig(this.dataEndpoint, request.dataSetId);
 
     await this.elasticSearchUpdater.remapIndex(request.dataSetId, searchConfig).then(async () => {
-      for (const collectionKey of getCollections(searchConfig)) {
-        await this.indexCollection(request.dataSetId, collectionKey, getCollectionIndexConfig(searchConfig, collectionKey)).then(resp => {
-          val += "collection: " + collectionKey + " response: \"" + resp + "\" \n";
+      for (const collectionListId of getCollectionListIds(searchConfig)) {
+        await this.indexCollection(request.dataSetId, collectionListId, getCollectionIndexConfig(searchConfig, collectionListId)).then(resp => {
+          val += "collection: " + collectionListId + " response: \"" + resp + "\" \n";
         });
       }
     });
@@ -81,18 +82,4 @@ export interface Request {
 
 export function isRequest(body: {}): body is Request {
   return body.hasOwnProperty("dataSetId");
-}
-
-function getCollections(searchConfig: any): string[] {
-  return searchConfig.data.dataSetMetadata.collectionList.items.map((col: any) => col.collectionListId);
-}
-
-function getCollectionIndexConfig(indexConfig: any, collectionKey: string): any {
-  for (const collection of indexConfig.data.dataSetMetadata.collectionList.items) {
-    if (collection.collectionListId === collectionKey) {
-      return collection;
-    }
-  }
-
-  return null;
 }

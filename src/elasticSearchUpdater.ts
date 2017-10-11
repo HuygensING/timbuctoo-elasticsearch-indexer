@@ -1,6 +1,7 @@
 import { Client } from "elasticsearch";
 import { MappingCreator } from "./mappingCreator";
-import { ElasticSearchDataFormatter } from "./elasticSearchDataFormatter"
+import { ElasticSearchDataFormatter } from "./elasticSearchDataFormatter";
+import { getCollectionListIds, getCollectionIndexConfig } from "./searchConfigHelper";
 
 export class ElasticSearchUpdater {
   private elasticSearchDataFormatter: ElasticSearchDataFormatter;
@@ -56,7 +57,7 @@ export class ElasticSearchUpdater {
       return await this.createIndex(dataSetId);
     }).then(async () => {
       const indexName = this.formatIndexName(dataSetId);
-      for (const type of getCollectionNames(config)) {
+      for (const type of getCollectionListIds(config)) {
         await this.client.indices.putMapping({
           index: indexName,
           type: type,
@@ -65,25 +66,11 @@ export class ElasticSearchUpdater {
 
       }
     }).then(() => {
-       console.log( "create index: " + dataSetId);
+      console.log("create index: " + dataSetId);
     }).catch(reason => {
       console.log("mapping failed: ", reason);
     });
   }
-}
-
-function getCollectionNames(searchConfig: any): string[] {
-  return searchConfig.data.dataSetMetadata.collectionList.items.map((col: any) => col.collectionListId);
-}
-
-function getCollectionIndexConfig(indexConfig: any, collectionListId: string): any {
-  for (const collection of indexConfig.data.dataSetMetadata.collectionList.items) {
-    if (collection.collectionListId === collectionListId) {
-      return collection.indexConfig;
-    }
-  }
-
-  return null;
 }
 
 export interface ReindexingData {
