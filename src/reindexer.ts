@@ -26,9 +26,9 @@ export class Reindexer {
   }
 
   private async indexCollection(dataSetId: string, collectionListId: string, searchConfig: { [key: string]: any }, cursor?: string): Promise<string> {
-    console.log("index collection: \"" + searchConfig.collectionId + "\" cursor: \"" + cursor + "\"");
     const query = buildQueryForCollection(dataSetId, searchConfig, cursor);
     if (query !== "") {
+      console.log("index collection: \"" + searchConfig.collectionId + "\" cursor: \"" + cursor + "\"");
       return await fetch(this.dataEndpoint, {
         headers: {
           Accept: "application/json",
