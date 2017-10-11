@@ -140,7 +140,7 @@ function testPersonNameNullValue() {
       "facet": [
         {
           "paths": [
-            "tim_names.items.value"
+            "tim_isScientistBioOf.tim_names.items.value"
           ],
           "type": "MultiSelect"
         }
@@ -232,9 +232,151 @@ function testFormatInvalidDatable() {
   console.log("test format invalid datable succeeded");
 }
 
+function testFormatFullTextField() {
+  const input =
+    {
+      "tim_names": {
+        "items": [
+          {
+            "type": "http://timbuctoo.huygens.knaw.nl/datatypes/person-name",
+            "value": "{\"components\":[{\"type\":\"FORENAME\",\"value\":\"Mathias \"},{\"type\":\"SURNAME\",\"value\":\"Obel \"},{\"type\":\"NAME_LINK\", \"value\":\"de l'\"}]}"
+          },
+          {
+            "type": "http://timbuctoo.huygens.knaw.nl/datatypes/person-name",
+            "value": "{\"components\":[{\"type\":\"FORENAME\",\"value\":\"Matthias\"},{\"type\":\"SURNAME\",\"value\":\"Lobelius\"}]}"
+          }
+        ]
+      },
+    };
+
+
+  const expected = JSON.stringify({
+    "tim_names": {
+      "items": [
+        {
+          "value": {
+            "fulltext": [
+              "Mathias ",
+              "Obel ",
+              "de l'"
+            ]
+          }
+        },
+        {
+          "value": {
+            "fulltext": [
+              "Matthias",
+              "Lobelius"
+            ]
+          }
+        }
+      ]
+    },
+  });
+
+  const actual = JSON.stringify(formatter.formatData(input, {
+    "collectionListId": "clusius_PersonsList",
+    "indexConfig": {
+      "fullText": [
+        {
+          "fields": [
+            {
+              "path": "tim_names.items.value"
+            }
+          ]
+        }
+      ]
+    }
+  }));
+
+  console.log("test format full text field");
+  console.assert(actual === expected, "expected:\n" + expected + "\nbut was:\n" + actual);
+  console.log("test format full text field succeeded");
+}
+
+function testFormatFieldAsFacetAndFullText() {
+  const input =
+    {
+      "tim_names": {
+        "items": [
+          {
+            "type": "http://timbuctoo.huygens.knaw.nl/datatypes/person-name",
+            "value": "{\"components\":[{\"type\":\"FORENAME\",\"value\":\"Mathias \"},{\"type\":\"SURNAME\",\"value\":\"Obel \"},{\"type\":\"NAME_LINK\", \"value\":\"de l'\"}]}"
+          },
+          {
+            "type": "http://timbuctoo.huygens.knaw.nl/datatypes/person-name",
+            "value": "{\"components\":[{\"type\":\"FORENAME\",\"value\":\"Matthias\"},{\"type\":\"SURNAME\",\"value\":\"Lobelius\"}]}"
+          }
+        ]
+      },
+    };
+
+
+  const expected = JSON.stringify({
+    "tim_names": {
+      "items": [
+        {
+          "value": {
+            "raw": [
+              "Mathias ",
+              "Obel ",
+              "de l'"
+            ],
+            "fulltext": [
+              "Mathias ",
+              "Obel ",
+              "de l'"
+            ]
+          }
+        },
+        {
+          "value": {
+            "raw": [
+              "Matthias",
+              "Lobelius"
+            ],
+            "fulltext": [
+              "Matthias",
+              "Lobelius"
+            ]
+          }
+        }
+      ]
+    },
+  });
+
+  const actual = JSON.stringify(formatter.formatData(input, {
+    "collectionListId": "clusius_PersonsList",
+    "indexConfig": {
+      "facet": [
+        {
+          "paths": [
+            "tim_names.items.value"
+          ],
+          "type": "MultiSelect"
+        }
+      ],
+      "fullText": [
+        {
+          "fields": [
+            {
+              "path": "tim_names.items.value"
+            }
+          ]
+        }
+      ]
+    }
+  }));
+
+  console.log("test format facet and full text field");
+  console.assert(actual === expected, "expected:\n" + expected + "\nbut was:\n" + actual);
+  console.log("test format facet and full text field succeeded");
+}
+
 // testFormatData();
 testFormatPersonName();
 testPersonNameNullValue();
 testFormatDatable();
 testFormatInvalidDatable();
-// TODO add test for full text configurations
+testFormatFullTextField();
+testFormatFieldAsFacetAndFullText();
