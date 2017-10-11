@@ -46,7 +46,7 @@ export class Reindexer {
           }
 
           const dataToIndex = data.data.dataSets[dataSetId][collectionListId].items;
-          await this.elasticSearchUpdater.updateElasticSearch(dataSetId, searchConfig.collectionId, { config: searchConfig, data: dataToIndex }).then(async () => {
+          await this.elasticSearchUpdater.updateElasticSearch(dataSetId, searchConfig.collectionListId, { config: searchConfig, data: dataToIndex }).then(async () => {
             const maybeCursor = data.data.dataSets[dataSetId][collectionListId].nextCursor;
 
             if (maybeCursor) {

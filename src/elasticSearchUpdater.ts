@@ -73,12 +73,12 @@ export class ElasticSearchUpdater {
 }
 
 function getCollectionNames(searchConfig: any): string[] {
-  return searchConfig.data.dataSetMetadata.collectionList.items.map((col: any) => col.collectionId);
+  return searchConfig.data.dataSetMetadata.collectionList.items.map((col: any) => col.collectionListId);
 }
 
-function getCollectionIndexConfig(indexConfig: any, collectionId: string): any {
+function getCollectionIndexConfig(indexConfig: any, collectionListId: string): any {
   for (const collection of indexConfig.data.dataSetMetadata.collectionList.items) {
-    if (collection.collectionId === collectionId) {
+    if (collection.collectionListId === collectionListId) {
       return collection.indexConfig;
     }
   }
