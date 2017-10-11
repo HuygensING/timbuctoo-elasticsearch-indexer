@@ -4,36 +4,38 @@ const mappingCreator = new MappingCreator();
 
 function testCreateMapping() {
   const personDesc: {} = {
-    "facet": [
-      {
-        "paths": [
-          "tim_names.items.value"
-        ],
-        "type": "MultiSelect"
-      },
-      {
-        "paths": [
-          "tim_hasDeathPlace.tim_country.value",
-          "tim_hasDeathPlace.tim_name.value"
-        ],
-        "type": "Hierarchical"
-      },
-      {
-        "paths": [
-          "tim_birthDate.value"
-        ],
-        "type": "DateRange"
-      }
-    ],
-    "fullText": [
-      {
-        "fields": [
-          {
-            "path": "tim_names.items.value"
-          }
-        ]
-      }
-    ]
+    "collectionId": "clusius_Residence", "collectionListId": "clusius_ResidenceList", "indexConfig": {
+      "facet": [
+        {
+          "paths": [
+            "tim_names.items.value"
+          ],
+          "type": "MultiSelect"
+        },
+        {
+          "paths": [
+            "tim_hasDeathPlace.tim_country.value",
+            "tim_hasDeathPlace.tim_name.value"
+          ],
+          "type": "Hierarchical"
+        },
+        {
+          "paths": [
+            "tim_birthDate.value"
+          ],
+          "type": "DateRange"
+        }
+      ],
+      "fullText": [
+        {
+          "fields": [
+            {
+              "path": "tim_names.items.value"
+            }
+          ]
+        }
+      ]
+    }
   };
 
   const expected: {} = {

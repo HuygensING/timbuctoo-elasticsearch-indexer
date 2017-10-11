@@ -12,6 +12,7 @@ export class Reindexer {
     this.dataEndpoint = dataEndpoint;
   }
   public async reindex(request: Request): Promise<string> {
+    console.log("reindex data set: " + request.dataSetId);
     let val = "";
     const searchConfig: any = await getConfig(this.dataEndpoint, request.dataSetId);
 
