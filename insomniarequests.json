@@ -1,7 +1,7 @@
 {
 	"_type": "export",
 	"__export_format": 3,
-	"__export_date": "2017-10-11T09:50:09.543Z",
+	"__export_date": "2017-10-20T11:17:32.809Z",
 	"__export_source": "insomnia.desktop.app:v5.8.4",
 	"resources": [
 		{
@@ -109,7 +109,7 @@
 		{
 			"_id": "req_dd20ee9958a942708780a0f3a92d88b0",
 			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
-			"modified": 1507715351844,
+			"modified": 1508403084519,
 			"created": 1504875715965,
 			"url": "http://localhost:9200/u33707283d426f900d4d33707283d426f900d4d0d__clusius/clusius_PersonsList/_search",
 			"name": "exactMatchQuery",
@@ -117,7 +117,7 @@
 			"method": "POST",
 			"body": {
 				"mimeType": "application/json",
-				"text": "{ \"query\": { \"match\": { \"tim_hasDeathPlace.tim_name.value.raw\": \"Leiden\" } } }"
+				"text": "{\n\t\"query\": { \n\t\t\"match\": { \n\t\t\t\"tim_hasDeathPlace.tim_name.value.raw\": \"Leiden\" \n\t\t} \n\t} \n}"
 			},
 			"parameters": [],
 			"headers": [
@@ -177,7 +177,7 @@
 		{
 			"_id": "req_84ea0263cff54739bf700d03257a15ae",
 			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
-			"modified": 1507715360038,
+			"modified": 1508401963879,
 			"created": 1505460799808,
 			"url": "http://localhost:9200/u33707283d426f900d4d33707283d426f900d4d0d__clusius/clusius_PersonsList/_search",
 			"name": "fullTextQuery",
@@ -211,9 +211,9 @@
 		{
 			"_id": "req_a0223b62d78442bfaacebf0b0b8cfd8c",
 			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
-			"modified": 1507715364244,
+			"modified": 1508401729557,
 			"created": 1505461077501,
-			"url": "http://localhost:9200/u33707283d426f900d4d33707283d426f900d4d0d__clusius/clusius_PersonsList/_search",
+			"url": "http://localhost:9200/u33707283d426f900d4d33707283d426f900d4d0d__clusius/clusius_Persons/_search",
 			"name": "multiFieldQuery",
 			"description": "",
 			"method": "POST",
@@ -245,7 +245,7 @@
 		{
 			"_id": "req_53adbba9ec8e43bebcb201d511b52ef4",
 			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
-			"modified": 1507715368115,
+			"modified": 1508401785461,
 			"created": 1505464687695,
 			"url": "http://localhost:9200/u33707283d426f900d4d33707283d426f900d4d0d__clusius/clusius_PersonsList/_search",
 			"name": "getFacets",
@@ -277,11 +277,79 @@
 			"_type": "request"
 		},
 		{
+			"_id": "req_a07b207000354af29f3273f4941611d8",
+			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
+			"modified": 1508403759825,
+			"created": 1508403099430,
+			"url": "http://localhost:9200/u33707283d426f900d4d33707283d426f900d4d0d__clusius/clusius_PersonsList/_search",
+			"name": "orQuery",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"query\": {\n\t\t\"bool\" : {\n\t\t\t\"should\": [\n\t\t\t\t{\n\t\t\t\t\t\"match\": {\n\t\t\t\t\t\t\"tim_hasDeathPlace.tim_name.value.raw\": \"Leiden\"\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"match\": {\n\t\t\t\t\t\t\"tim_hasDeathPlace.tim_name.value.raw\": \"Amsterdam\"\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t},\n\t\"aggs\": {\n\t\t\"deathPlaces\": {\n\t\t\t\"terms\" : {\n\t\t\t\t\"field\": \"tim_hasDeathPlace.tim_name.value.raw\"\n\t\t\t}\n\t\t},\n\t\t\"deathCountries\": {\n\t\t\t\"terms\" : {\n\t\t\t\t\"field\": \"tim_hasDeathPlace.tim_country.value.raw\"\n\t\t\t}\n\t\t},\n\t\t\"birthPlaces\": {\n\t\t\t\"terms\" : {\n\t\t\t\t\"field\": \"tim_hasBirthPlace.tim_name.value.raw\"\n\t\t\t}\n\t\t}\n\t}\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_7db7674a12e74c62a2f0ad245943e9a7"
+				}
+			],
+			"authentication": {
+				"type": "basic",
+				"username": "elastic",
+				"password": "changeme",
+				"disabled": false
+			},
+			"metaSortKey": -1504875715852.5,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
+			"_id": "req_7c53b3d4bf91468f8c13ee987bc40079",
+			"parentId": "fld_05784f4c7a6b4f9989ecffc70b5f494a",
+			"modified": 1508498242178,
+			"created": 1508492685728,
+			"url": "http://localhost:9200/u33707283d426f900d4d33707283d426f900d4d0d__clusius/clusius_PersonsList/_search",
+			"name": "andOrQuery",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"aggs\": {\n\t\t\"MultiSelect_0\": {\n\t\t\t\"terms\": {\n\t\t\t\t\"field\": \"tim_isScientistBioOf.tim_names.items.value.raw\"\n\t\t\t}\n\t\t},\n\t\t\"MultiSelect_1\": {\n\t\t\t\"terms\": {\n\t\t\t\t\"field\": \"tim_hasFieldOfInterest.items.tim_value.value.raw\"\n\t\t\t}\n\t\t},\n\t\t\"MultiSelect_2\": {\n\t\t\t\"terms\": {\n\t\t\t\t\"field\": \"tim_biography.value.raw\"\n\t\t\t}\n\t\t},\n\t\t\"MultiSelect_3\": {\n\t\t\t\"terms\": {\n\t\t\t\t\"field\": \"tim_highest_degree.value.raw\"\n\t\t\t}\n\t\t}\n\t},\n\t\"query\": {\n\t\t\"bool\": {\n\t\t\t\"must\": [\n\t\t\t\t{\n\t\t\t\t\t\"bool\": {\n\t\t\t\t\t\t\"should\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"match\": {\n\t\t\t\t\t\t\t\t\t\"tim_gender.value.raw\": \"MALE\"\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"match\": {\n\t\t\t\t\t\t\t\t\t\"tim_gender.value.raw\": \"FEMALE\"\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t},\n\t\t\t\t{\n\t\t\t\t\t\"bool\": {\n\t\t\t\t\t\t\"should\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"match\": {\n\t\t\t\t\t\t\t\t\t\"tim_namesList.items.value.raw\": \"de\"\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"match\": {\n\t\t\t\t\t\t\t\t\t\"tim_namesList.items.value.raw\": \"van\"\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t]\n\t\t}\n\t}\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{
+					"name": "Content-Type",
+					"value": "application/json",
+					"id": "pair_a32b40c0b49440058671e934d63b3d53"
+				}
+			],
+			"authentication": {
+				"type": "basic",
+				"username": "elastic",
+				"password": "changeme",
+				"disabled": false
+			},
+			"metaSortKey": -1504875716015,
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"_type": "request"
+		},
+		{
 			"_id": "req_c3bd3cfa8ac74c739dba3326f83a51ee",
 			"parentId": "fld_acf473df401940d099d09ec35a7ce69f",
-			"modified": 1507714454124,
+			"modified": 1508401656955,
 			"created": 1504269931645,
-			"url": "http://localhost:3000 ",
+			"url": "http://localhost:3000",
 			"name": "runIndexerRequest",
 			"description": "",
 			"method": "POST",
