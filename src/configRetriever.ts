@@ -10,7 +10,7 @@ export async function getConfig(dataEndPoint: string, datasetId: string): Promis
     },
     method: "POST",
     body: JSON.stringify({
-      "query": "query($datasetId: ID){\n  dataSetMetadata(dataSetId: $datasetId) {\n    collectionList {\n      items {\n        collectionId\n        collectionListId\n        indexConfig {\n          facet {\n            paths \n            type\n          }\n          fullText {\n            fields {\n              path\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+      "query": "query($datasetId: ID!){\n  dataSetMetadata(dataSetId: $datasetId) {\n    collectionList {\n      items {\n        collectionId\n        collectionListId\n        indexConfig {\n          facet {\n            paths \n            type\n          }\n          fullText {\n            fields {\n              path\n            }\n          }\n        }\n      }\n    }\n  }\n}",
       "variables": {
         "datasetId": datasetId
       }
