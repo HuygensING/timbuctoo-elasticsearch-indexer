@@ -5,7 +5,7 @@ export function buildQueryForCollection(dataSetId: string, collectionIndexConfig
     return "";
   }
 
-  const query = buildQuery(collectionIndexConfig.indexConfig);
+  const query = buildQuery(collectionIndexConfig.indexConfig, dataSetId);
 
   if (query == "") {
     return "";
@@ -18,67 +18,83 @@ export function buildQueryForCollection(dataSetId: string, collectionIndexConfig
   return "{ dataSets { " + dataSetId + " { " + collectionIndexConfig.collectionListId + " { items { uri " + query + " } nextCursor } } } }";
 }
 
-function buildQuery(collectionIndexConfig: { facet: [{ paths: string[] }], fullText: [{ fields: [{ path: string }] }] }): string {
-  const mappedQuery: MappedQuery = {};
+function buildQuery(collectionIndexConfig: { facet: [{ paths: string[] }], fullText: [{ fields: [{ path: string }] }] }, dataSetId: string): string {
 
-  for (const facet of collectionIndexConfig.facet) {
-    for (const path of facet.paths) {
-      mapQuery(path.split("."), mappedQuery);
-    }
-  }
+  const facetPaths = [].concat.apply([], collectionIndexConfig.facet.map(facet => facet.paths));
+  const fullTextPaths = [].concat.apply([], collectionIndexConfig.fullText.map(ft => ft.fields.map(field => field.path)));
+  const paths = facetPaths.concat(fullTextPaths);
+  const map = componentPathsToMap(paths, dataSetId);
 
-  for (const fullText of collectionIndexConfig.fullText) {
-    for (const field of fullText.fields) {
-      mapQuery(field.path.split("."), mappedQuery);
-    }
-  }
-
-  return buildQueryFromMap(mappedQuery);
+  return mapToQuery(map, '');
 }
 
-function mapQuery(splittedPath: string[], mappedQuery: MappedQuery) {
-  if (splittedPath.length <= 0) {
-    return;
-  }
-  const path = splittedPath.shift();
+export const ITEMS: string = 'items';
+const VALUE: string = 'value';
+function componentPathsToMap(paths: string[], dataSetId: string): { [key: string]: {} | boolean } {
+  const result:any = {};
+  for (const path of paths) {
+      let cur = result;
 
-  if (path) {
-    if (splittedPath.length > 1) {
-      if (Object.getOwnPropertyNames(mappedQuery).indexOf(path) == -1) {
-        mappedQuery[path] = {};
+      const segments = splitPath(path) as string[][];
+
+      // remove value prop if has one
+      if (segments[segments.length - 1][1] === VALUE) {
+          segments.pop();
       }
-      const child = mappedQuery[path];
-      if (!(child instanceof String)) {
-        mapQuery(splittedPath, child);
+
+      for (const [idx, [collection, segment]] of segments.entries()) {
+          if (!segment) {
+              continue;
+          }
+
+          const curSegment = idx + 1 === segments.length ? true : {};
+
+          if (!collection || segment === ITEMS) {
+              if (!cur.hasOwnProperty(segment)) {
+                  cur[segment] = curSegment;
+              }
+
+              cur = cur[segment];
+          } else {
+              const collectionFragment = `...on ${dataSetId}_${collection}`;
+
+              cur[collectionFragment] = {
+                  ...cur[collectionFragment],
+                  [segment]: curSegment
+              };
+
+              cur = cur[collectionFragment][segment];
+          }
       }
-    } else if (Object.getOwnPropertyNames(mappedQuery).indexOf(path) == -1) {
-      const value = splittedPath.shift();
-      if (value) {
-        mappedQuery[path] = value;
-      }
-    }
   }
+  return result;
 }
 
-function buildQueryFromMap(mappedQuery: { [key: string]: any }): string {
-  let query = "";
 
-  const keys = Object.keys(mappedQuery);
+const PATH_SPLIT = '.';
+const PATH_SEGMENT_SPLIT = '||';
+type ReferencePath = string[][];
+const splitPath = (pathStr: string, onlyKey: boolean = false): (string | string[])[] => {
+    return pathStr
+        .split(PATH_SPLIT)
+        .filter(segment => segment.indexOf(PATH_SEGMENT_SPLIT) > -1)
+        .map(segment => (onlyKey ? segment.split(PATH_SEGMENT_SPLIT)[1] : segment.split(PATH_SEGMENT_SPLIT)));
+};
 
-  for (const key in mappedQuery) {
-    query += key;
-    const val = mappedQuery[key];
-    if (val instanceof Object) {
-      query += " { " + buildQueryFromMap(val).trim() + " } ";
+const URI: string = 'uri';
+function mapToQuery(map: any, prefix: string): string {
+    const result: string[] = [];
+    for (const key in map) {
+        if (typeof map[key] === 'boolean') {
+            if (key === URI) {
+                result.push(key);
+            } else {
+                result.push(key + ` { ${VALUE} type } `);
+            }
+        } else {
+            const subQuery = mapToQuery(map[key], prefix + '  ');
+            result.push(key + ' {' + subQuery + prefix + '} ');
+        }
     }
-    else {
-      query += " { type " + val + " } ";
-    }
-
-  }
-  return query.trim();
-}
-
-class MappedQuery {
-  [key: string]: MappedQuery | string
+    return result.map(line => prefix + line).join('');
 }
