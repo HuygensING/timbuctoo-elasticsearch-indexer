@@ -89,7 +89,7 @@ function testFormatPersonName() {
         "facet": [
           {
             "paths": [
-              "tim_names.items.value"
+              "clusius_Persons||tim_names.ITEMS||items.VALUE||value"
             ],
             "type": "MultiSelect"
           }
@@ -140,7 +140,7 @@ function testPersonNameNullValue() {
       "facet": [
         {
           "paths": [
-            "tim_isScientistBioOf.tim_names.items.value"
+            "clusius_Biography||tim_isScientistBioOf.clusius_Person||tim_names.ITEMS||items.VALUE||value"
           ],
           "type": "MultiSelect"
         }
@@ -180,7 +180,7 @@ function testFormatDatable() {
       "facet": [
         {
           "paths": [
-            "tim_deathDate.value"
+            "clusius_Person||tim_deathDate.VALUE||value"
           ],
           "type": "DateRange"
         }
@@ -219,7 +219,7 @@ function testFormatInvalidDatable() {
       "facet": [
         {
           "paths": [
-            "tim_deathDate.value"
+            "clusius_Person||tim_deathDate.VALUE||value"
           ],
           "type": "DateRange"
         }
@@ -281,7 +281,7 @@ function testFormatFullTextField() {
         {
           "fields": [
             {
-              "path": "tim_names.items.value"
+              "path": "clusius_Person||tim_names.ITEMS||items.VALUE||value"
             }
           ]
         }
@@ -351,7 +351,7 @@ function testFormatFieldAsFacetAndFullText() {
       "facet": [
         {
           "paths": [
-            "tim_names.items.value"
+            "clusius_Person||tim_names.ITEMS||items.VALUE||value"
           ],
           "type": "MultiSelect"
         }
@@ -360,7 +360,7 @@ function testFormatFieldAsFacetAndFullText() {
         {
           "fields": [
             {
-              "path": "tim_names.items.value"
+              "path": "clusius_Person||tim_names.ITEMS||items.VALUE||value"
             }
           ]
         }

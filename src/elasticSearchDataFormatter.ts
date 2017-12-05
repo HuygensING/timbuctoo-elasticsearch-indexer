@@ -2,7 +2,7 @@ import * as edtf from "edtf";
 
 export class ElasticSearchDataFormatter {
   public formatData(data: { [key: string]: any }, config: { [key: string]: any }): {} {
-    return this.format(data, this.formatConfig(config.indexConfig))
+    return this.format(data, this.formatConfig(config.indexConfig));
   }
 
   private format(data: { [key: string]: any }, config: { [key: string]: { isFacet: boolean, isFullText: boolean } }, path?: string) {
@@ -41,7 +41,7 @@ export class ElasticSearchDataFormatter {
     if (config.facet) {
       for (const facet of config.facet) {
         for (const path of facet.paths) {
-          fieldConfigs[path] = { isFacet: true, isFullText: false };
+          fieldConfigs[this.formatPath(path)] = { isFacet: true, isFullText: false };
         }
       }
     }
@@ -50,11 +50,12 @@ export class ElasticSearchDataFormatter {
     if (config.fullText) {
       for (const fullText of config.fullText) {
         for (const field of fullText.fields) {
-          if (facetKeys.indexOf(field.path) > -1) {
-            fieldConfigs[field.path] = { isFacet: true, isFullText: true };
+          const path = this.formatPath(field.path);
+          if (facetKeys.indexOf(path) > -1) {
+            fieldConfigs[path] = { isFacet: true, isFullText: true };
           }
           else {
-            fieldConfigs[field.path] = { isFacet: false, isFullText: true };
+            fieldConfigs[path] = { isFacet: false, isFullText: true };
           }
         }
       }
@@ -62,6 +63,10 @@ export class ElasticSearchDataFormatter {
 
 
     return fieldConfigs;
+  }
+
+  private formatPath(path: string): string {
+    return path.replace(/[a-zA-Z_]+\|\|/g, "");
   }
 
   private formatField(field: { type: string, value: string }, config: FieldConfigs, path: string): {} {
