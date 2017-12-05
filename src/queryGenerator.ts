@@ -4,8 +4,13 @@ export function buildQueryForCollection(dataSetId: string, collectionIndexConfig
     console.log("unsupported search config: ", JSON.stringify(collectionIndexConfig));
     return "";
   }
-
-  const query = buildQuery(collectionIndexConfig.indexConfig, dataSetId);
+  
+  let query = ""; 
+  try{
+    query = buildQuery(collectionIndexConfig.indexConfig, dataSetId);
+  } catch (ex) {
+    console.error("Unsupported indexconfig: ", JSON.stringify(collectionIndexConfig["indexConfig"]));
+  }
 
   if (query == "") {
     return "";
