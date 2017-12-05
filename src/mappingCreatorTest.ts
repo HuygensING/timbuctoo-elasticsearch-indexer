@@ -3,25 +3,26 @@ import { MappingCreator } from "./mappingCreator";
 const mappingCreator = new MappingCreator();
 
 function testCreateMapping() {
-  const personDesc: {} = {
-    "collectionId": "clusius_Residence", "collectionListId": "clusius_ResidenceList", "indexConfig": {
+  const personDesc: {} =  {
+    "collectionListId": "clusius_PersonsList",
+    "indexConfig": {
       "facet": [
         {
           "paths": [
-            "tim_names.items.value"
+            "clusius_Persons||tim_namesList.ITEMS||items.VALUE||value"
           ],
           "type": "MultiSelect"
         },
         {
           "paths": [
-            "tim_hasDeathPlace.tim_country.value",
-            "tim_hasDeathPlace.tim_name.value"
+            "clusius_Persons||tim_hasDeathPlace.clusius_Places||tim_country.VALUE||value",
+            "clusius_Persons||tim_hasDeathPlace.clusius_Places||tim_name.VALUE||value"
           ],
           "type": "Hierarchical"
         },
         {
           "paths": [
-            "tim_birthDate.value"
+            "clusius_Persons||tim_birthDate.VALUE||value"
           ],
           "type": "DateRange"
         }
@@ -30,7 +31,7 @@ function testCreateMapping() {
         {
           "fields": [
             {
-              "path": "tim_names.items.value"
+              "path": "clusius_Persons||tim_namesList.ITEMS||items.VALUE||value"
             }
           ]
         }
@@ -40,7 +41,7 @@ function testCreateMapping() {
 
   const expected: {} = {
     "properties": {
-      "tim_names.items.value.raw": {
+      "tim_namesList.items.value.raw": {
         "type": "keyword"
       },
       "tim_hasDeathPlace.tim_country.value.raw": {
@@ -52,7 +53,7 @@ function testCreateMapping() {
       "tim_birthDate.value.raw": {
         "type": "date"
       },
-      "tim_names.items.value.fulltext": {
+      "tim_namesList.items.value.fulltext": {
         "type": "text"
       },
     }

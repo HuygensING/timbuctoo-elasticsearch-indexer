@@ -4,14 +4,14 @@ export class MappingCreator {
 
     for (const facet of typeConfig.indexConfig.facet) {
       for (const path of facet.paths)
-        mapping[path + ".raw"] = {
+        mapping[this.formatPath(path) + ".raw"] = {
           "type": this.getFacetType(facet.type),
         };
     }
 
     for (const fullText of typeConfig.indexConfig.fullText) {
       for (const field of fullText.fields) {
-        mapping[field.path + ".fulltext"] = { "type": "text" };
+        mapping[this.formatPath(field.path) + ".fulltext"] = { "type": "text" };
       }
     }
 
@@ -22,5 +22,9 @@ export class MappingCreator {
       return "date";
     }
     return "keyword";
+  }
+
+  private formatPath(path: string): string {
+    return path.replace(/[a-zA-Z_]+\|\|/g, "");
   }
 }
