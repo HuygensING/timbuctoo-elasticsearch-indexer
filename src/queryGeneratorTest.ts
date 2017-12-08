@@ -42,8 +42,7 @@ function testBuildQueryForCollection() {
     }
   };
 
-
-  const expectedQuery = "{ dataSets { u33707283d426f900d4d33707283d426f900d4d0d__clusius { clusius_PersonsList { items { uri ...on u33707283d426f900d4d33707283d426f900d4d0d__clusius_clusius_Persons {  tim_hasDeathPlace {    ...on u33707283d426f900d4d33707283d426f900d4d0d__clusius_clusius_Places {      tim_name { value type }     }   }   tim_gender { value type }   tim_birthDate { value type }   tim_deathDate { value type }   tim_namesList {    items { value type }   } }  } nextCursor } } } }";
+  const expectedQuery = "{ dataSets { u33707283d426f900d4d33707283d426f900d4d0d__clusius { clusius_PersonsList { items { uri ...on u33707283d426f900d4d33707283d426f900d4d0d__clusius_clusius_Persons {  tim_hasDeathPlace {    ...on u33707283d426f900d4d33707283d426f900d4d0d__clusius_clusius_Places {      tim_name {        ...on Value {           value type         }       }     }   }   tim_gender {    ...on Value {       value type     }   }   tim_birthDate {    ...on Value {       value type     }   }   tim_deathDate {    ...on Value {       value type     }   }   tim_namesList {    items {      ...on Value {         value type       }     }   } }  } nextCursor } } } }";
 
   const actual = buildQueryForCollection("u33707283d426f900d4d33707283d426f900d4d0d__clusius", input);
   
@@ -90,7 +89,7 @@ function testAddFullTextFieldsToQuery() {
     };
 
 
-  const expectedQuery = "{ dataSets { u33707283d426f900d4d33707283d426f900d4d0d__clusius { clusius_PersonsList { items { uri ...on u33707283d426f900d4d33707283d426f900d4d0d__clusius_clusius_Persons {  tim_gender { value type }   tim_birthDate { value type }   tim_deathDate { value type }   tim_namesList {    items { value type }   } }  } nextCursor } } } }";  
+  const expectedQuery = "{ dataSets { u33707283d426f900d4d33707283d426f900d4d0d__clusius { clusius_PersonsList { items { uri ...on u33707283d426f900d4d33707283d426f900d4d0d__clusius_clusius_Persons {  tim_gender {    ...on Value {       value type     }   }   tim_birthDate {    ...on Value {       value type     }   }   tim_deathDate {    ...on Value {       value type     }   }   tim_namesList {    items {      ...on Value {         value type       }     }   } }  } nextCursor } } } }";  
 
   const actual = buildQueryForCollection("u33707283d426f900d4d33707283d426f900d4d0d__clusius", input);
   

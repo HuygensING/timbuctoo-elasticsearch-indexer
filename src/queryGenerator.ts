@@ -42,11 +42,6 @@ function componentPathsToMap(paths: string[], dataSetId: string): { [key: string
 
       const segments = splitPath(path) as string[][];
 
-      // remove value prop if has one
-      if (segments[segments.length - 1][1] === VALUE) {
-          segments.pop();
-      }
-
       for (const [idx, [collection, segment]] of segments.entries()) {
           if (!segment) {
               continue;
@@ -60,8 +55,8 @@ function componentPathsToMap(paths: string[], dataSetId: string): { [key: string
               }
 
               cur = cur[segment];
-          } else {
-              const collectionFragment = `...on ${dataSetId}_${collection}`;
+         } else {
+              const collectionFragment = segment === VALUE ? `...on Value` : `...on ${dataSetId}_${collection}`;
 
               cur[collectionFragment] = {
                   ...cur[collectionFragment],
@@ -94,7 +89,7 @@ function mapToQuery(map: any, prefix: string): string {
             if (key === URI) {
                 result.push(key);
             } else {
-                result.push(key + ` { ${VALUE} type } `);
+                result.push(` ${VALUE} type `);
             }
         } else {
             const subQuery = mapToQuery(map[key], prefix + '  ');
