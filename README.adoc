@@ -13,6 +13,9 @@ Run both commands from the root directory of the project.
 
 `nodemon dist/**`
 
+=== Start the application
+`node dist/app.js`
+
 === Other prerequisites
 Make sure:
 * You have a version of https://github.com/HuygensING/timbuctoo[Timbuctoo] running and follow the "Getting Started" from the `README.adoc`.
