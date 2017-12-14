@@ -1,12 +1,13 @@
 import fetch from "node-fetch";
 
-export async function getConfig(dataEndPoint: string, datasetId: string): Promise<object> {
-
+export async function getConfig(dataEndPoint: string, datasetId: string, authToken: string): Promise<object> {
+  console.log("authToken: ", authToken);
 
   return await fetch(dataEndPoint, {
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "Authorization": authToken
     },
     method: "POST",
     body: JSON.stringify({

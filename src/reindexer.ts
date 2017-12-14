@@ -5,20 +5,42 @@ import { buildQueryForCollection } from "./queryGenerator";
 import { getCollectionIndexConfig, getCollectionListIds } from "./searchConfigHelper";
 
 export class Reindexer {
+  private loginUri: string;
   private dataEndpoint: string;
   private elasticSearchUpdater: ElasticSearchUpdater;
-  constructor(esUri: string, dataEndpoint: string) {
+  private authHeader: string;
+  constructor(esUri: string, dataEndpoint: string, loginUri: string, authHeader: string) {
     this.elasticSearchUpdater = new ElasticSearchUpdater(esUri);
     this.dataEndpoint = dataEndpoint;
+    this.authHeader = authHeader;
+    this.loginUri = loginUri;
   }
   public async reindex(request: Request): Promise<string> {
     console.log("reindex data set: " + request.dataSetId);
     let val = "";
-    const searchConfig: any = await getConfig(this.dataEndpoint, request.dataSetId);
+
+    const authToken = await fetch(this.loginUri, {
+      headers: {
+        "Authorization": this.authHeader
+      }, 
+      method: "POST"
+    }).then(response => {
+      if(response.status == 204) {
+        return response.headers.get("X_AUTH_TOKEN");
+      }
+      console.log("Status: " + response.status + " " + response.statusText);
+      return null;
+    });
+
+    if(authToken == null) {
+      return "Could not login into Timbuctoo."
+    }
+
+    const searchConfig: any = await getConfig(this.dataEndpoint, request.dataSetId, authToken);
 
     await this.elasticSearchUpdater.remapIndex(request.dataSetId, searchConfig).then(async () => {
       for (const collectionListId of getCollectionListIds(searchConfig)) {
-        await this.indexCollection(request.dataSetId, collectionListId, getCollectionIndexConfig(searchConfig, collectionListId)).then(resp => {
+        await this.indexCollection(request.dataSetId, collectionListId, getCollectionIndexConfig(searchConfig, collectionListId), "Authorization").then(resp => {
           val += "collection: " + collectionListId + " response: \"" + resp + "\" \n";
         });
       }
@@ -27,13 +49,14 @@ export class Reindexer {
     return await val;
   }
 
-  private async indexCollection(dataSetId: string, collectionListId: string, searchConfig: { [key: string]: any }, cursor?: string): Promise<string> {
+  private async indexCollection(dataSetId: string, collectionListId: string, searchConfig: { [key: string]: any }, authToken: string, cursor?: string): Promise<string> {
     const query = buildQueryForCollection(dataSetId, searchConfig, cursor);
     if (query !== "") {
       console.log("index collection: \"" + searchConfig.collectionId + "\" cursor: \"" + cursor + "\"");
       return await fetch(this.dataEndpoint, {
         headers: {
           Accept: "application/json",
+          Authorization: authToken,
           "Content-Type": "application/json"
         },
         method: "POST",
@@ -52,7 +75,7 @@ export class Reindexer {
             const maybeCursor = data.data.dataSets[dataSetId][collectionListId].nextCursor;
 
             if (maybeCursor) {
-              return await this.indexCollection(dataSetId, collectionListId, searchConfig, maybeCursor).then(() => "Success");
+              return await this.indexCollection(dataSetId, collectionListId, searchConfig, authToken, maybeCursor).then(() => "Success");
             }
 
             return "Success";
