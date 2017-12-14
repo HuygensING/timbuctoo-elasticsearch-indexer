@@ -75,6 +75,7 @@ export class ElasticSearchDataFormatter {
       case "http://timbuctoo.huygens.knaw.nl/datatypes/person-name":
         value = formatPersonName(field, config, path);
         break;
+      case "https://www.loc.gov/standards/datetime/pre-submission.html":
       case "http://timbuctoo.huygens.knaw.nl/datatypes/datable":
         value = formatDatable(field, config, path);
         break;

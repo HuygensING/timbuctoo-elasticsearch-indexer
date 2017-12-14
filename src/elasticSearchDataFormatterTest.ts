@@ -193,6 +193,45 @@ function testFormatDatable() {
   console.log("test format datable succeeded");
 }
 
+function testFormatEdtfDatable() {
+  const input = {
+    "@id": "http://timbuctoo.huygens.knaw.nl/datasets/clusius/Persons_PE00002125",
+    "@type": "http://timbuctoo.huygens.knaw.nl/datasets/clusius/Persons",
+    "tim_deathDate": {
+      "type": "https://www.loc.gov/standards/datetime/pre-submission.html",
+      "value": "[1616]"
+    }
+  };
+
+  const expected = JSON.stringify({
+    "@id": "http://timbuctoo.huygens.knaw.nl/datasets/clusius/Persons_PE00002125",
+    "@type": "http://timbuctoo.huygens.knaw.nl/datasets/clusius/Persons",
+    "tim_deathDate": {
+      "value": {
+        "raw": ["1616-01-01T00:00:00.000Z", "1616-12-31T23:59:59.999Z"]
+      }
+    }
+  });
+
+  const actual = JSON.stringify(formatter.formatData(input, {
+    "collectionListId": "clusius_PersonsList",
+    "indexConfig": {
+      "facet": [
+        {
+          "paths": [
+            "clusius_Person||tim_deathDate.VALUE||value"
+          ],
+          "type": "DateRange"
+        }
+      ]
+    }
+  }));
+
+  console.log("test format datable");
+  console.assert(actual === expected, "expected:\n" + expected + "\nbut was:\n" + actual);
+  console.log("test format datable succeeded");
+}
+
 function testFormatInvalidDatable() {
   const input = {
     "@id": "http://timbuctoo.huygens.knaw.nl/datasets/clusius/Persons_PE00002125",
@@ -377,6 +416,7 @@ function testFormatFieldAsFacetAndFullText() {
 testFormatPersonName();
 testPersonNameNullValue();
 testFormatDatable();
+testFormatEdtfDatable();
 testFormatInvalidDatable();
 testFormatFullTextField();
 testFormatFieldAsFacetAndFullText();
