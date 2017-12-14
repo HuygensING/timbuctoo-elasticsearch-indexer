@@ -6,7 +6,7 @@ let timbuctooGraphQlUrl=process.env["indexer_timbuctoo_graphql_endpoint"] || "ht
 let user=process.env["timbuctoo_user"] || "user"
 let password=process.env["timbuctoo_password"] || "password"
 let authHeader = "BASIC " + new Buffer(user+":"+password).toString("base64")
-let timbuctooLoginUrl = process.env["indexer_timbuctoo_login_endpoint"] "http://localhost:8080/v2.1/authenticate"
+let timbuctooLoginUrl = process.env["indexer_timbuctoo_login_endpoint"] || "http://localhost:8080/v2.1/authenticate"
 let elasticSearchUrl=process.env["indexer_elasticsearch_host"] || "http://elastic:changeme@localhost:9200/"
 let port=process.env["indexer_port"] || 3000
 
