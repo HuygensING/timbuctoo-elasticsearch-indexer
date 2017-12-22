@@ -1,9 +1,11 @@
 import { MappingCreator } from "./mappingCreator";
+import { CollectionConfig } from "./metadata";
 
 const mappingCreator = new MappingCreator();
 
 function testCreateMapping() {
-  const personDesc: {} =  {
+  const personDesc: CollectionConfig =  {
+    "collectionId": "clusius_Persons",
     "collectionListId": "clusius_PersonsList",
     "indexConfig": {
       "facet": [
@@ -70,7 +72,8 @@ function testCreateMapping() {
 }
 
 function testCreateMappingWithoutFullText() {
-  const personDesc: {} =  {
+  const personDesc: CollectionConfig =  {
+    "collectionId": "clusius_Persons",
     "collectionListId": "clusius_PersonsList",
     "indexConfig": {
       "facet": [

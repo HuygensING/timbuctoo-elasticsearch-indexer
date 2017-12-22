@@ -2,6 +2,7 @@ import { Client } from "elasticsearch";
 import { MappingCreator } from "./mappingCreator";
 import { ElasticSearchDataFormatter } from "./elasticSearchDataFormatter";
 import { getCollectionListIds, getCollectionIndexConfig } from "./searchConfigHelper";
+import { DataSetMetaDataGraphQlResponse } from "./metadata";
 
 export class ElasticSearchUpdater {
   private elasticSearchDataFormatter: ElasticSearchDataFormatter;
@@ -46,7 +47,7 @@ export class ElasticSearchUpdater {
     return this.client.indices.create({ index: this.formatIndexName(dataSetId) });
   }
 
-  public async remapIndex(dataSetId: string, config: { [key: string]: any }) {
+  public async remapIndex(dataSetId: string, config: DataSetMetaDataGraphQlResponse) {
     return await this.indexExists(dataSetId).then(async exists => {
       if (exists) {
         return await this.client.indices.delete({
@@ -58,12 +59,14 @@ export class ElasticSearchUpdater {
     }).then(async () => {
       const indexName = this.formatIndexName(dataSetId);
       for (const type of getCollectionListIds(config)) {
-        await this.client.indices.putMapping({
-          index: indexName,
-          type: type,
-          body: this.mappingCreator.createMapping(getCollectionIndexConfig(config, type))
-        });
-
+        const collectionConfig = getCollectionIndexConfig(config, type)
+        if (collectionConfig) {
+          await this.client.indices.putMapping({
+            index: indexName,
+            type: type,
+            body: this.mappingCreator.createMapping(collectionConfig)
+          });
+        }
       }
     }).then(() => {
       console.log("create index: " + dataSetId);

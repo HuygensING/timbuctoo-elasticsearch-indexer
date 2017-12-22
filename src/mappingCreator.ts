@@ -1,7 +1,8 @@
 import { pathToEsValueString, pathToEsFullTextString } from "./propertyPath/index";
+import { CollectionConfig } from "./metadata";
 
 export class MappingCreator {
-  public createMapping(typeConfig: { [key: string]: any }): {} {
+  public createMapping(typeConfig: CollectionConfig): {} {
     var mapping: any = {};
 
     for (const facet of typeConfig.indexConfig.facet) {

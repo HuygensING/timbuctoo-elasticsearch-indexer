@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-export async function getConfig(dataEndPoint: string, datasetId: string, authToken: string): Promise<object> {
+export async function getConfig(dataEndPoint: string, datasetId: string, authToken: string): Promise<any> {
   console.log("authToken: ", authToken);
 
   return await fetch(dataEndPoint, {
@@ -11,7 +11,7 @@ export async function getConfig(dataEndPoint: string, datasetId: string, authTok
     },
     method: "POST",
     body: JSON.stringify({
-      "query": "query($datasetId: ID!){\n  dataSetMetadata(dataSetId: $datasetId) {\n    collectionList {\n      items {\n        collectionId\n        collectionListId\n        indexConfig {\n          facet {\n            paths \n            type\n          }\n          fullText {\n            fields {\n              path\n            }\n          }\n        }\n      }\n    }\n  }\n}",
+      "query": "query($datasetId: ID!){  dataSetMetadata(dataSetId: $datasetId) {    collectionList {      items {        collectionId        collectionListId        indexConfig {          facet {            paths             type          }          fullText {            fields {              path            }          }        }      }    }  }}",
       "variables": {
         "datasetId": datasetId
       }

@@ -3,6 +3,7 @@ import { getConfig } from "./configRetriever";
 import { ElasticSearchUpdater } from "./elasticSearchUpdater";
 import { buildQueryForCollection } from "./queryGenerator";
 import { getCollectionIndexConfig, getCollectionListIds } from "./searchConfigHelper";
+import { DataSetMetaDataGraphQlResponse, CollectionConfig } from "./metadata";
 
 export class Reindexer {
   private loginUri: string;
@@ -36,7 +37,7 @@ export class Reindexer {
       return "Could not login into Timbuctoo."
     }
 
-    const searchConfig: any = await getConfig(this.dataEndpoint, request.dataSetId, authToken);
+    const searchConfig: DataSetMetaDataGraphQlResponse = await getConfig(this.dataEndpoint, request.dataSetId, authToken);
 
     await this.elasticSearchUpdater.remapIndex(request.dataSetId, searchConfig).then(async () => {
       for (const collectionListId of getCollectionListIds(searchConfig)) {
@@ -49,7 +50,10 @@ export class Reindexer {
     return await val;
   }
 
-  private async indexCollection(dataSetId: string, collectionListId: string, searchConfig: { [key: string]: any }, authToken: string, cursor?: string): Promise<string> {
+  private async indexCollection(dataSetId: string, collectionListId: string, searchConfig: CollectionConfig | null, authToken: string, cursor?: string): Promise<string> {
+    if(searchConfig === null) {
+      return "";
+    }
     const query = buildQueryForCollection(dataSetId, searchConfig, cursor);
     if (query !== "") {
       console.log("index collection: \"" + searchConfig.collectionId + "\" cursor: \"" + cursor + "\"");
