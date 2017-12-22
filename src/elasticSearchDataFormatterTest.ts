@@ -271,6 +271,40 @@ function testFormatInvalidDatable() {
   console.log("test format invalid datable succeeded");
 }
 
+function testRemovesFieldForDataRangeFacetWithAnInvalidType() {
+  const input = {
+    "@id": "http://timbuctoo.huygens.knaw.nl/datasets/clusius/Persons_PE00002125",
+    "@type": "http://timbuctoo.huygens.knaw.nl/datasets/clusius/Persons",
+    "tim_deathDate": {
+      "type": "http://www.w3.org/2001/XMLSchema#string",
+      "value": "[1616]"
+    }
+  };
+
+  const expected = JSON.stringify({
+    "@id": "http://timbuctoo.huygens.knaw.nl/datasets/clusius/Persons_PE00002125",
+    "@type": "http://timbuctoo.huygens.knaw.nl/datasets/clusius/Persons",
+  });
+
+  const actual = JSON.stringify(formatter.formatData(input, {
+    "collectionListId": "clusius_PersonsList",
+    "indexConfig": {
+      "facet": [
+        {
+          "paths": [
+            "[[\"clusius_Person\", \"tim_deathDate\"], [\"VALUE\", \"value\"]]"
+          ],
+          "type": "DateRange"
+        }
+      ]
+    }
+  }));
+
+  console.log("test invalid field type for date range");
+  console.assert(actual === expected, "expected:\n" + expected + "\nbut was:\n" + actual);
+  console.log("test invalid field type for date range succeeded");
+}
+
 function testFormatFullTextField() {
   const input =
     {
@@ -418,5 +452,6 @@ testPersonNameNullValue();
 testFormatDatable();
 testFormatEdtfDatable();
 testFormatInvalidDatable();
+testRemovesFieldForDataRangeFacetWithAnInvalidType()
 testFormatFullTextField();
 testFormatFieldAsFacetAndFullText();

@@ -6,7 +6,7 @@ export class ElasticSearchDataFormatter {
     return this.format(data, this.formatConfig(config.indexConfig));
   }
 
-  private format(data: { [key: string]: any }, config: { [key: string]: { isFacet: boolean, isFullText: boolean } }, path?: string) {
+  private format(data: { [key: string]: any }, config: FieldConfigs, path?: string) {
     const formattedData: any = {};
     for (const key of Object.getOwnPropertyNames(data)) {
       const newPath = path ? path + "." + key : "" + key;
@@ -14,10 +14,13 @@ export class ElasticSearchDataFormatter {
       if (property != null && property instanceof Object) {
         const propertyNames = Object.getOwnPropertyNames(property);
         if (propertyNames.length === 2 && propertyNames.indexOf("type") > -1 && propertyNames.indexOf("value") > -1) {
-          formattedData[key] = this.formatField(property, config, newPath);
+          const value = this.formatField(property, config, newPath);
+          if (value) {
+            formattedData[key] = this.formatField(property, config, newPath);
+          }
         }
         else if (property instanceof Array) {
-          formattedData[key] = property.map(item => {
+          const value = property.map(item => {
             if (Object.getOwnPropertyNames(item).indexOf("type") >= 0) {
               return this.formatField(item, config, newPath);
             }
@@ -25,9 +28,15 @@ export class ElasticSearchDataFormatter {
               return this.format(item, config, newPath);
             }
           });
+          if (value) {
+            formattedData[key] = value;
+          }
         }
         else {
-          formattedData[key] = this.format(property, config, newPath);
+          const value = this.format(property, config, newPath);
+          if (value) {
+            formattedData[key] = value;
+          }
         }
       }
       else { // metadata fields have no type, so cannot be formatted
@@ -42,7 +51,7 @@ export class ElasticSearchDataFormatter {
     if (config.facet) {
       for (const facet of config.facet) {
         for (const path of facet.paths) {
-          fieldConfigs[this.formatPath(path)] = { isFacet: true, isFullText: false };
+          fieldConfigs[this.formatPath(path)] = { isFacet: true, facetType: facet.type, isFullText: false };
         }
       }
     }
@@ -53,7 +62,7 @@ export class ElasticSearchDataFormatter {
         for (const field of fullText.fields) {
           const path = this.formatPath(field.path);
           if (facetKeys.indexOf(path) > -1) {
-            fieldConfigs[path] = { isFacet: true, isFullText: true };
+            fieldConfigs[path].isFullText = true;
           }
           else {
             fieldConfigs[path] = { isFacet: false, isFullText: true };
@@ -67,50 +76,60 @@ export class ElasticSearchDataFormatter {
   }
 
   private formatPath(path: string): string {
-    return parsePath(path).map(x=>x[1]).join(".");
+    return parsePath(path).map(x => x[1]).join(".");
   }
 
-  private formatField(field: { type: string, value: string }, config: FieldConfigs, path: string): {} {
-    let value: string | string[];
+  private formatField(field: { type: string, value: string }, config: FieldConfigs, path: string): {} | undefined {
+    let value: string | string[] | null;
+    const fieldConfig = config[path + ".value"];
     switch (field.type) {
       case "http://timbuctoo.huygens.knaw.nl/datatypes/person-name":
-        value = formatPersonName(field, config, path);
+        value = formatPersonName(field, fieldConfig, path);
         break;
       case "https://www.loc.gov/standards/datetime/pre-submission.html":
       case "http://timbuctoo.huygens.knaw.nl/datatypes/datable":
-        value = formatDatable(field, config, path);
+        value = formatDatable(field, fieldConfig, path);
         break;
       default:
-        value = formatDefault(field, config, path);
-    }
-    const fieldConfig = config[path + ".value"];
-    if (fieldConfig) {
-      if (fieldConfig.isFacet && fieldConfig.isFullText) {
-        return { "value": { "raw": value, "fulltext": value } };
-      } else if (fieldConfig.isFacet) {
-        return { "value": { "raw": value } };
-      } else if (fieldConfig.isFullText) {
-        return { "value": { "fulltext": value } };
-      }
+        value = formatDefault(field, fieldConfig, path);
     }
 
-    return { "value": value };
+    if (value) {
+      if (fieldConfig) {
+        if (fieldConfig.isFacet && fieldConfig.isFullText) {
+          return { "value": { "raw": value, "fulltext": value } };
+        } else if (fieldConfig.isFacet) {
+          return { "value": { "raw": value } };
+        } else if (fieldConfig.isFullText) {
+          return { "value": { "fulltext": value } };
+        }
+      }
+
+      return { "value": value };
+    }
+    return undefined;
   }
 }
 
 interface FieldConfigs {
-  [key: string]: {
-    isFacet: boolean, isFullText: boolean
+  [key: string]: FieldConfig;
+}
+
+interface FieldConfig {
+  isFacet: boolean,
+  facetType?: string,
+  isFullText: boolean
+}
+
+function formatDefault(field: { type: string, value: string }, config: FieldConfig | null, path: string): string | string[] | null {
+  if (config && config.facetType && config.facetType === "DateRange") {
+    console.error("'" + field.type + "' is not a valid DateRange");
+    return null;
   }
+  return field.value == null ? "¯\_(ツ)_/¯" : field.value;
 }
 
-function formatDefault(field: { type: string, value: string }, config: { [key: string]: any }, path: string): string | string[] {
-  const val: string = field.value == null ? "¯\_(ツ)_/¯" : field.value;
-
-  return val;
-}
-
-function formatDatable(field: { type: string, value: string }, config: { [key: string]: any }, path: string): string | string[] {
+function formatDatable(field: { type: string, value: string }, config: FieldConfig | null, path: string): string | string[] {
   try {
     const edtfDate = edtf(field.value);
     const start = new Date(edtfDate.min).toISOString();
@@ -123,7 +142,7 @@ function formatDatable(field: { type: string, value: string }, config: { [key: s
   }
 }
 
-function formatPersonName(field: { type: string, value: string }, config: { [key: string]: any }, path: string): string | string[] {
+function formatPersonName(field: { type: string, value: string }, config: FieldConfig | null, path: string): string | string[] {
   const value = field.value;
   if (value != null) {
     const parsedValue = JSON.parse(value);
