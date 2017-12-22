@@ -89,7 +89,7 @@ function testFormatPersonName() {
         "facet": [
           {
             "paths": [
-              "clusius_Persons||tim_names.ITEMS||items.VALUE||value"
+              "[[\"clusius_Persons\", \"tim_names\"], [\"ITEMS\", \"items\"], [\"VALUE\", \"value\"]]"
             ],
             "type": "MultiSelect"
           }
@@ -140,7 +140,7 @@ function testPersonNameNullValue() {
       "facet": [
         {
           "paths": [
-            "clusius_Biography||tim_isScientistBioOf.clusius_Person||tim_names.ITEMS||items.VALUE||value"
+            "[[\"clusius_Biography\", \"tim_isScientistBioOf\"], [\"clusius_Person\", \"tim_names\"], [\"ITEMS\", \"items\"], [\"VALUE\", \"value\"]]"
           ],
           "type": "MultiSelect"
         }
@@ -180,7 +180,7 @@ function testFormatDatable() {
       "facet": [
         {
           "paths": [
-            "clusius_Person||tim_deathDate.VALUE||value"
+            "[[\"clusius_Person\", \"tim_deathDate\"], [\"VALUE\", \"value\"]]"
           ],
           "type": "DateRange"
         }
@@ -219,7 +219,7 @@ function testFormatEdtfDatable() {
       "facet": [
         {
           "paths": [
-            "clusius_Person||tim_deathDate.VALUE||value"
+            "[[\"clusius_Person\", \"tim_deathDate\"], [\"VALUE\", \"value\"]]"
           ],
           "type": "DateRange"
         }
@@ -258,7 +258,7 @@ function testFormatInvalidDatable() {
       "facet": [
         {
           "paths": [
-            "clusius_Person||tim_deathDate.VALUE||value"
+            "[[\"clusius_Person\", \"tim_deathDate\"], [\"VALUE\", \"value\"]]"
           ],
           "type": "DateRange"
         }
@@ -320,7 +320,7 @@ function testFormatFullTextField() {
         {
           "fields": [
             {
-              "path": "clusius_Person||tim_names.ITEMS||items.VALUE||value"
+              "path": "[[\"clusius_Person\", \"tim_names\"], [\"ITEMS\", \"items\"], [\"VALUE\", \"value\"]]"
             }
           ]
         }
@@ -390,7 +390,7 @@ function testFormatFieldAsFacetAndFullText() {
       "facet": [
         {
           "paths": [
-            "clusius_Person||tim_names.ITEMS||items.VALUE||value"
+            "[[\"clusius_Person\", \"tim_names\"], [\"ITEMS\", \"items\"], [\"VALUE\", \"value\"]]"
           ],
           "type": "MultiSelect"
         }
@@ -399,7 +399,7 @@ function testFormatFieldAsFacetAndFullText() {
         {
           "fields": [
             {
-              "path": "clusius_Person||tim_names.ITEMS||items.VALUE||value"
+              "path": "[[\"clusius_Person\", \"tim_names\"], [\"ITEMS\", \"items\"], [\"VALUE\", \"value\"]]"
             }
           ]
         }

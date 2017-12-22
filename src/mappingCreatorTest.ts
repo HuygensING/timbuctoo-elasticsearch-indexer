@@ -9,20 +9,20 @@ function testCreateMapping() {
       "facet": [
         {
           "paths": [
-            "clusius_Persons||tim_namesList.ITEMS||items.VALUE||value"
+            "[[\"clusius_Persons\", \"tim_namesList\"], [\"ITEMS\", \"items\"], [\"VALUE\", \"value\"]]"
           ],
           "type": "MultiSelect"
         },
         {
           "paths": [
-            "clusius_Persons||tim_hasDeathPlace.clusius_Places||tim_country.VALUE||value",
-            "clusius_Persons||tim_hasDeathPlace.clusius_Places||tim_name.VALUE||value"
+            "[[\"clusius_Persons\", \"tim_hasDeathPlace\"], [\"clusius_Places\", \"tim_country\"], [\"VALUE\", \"value\"]]",
+            "[[\"clusius_Persons\", \"tim_hasDeathPlace\"], [\"clusius_Places\", \"tim_name\"], [\"VALUE\", \"value\"]]"
           ],
           "type": "Hierarchical"
         },
         {
           "paths": [
-            "clusius_Persons||tim_birthDate.VALUE||value"
+            "[[\"clusius_Persons\", \"tim_birthDate\"], [\"VALUE\", \"value\"]]"
           ],
           "type": "DateRange"
         }
@@ -31,7 +31,7 @@ function testCreateMapping() {
         {
           "fields": [
             {
-              "path": "clusius_Persons||tim_namesList.ITEMS||items.VALUE||value"
+              "path": "[[\"clusius_Persons\", \"tim_namesList\"], [\"ITEMS\", \"items\"], [\"VALUE\", \"value\"]]"
             }
           ]
         }
@@ -76,20 +76,20 @@ function testCreateMappingWithoutFullText() {
       "facet": [
         {
           "paths": [
-            "clusius_Persons||tim_namesList.ITEMS||items.VALUE||value"
+            "[[\"clusius_Persons\", \"tim_namesList\"], [\"ITEMS\", \"items\"], [\"VALUE\", \"value\"]]"
           ],
           "type": "MultiSelect"
         },
         {
           "paths": [
-            "clusius_Persons||tim_hasDeathPlace.clusius_Places||tim_country.VALUE||value",
-            "clusius_Persons||tim_hasDeathPlace.clusius_Places||tim_name.VALUE||value"
+            "[[\"clusius_Persons\", \"tim_hasDeathPlace\"], [\"clusius_Places\", \"tim_country\"], [\"VALUE\", \"value\"]]",
+            "[[\"clusius_Persons\", \"tim_hasDeathPlace\"], [\"clusius_Places\", \"tim_name\"], [\"VALUE\", \"value\"]]"
           ],
           "type": "Hierarchical"
         },
         {
           "paths": [
-            "clusius_Persons||tim_birthDate.VALUE||value"
+            "[[\"clusius_Persons\", \"tim_birthDate\"], [\"VALUE\", \"value\"]]"
           ],
           "type": "DateRange"
         }

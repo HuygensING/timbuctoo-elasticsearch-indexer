@@ -1,4 +1,5 @@
 import * as edtf from "edtf";
+import { parsePath } from "./propertyPath/index";
 
 export class ElasticSearchDataFormatter {
   public formatData(data: { [key: string]: any }, config: { [key: string]: any }): {} {
@@ -66,7 +67,7 @@ export class ElasticSearchDataFormatter {
   }
 
   private formatPath(path: string): string {
-    return path.replace(/[a-zA-Z_]+\|\|/g, "");
+    return parsePath(path).map(x=>x[1]).join(".");
   }
 
   private formatField(field: { type: string, value: string }, config: FieldConfigs, path: string): {} {
