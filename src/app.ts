@@ -54,6 +54,6 @@ function getBody(ctx: Koa.Context): Promise<string> {
   });
 }
 
-console.log(`Launched! listening on ${port}, getting from ${timbuctooGraphQlUrl} and sending to ${elasticSearchUrl}`);
+console.log(`Launched! listening on ${port}, logging in on ${timbuctooLoginUrl} getting from ${timbuctooGraphQlUrl} and sending to ${elasticSearchUrl}`);
 
 app.listen(port);
