@@ -88,6 +88,7 @@ export class ElasticSearchDataFormatter {
         break;
       case "https://www.loc.gov/standards/datetime/pre-submission.html":
       case "http://timbuctoo.huygens.knaw.nl/datatypes/datable":
+      case "http://schema.org/Date":
         value = formatDatable(field, fieldConfig, path);
         break;
       default:
