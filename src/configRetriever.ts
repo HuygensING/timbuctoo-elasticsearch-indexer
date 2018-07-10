@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 
 export async function getConfig(dataEndPoint: string, datasetId: string, authToken: string): Promise<any> {
-  console.log("authToken: ", authToken);
+  console.log("authToken: \"" + authToken + "\"");
 
   return await fetch(dataEndPoint, {
     headers: {
