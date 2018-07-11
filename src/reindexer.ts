@@ -41,7 +41,7 @@ export class Reindexer {
 
     await this.elasticSearchUpdater.remapIndex(request.dataSetId, searchConfig).then(async () => {
       for (const collectionListId of getCollectionListIds(searchConfig)) {
-        await this.indexCollection(request.dataSetId, collectionListId, getCollectionIndexConfig(searchConfig, collectionListId), "Authorization").then(resp => {
+        await this.indexCollection(request.dataSetId, collectionListId, getCollectionIndexConfig(searchConfig, collectionListId), authToken).then(resp => {
           val += "collection: " + collectionListId + " response: \"" + resp + "\" \n";
         });
       }
