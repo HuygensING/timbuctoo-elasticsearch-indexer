@@ -17,9 +17,6 @@ export class Reindexer {
     this.loginUri = loginUri;
   }
   public async reindex(request: Request): Promise<string> {
-    console.log("reindex data set: " + request.dataSetId);
-    let val = "";
-
     const authToken = await fetch(this.loginUri, {
       headers: {
         "Authorization": this.authHeader
@@ -37,17 +34,62 @@ export class Reindexer {
       return "Could not login into Timbuctoo."
     }
 
-    const searchConfig: DataSetMetaDataGraphQlResponse = await getConfig(this.dataEndpoint, request.dataSetId, authToken);
+    let datasets = [];
+    if (request.dataSetId) {
+      console.log('reindex data set: ' + request.dataSetId);
+      datasets.push(request.dataSetId);
+    }
+    else {
+      console.log('reindex all data sets');
+      datasets = await this.getDatasets(authToken);
+    }
 
-    await this.elasticSearchUpdater.remapIndex(request.dataSetId, searchConfig).then(async () => {
+    let val = '';
+    for (const dataSetId of datasets) {
+      console.log(`Starting reindex of dataset ${dataSetId}`);
+      val += `dataset: ${dataSetId} \n`;
+      val += await this.reindexDataset(dataSetId, authToken);
+      val += '\n';
+    }
+
+    return val;
+  }
+
+  private async reindexDataset(dataSetId: string, authToken: string): Promise<string> {
+    let val = '';
+
+    const searchConfig: DataSetMetaDataGraphQlResponse = await getConfig(this.dataEndpoint, dataSetId, authToken);
+
+    await this.elasticSearchUpdater.remapIndex(dataSetId, searchConfig).then(async () => {
       for (const collectionListId of getCollectionListIds(searchConfig)) {
-        await this.indexCollection(request.dataSetId, collectionListId, getCollectionIndexConfig(searchConfig, collectionListId), authToken).then(resp => {
-          val += "collection: " + collectionListId + " response: \"" + resp + "\" \n";
+        await this.indexCollection(dataSetId, collectionListId, getCollectionIndexConfig(searchConfig, collectionListId), authToken).then(resp => {
+          val += 'collection: ' + collectionListId + ' response: "' + resp + '" \n';
         });
       }
     });
 
-    return await val;
+    return val;
+  }
+
+  private async getDatasets(authToken: string): Promise<string[]> {
+    const response = await fetch(this.dataEndpoint, {
+      headers: {
+        Accept: 'application/json',
+        Authorization: authToken,
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: '{ "query": "{ dataSetMetadataList(promotedOnly: false, publishedOnly: false) { dataSetId } }" }'
+    });
+
+    if (response.status === 200) {
+      const responseData = await response.json() as DataSetMetadataListResponse;
+      return responseData.data.dataSetMetadataList.map(datasetMetadata => datasetMetadata.dataSetId);
+    }
+    else {
+      console.log('request failed: ', response.statusText);
+      return [];
+    }
   }
 
   private async indexCollection(dataSetId: string, collectionListId: string, searchConfig: CollectionConfig | null, authToken: string, cursor?: string): Promise<string> {
@@ -104,8 +146,14 @@ export class Reindexer {
   }
 }
 
+export interface DataSetMetadataListResponse {
+  data: {
+    dataSetMetadataList: { dataSetId: string }[];
+  }
+}
+
 export interface Request {
-  dataSetId: string;
+  dataSetId?: string;
 }
 
 export function isRequest(body: {}): body is Request {
