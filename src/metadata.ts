@@ -1,15 +1,17 @@
 export interface CollectionConfig {
   collectionId: string,
   collectionListId: string,
-  indexConfig: {
-    facet: [
-      {
-        paths: [string],
-        type: string
-      }
-    ],
-    fullText: FullTextField[]
-  }
+  indexConfig: IndexConfig
+}
+
+interface IndexConfig {
+  facet: Facet[]
+  fullText: FullTextField[]
+}
+
+interface Facet {
+  paths: string[],
+  type: string
 }
 
 interface FullTextField {
@@ -22,9 +24,7 @@ interface FullTextField {
 
 export interface DataSetMetaData {
   collectionList: {
-    items: [
-      CollectionConfig
-    ]
+    items: CollectionConfig[]
   }
 }
 

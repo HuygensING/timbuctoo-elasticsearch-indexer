@@ -154,7 +154,7 @@ function formatPersonName(field: { type: string, value: string }, config: FieldC
   return "¯\_(ツ)_/¯"; // default value for unparsable person names
 }
 
-export function getPossibleFacetTypes(): { [key: string]: { possibleFacetTypes: [string], fullTextPossible: boolean } } {
+export function getPossibleFacetTypes(): { [key: string]: { possibleFacetTypes: string[], fullTextPossible: boolean } } {
   return {
     "http://timbuctoo.huygens.knaw.nl/datatypes/person-name": {
       "possibleFacetTypes": ["MultiSelect"],
