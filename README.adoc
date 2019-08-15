@@ -1,5 +1,39 @@
 = Timbuctoo Elastic Search Indexer
-A tool that autmatically updates the Elastic Search indices used by data sets in Timbuctoo.
+A tool that automatically updates the ElasticSearch indices used by datasets in Timbuctoo.
+
+== API
+
+=== Reindex a specific dataset
+[cols="h,5a"]
+|===
+| URL
+| `/`
+
+| Method
+| `POST`
+
+| Content Type
+| `application/json`
+
+| Request Body
+| `{"dataSetId": _<dataset id>_}`
+
+| Example `curl`
+| `curl -d '{"dataSetId": "dataSetId"}' -H "Content-Type: application/json" -X POST https://localhost/`
+|===
+
+=== Reindex all the datasets
+[cols="h,5a"]
+|===
+| URL
+| `/all`
+
+| Method
+| `POST`
+
+| Example `curl`
+| `curl -X POST https://localhost/all`
+|===
 
 == Development
 
