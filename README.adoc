@@ -35,6 +35,13 @@ A tool that automatically updates the ElasticSearch indices used by datasets in 
 | `curl -X POST https://localhost/all`
 |===
 
+== How to test
+1. Create a local image of the Indexer: `docker build -t huygensing/timbuctoo-elasticsearch-indexer .`
+2. Run the environment: `docker-compose up -d`
+3. Upload data to Timbuctoo see: https://github.com/HuygensING/timbuctoo#uploading-data
+4. Create an index in Timbuctoo see: https://github.com/HuygensING/timbuctoo/blob/master/documentation/create_an_index_config.adoc
+5. Step 4 should trigger the indexing trigger the indexing. See the API
+
 == Development
 
 Run both commands from the root directory of the project.
