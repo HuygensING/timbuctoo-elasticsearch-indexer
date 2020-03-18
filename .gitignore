@@ -4,3 +4,6 @@ node_modules/**
 
 # visual studio code
 .vscode/
+
+# test data
+timbuctoo-data/**
