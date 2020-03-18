@@ -19,7 +19,7 @@ services:
       - 8080:80
       - 8081:81
   timbuctoo-gui:
-    image: huygensing/timbuctoo-gui:5.7
+    image: huygensing/timbuctoo-gui:v5.7
     environment:
        REACT_APP_BACKEND_URL: "http://localhost:8080"
     ports:
