@@ -1,0 +1,72 @@
+Example graphqlqueries
+
+
+query test {
+  dataSets {
+    u33707283d426f900d4d33707283d426f900d4d0d__testclusius {
+      clusius_PlacesList {
+        items {
+          title {
+            value
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+delete a certain dataSet
+
+mutation test {
+  deleteDataSet (dataSetId: "u33707283d426f900d4d33707283d426f900d4d0d__testclusius" ) {
+    dataSetId
+  }
+  }
+  
+  
+  
+query plaats {
+  dataSets {
+    u33707283d426f900d4d33707283d426f900d4d0d__testclusius {
+      clusius_Places(uri:"http://timbuctoo.huygens.knaw.nl/datasets/clusius/Place_PL00000003") {
+        title {
+          value
+        }
+        description {
+          value
+        }
+        tim_name {
+          value
+        }
+        tim_country {
+          value
+        } 
+        tim_remarks {
+          value
+        }
+      }
+    }
+  }
+}
+
+query plaatsen {
+  dataSets {
+    u33707283d426f900d4d33707283d426f900d4d0d__testclusius {
+      clusius_PlacesList {
+        items {
+          uri
+         
+          tim_name {
+            value
+          }
+          tim_country {
+            value
+          }
+          
+        }
+      }
+    }
+  }
+}  

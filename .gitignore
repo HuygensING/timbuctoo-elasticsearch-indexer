@@ -7,3 +7,6 @@ node_modules/**
 
 # test data
 timbuctoo-data/**
+
+# mac-specific stuff
+.DS_Store
