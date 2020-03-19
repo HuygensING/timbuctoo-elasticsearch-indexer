@@ -14,14 +14,14 @@ Fortunately everything is contained in the docker-compose.yml
 ## Steps
 
 - Build / Run the environment `docker-compose up -d`
-- Upload test-data to Timbuctoo
+- Upload test-data to Timbuctoo with 'fake' authorization
 
 
 ````
 curl -v -F "file=@///Users/mvdpeet/dockerprojecten/timbuctoo-elasticsearch-indexer/test-databia_clusius.ttl;type=text/turtle" -F "encoding=UTF-8" -H "Authorization: fake" http://localhost:8080/v5/u33707283d426f900d4d33707283d426f900d4d0d/testclusius/upload/rdf?forceCreation=true
 ````
 
-- Test graphql on `http://localhost:8080/static/graphiql`
+- Test graphql on `http://localhost:8080/static/graphiql?hsid=fake`
 
 ````json
 query test {
