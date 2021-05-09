@@ -18,7 +18,7 @@
     "edtf": "^2.2.2",
     "elasticsearch": "^13.3.1",
     "koa": "2.7.0",
-    "lodash": "4.17.14",
+    "lodash": "4.17.21",
     "node-fetch": "^1.7.3",
     "nodemon": "^1.12.1"
   }
